@@ -1,3 +1,4 @@
 private
 */objects/*.o
 */target/*
+!*/target/.gitkeep

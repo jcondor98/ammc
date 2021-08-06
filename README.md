@@ -54,6 +54,40 @@ Quoting from [Prof. Grisetti's repository](https://gitlab.com/grisetti/sistemi_o
 > [...]
 
 
+## Installation
+
+The entire project uses the _GNU Make_ build system. Client, Master and Slave
+programs' codebases are separated from each others.
+
+### Client
+
+A list of _make_ recipes is given below:
+```
+# Compile and link the client-side executable
+make
+
+# Install the -ALREADY COMPILED- client-side executable
+sudo make install
+
+# Generate (requires pandoc) man page
+make docs
+
+# Install man page (pregenerated in the repo)
+sudo make install-docs
+```
+
+### Master and Slave
+
+A list of _make_ recipes is given below:
+```
+# Compile and link the avr-side .elf executable
+make
+
+# Encode the .elf executable into a .hex file and flash it into the AVR
+make flash
+```
+
+
 ## Specification
 
 ### Client-Master communication
@@ -87,10 +121,23 @@ Type | Actual value | Description
 `SET_SPEED` | `0x06` | Set DC motor(s) speed value(s) in m/s
 `DAT`       | `0x07` | Data (sent from Master to Client)
 
+#### Acknowledgements
+
+A communication endpoint must wait for an acknowledgement message from the
+counterpart once it sent a packet in order to send a new one. ACK and NAK
+packets do not bring any data.
+
+When a packet arrives, it is checked for integrity and sanity. If it is sane,
+then an ACK packet is sent; if not, then a NAK packet is sent.
+ACK and NAK packets are simply discarded if corrupted in some way.
+
+A NAK packet uses the 'selector' field to send to the other endpoint the error
+code describing what happened on its side. Error codes can be found in
+`communication.h`.
+
 #### Controlling DC motors' speed
 
 **TODO**
-
 
 ### Master-Slave communication
 

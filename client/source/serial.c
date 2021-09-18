@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Serial interface - Source file
+// AVR Multi Motor Control
+/*! \file client/source/serial.c
+ * Serial interface
+ *
+ * \author Paolo Lucchesi
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

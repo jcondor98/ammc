@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// I2C TWI Master Interface - Source file
+// AVR Multi Motor Control
+/*! \file master/source/twi.c
+ * I2C TWI Master Interface
+ *
+ * \author Paolo Lucchesi
+ */
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -79,7 +83,7 @@ uint8_t twi_send(uint8_t addr, const void *data, size_t size,
   if (!data || size > TW_TX_MAX_LEN) return 1;
 
   // Wait for the I2C channel to be ready and prepare the buffer
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
   tx_buffer[0] = twi_addr_write(addr);
   memcpy(tx_buffer + 1, data, size);
 
@@ -90,10 +94,10 @@ uint8_t twi_send(uint8_t addr, const void *data, size_t size,
 }
 
 
-// Receive data
+// Receive data from a single endpoint
 uint8_t twi_recv(uint8_t addr, void *buf, size_t to_recv, uint8_t bus_lock) {
   if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
 
   // Prepare buffers
   rx_buffer = buf;
@@ -104,7 +108,7 @@ uint8_t twi_recv(uint8_t addr, void *buf, size_t to_recv, uint8_t bus_lock) {
   tx_buffer[0] = twi_addr_read(addr);
   _twi_send(1, bus_lock);
 
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
   return rx_idx;
 }
 
@@ -151,7 +155,7 @@ ISR(TWI_vect) {
       error = TW_NO_INFO;
       // More than one byte to read, fetch and ack the incoming byte, OR:
       // No more data can be read - Fetch the incoming byte and send NAK
-      (rx_idx < rx_size - 1) ? twi_ack() : twi_nak(); // TODO: ???
+      (rx_idx < rx_size - 1) ? twi_ack() : twi_nak();
       break;
 
     case TW_MR_DATA_NACK: // Byte received, NAK transmitted - End transmission

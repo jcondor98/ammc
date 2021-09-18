@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Serial communication layer - Source file
+// AVR Multi Motor Control
+/*! \file master/source/serial.c
+ * Serial communication layer
+ *
+ * \author Paolo Lucchesi
+ */
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -68,8 +72,7 @@ ISR(USART0_TX_vect) {
 }
 
 
-// Receive at most 'size' bytes of data, storing them into an external buffer
-// Returns the number of bytes read
+// Receive at most 'size' bytes of data
 uint8_t serial_rx(void *buf, uint8_t size) {
   if (!buf) return 0;
   uint8_t n = 0;
@@ -84,7 +87,6 @@ uint8_t serial_rx(void *buf, uint8_t size) {
 }
 
 // Same as 'serial_rx', non-blocking
-// Return the number of bytes read
 uint8_t serial_rx_nonblock(void *buf, uint8_t size) {
   if (!buf) return 0;
   uint8_t n;
@@ -98,10 +100,6 @@ uint8_t serial_rx_nonblock(void *buf, uint8_t size) {
 
 
 // Send data stored in a buffer
-// The data will be copied into another buffer, so it can be reused immediately
-// Returns 0 on success, 1 on failure
-// The function blocks until the previous transmission, if any, is completed,
-// and returns immediately, not waiting for all the data to be already sent
 uint8_t serial_tx(const void *buf, uint8_t size) {
   // Test against inconsistent parameters
   if (!buf || !size || size > TX_BUFFER_SIZE) return 1;

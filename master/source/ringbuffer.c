@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Ring Buffer data structure - Source file
+// AVR Multi Motor Control
+/*! \file master/source/ringbuffer.c
+ * Ring Buffer data structure
+ *
+ * \author Paolo Lucchesi
+ */
 #include "ringbuffer.h"
 
 
@@ -37,18 +41,17 @@ uint8_t ringbuffer_used(ringbuffer_t *rb) {
   return virt_idx(rb, rb->last);
 }
 
-// Returns 1 if the buffer is empty, 0 if not or if it does not exist
+// Is the ringbuffer empty?
 uint8_t ringbuffer_isempty(ringbuffer_t *rb) {
   return (!rb || (!rb->full && rb->first == rb->last)) ? 1 : 0;
 }
 
-// Returns 1 if the buffer is full, 0 if not or if it does not exist
+// Is the ringbuffer full?
 uint8_t ringbuffer_isfull(ringbuffer_t *rb) {
   return (rb && rb->full && rb->first == rb->last) ? 1 : 0;
 }
 
 // Pop an element
-// Returns 0 on success, 1 otherwise
 uint8_t ringbuffer_pop(ringbuffer_t *rb, uint8_t *dest) {
   if (!rb || ringbuffer_isempty(rb))
     return 1;
@@ -76,19 +79,3 @@ void ringbuffer_flush(ringbuffer_t *rb) {
   rb->last = 0;
   rb->full = 0;
 }
-
-
-// Print the internal elements (without the raw buffer) of a ringbuffer
-#if defined(TEST)
-#include <stdio.h>
-void ringbuffer_print(ringbuffer_t *rb) {
-  if (!rb) return;
-  printf("Printing ringbuffer\n"
-      "base:  %p\n"
-      "first: %hhu\n"
-      "last:  %hhu\n"
-      "size:  %hhu\n"
-      "full:  %hhu\n\n",
-      rb->base, rb->first, rb->last, rb->size, rb->full);
-}
-#endif

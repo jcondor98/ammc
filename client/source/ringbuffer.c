@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Multi-threaded ringbuffer data structure - Source file
+// AVR Multi Motor Control
+/*! \file client/source/ringbuffer.c
+ * Multi-threaded ringbuffer data structure - Source file
+ *
+ * \author Paolo Lucchesi
+ */
 #include <stdlib.h>
 #include "ringbuffer.h" // Also includes pthread library
 

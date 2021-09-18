@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Cyclic Redundancy Checksum - Source file
+// AVR Multi Motor Control
+/*! \file client/source/crc.c
+ * Cyclic Redundancy Checksum
+ *
+ * \author Paolo Lucchesi
+ */
 #include "crc.h"
 
 // Lookup table for the default CRC-8 polynomial (bottom of this source file)

@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Cyclic Redundancy Checksum - Source file
+// AVR Multi Motor Control
+/*! \file master/source/crc.c
+ * Cyclic Redundancy Checksum
+ *
+ * \author Paolo Lucchesi
+ */
 #include "crc.h"
 
 // Lookup table for the default CRC-8 polynomial (bottom of this source file)
@@ -25,8 +29,7 @@ static inline crc_t crc_division_round(crc_t current_crc, uint8_t byte) {
 }
 
 
-// Compute the CRC
-// 'size' is a byte, since the CRC will be used for packets (no need for size_t)
+// Compute the CRC of a chunk of data
 crc_t crc(const void *data, uint8_t size) {
   if (!data) return (crc_t) 0;
 
@@ -41,11 +44,6 @@ crc_t crc(const void *data, uint8_t size) {
 
 
 // Check a chunk of data with a trailing CRC
-// Basically, it performs a division of the entire message by the polynomial.
-// If there is no remainder, the message should not be corrupted (at least by
-// a detectable error).
-// Returns the remainder of the division, but it can be safely converted to a
-// smaller data type if only knowing if the message is corrupted is relevant
 crc_t crc_check(const void *data, uint8_t size) {
   if (!data) return ~((crc_t) 0);
 

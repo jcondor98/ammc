@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Shell module - Source file
+// AVR Multi Motor Control
+/*! \file client/source/shell.c
+ * Shell module - Source file
+ *
+ * \author Paolo Lucchesi
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

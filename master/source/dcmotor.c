@@ -1,6 +1,11 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// DC Motor Master Module - Source file
-// TODO: Various integrity checks
+// AVR Multi Motor Control
+/*! \file master/source/dcmotor.c
+ * DC Motor Master Module
+ *
+ * \author Paolo Lucchesi
+ *
+ * \todo Various integrity checks
+ */
 #include <util/delay.h>
 #include <string.h>
 #include "dcmotor.h"
@@ -21,7 +26,6 @@ dc_rpm_t dcmotor_get(uint8_t slave_addr) {
 
 
 // Set the speed of a DC motor in RPM
-// Returns 1 on success, 0 otherwise
 uint8_t dcmotor_set(uint8_t slave_addr, dc_rpm_t rpm) {
   uint8_t data[1 + sizeof(dc_rpm_t)];
   data[0] = DC_MOTOR_CMD_SET; // Master -> Slave command
@@ -34,7 +38,7 @@ uint8_t dcmotor_set(uint8_t slave_addr, dc_rpm_t rpm) {
 }
 
 
-// Tell the DC motor controllers to apply their speed
+// Tell all the DC motor controllers to apply their speed
 void dcmotor_apply(void) {
   uint8_t cmd = DC_MOTOR_CMD_APPLY;
   twi_bcast_sm(&cmd, 1);

@@ -1,5 +1,9 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// Packet module - Source file
+// AVR Multi Motor Control
+/*! \file client/source/packet.c
+ * Packet module
+ *
+ * \author Paolo Lucchesi
+ */
 #include <stdint.h>
 #include <string.h>
 

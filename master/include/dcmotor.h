@@ -1,21 +1,27 @@
-// AVR Multi Motor Control -- Paolo Lucchesi
-// DC Motor Master Module - Head file
+// AVR Multi Motor Control
+/*! \file master/include/dcmotor.h
+ * DC Motor Master Module
+ *
+ * \author Paolo Lucchesi
+ */
 #ifndef __DC_MOTOR_MODULE_H
 #define __DC_MOTOR_MODULE_H
 #include <stdint.h>
 
-// Maximum speed of a motor in RPM
-// TODO: Set this to something meaningful
+//! \todo Set this to something meaningful
+//! Maximum speed of a motor in RPM
 #define DC_MOTOR_MAX_SPEED 200
 
-// Handle DC motor number
+//! Handle DC motor number
 #define DC_MOTOR_NUM 4
+
+//! Predefined selector value with all motors selected
 #define DC_MOTOR_SEL_ALL (0xFF << (8-DC_MOTOR_NUM) >> (8-DC_MOTOR_NUM))
 
-// Type to properly store a rounds per minute value
+//! Type to properly store a rounds per minute value
 typedef uint8_t dc_rpm_t;
 
-// Master -> Slave commands
+//! Master -> Slave commands
 typedef enum _DC_MOTOR_CMD_E {
   DC_MOTOR_CMD_GET,
   DC_MOTOR_CMD_SET,
@@ -23,14 +29,24 @@ typedef enum _DC_MOTOR_CMD_E {
   TWI_CMD_ECHO
 } dc_motor_cmd_t;
 
-// Get the speed of a DC motor in RPM
+/*!
+ * Get the speed of a DC motor in RPM
+ *
+ * @param slave_addr Slave address
+ * @return The speed of the DC motor handled by the addressed I2C slave
+ */
 dc_rpm_t dcmotor_get(uint8_t slave_addr);
 
-// Set the speed of a DC motor in RPM
-// Returns 1 on success, 0 otherwise
+/*!
+ * Set the speed of a DC motor in RPM
+ *
+ * @param slave_addr Slave address
+ * @param rpm Next target DC motor speed in RPM
+ * @return 1 on success, 0 otherwise
+ */
 uint8_t dcmotor_set(uint8_t slave_addr, dc_rpm_t rpm);
 
-// Tell the DC motor controllers to apply their speed
+//! Tell all the DC motor controllers to apply their speed
 void dcmotor_apply(void);
 
 #endif	// __DC_MOTOR_MODULE_H

@@ -18,6 +18,16 @@ The master controller must:
 The end user will interface just the master controller, using a TUI program which
 runs under POSIX-compliant OSes.
 
+### Features
+
+* Text-based client application for POSIX environments
+* Master and Slave(s) controller firmware
+* Fully binary Client-Master communication protocol on top of the serial interface
+* Fully binary Master-Slave communication protocol on top of the I2C interface
+* Theoretically handles up to 127 DC motors (limited by 7-bit I2C slave addressing)
+* Ability to get and set the DC motors speed, individually
+* Software defined PID controller embedded in each Slave controller
+
 ### Professor Reference
 
 Quoting from [Prof. Grisetti's repository](https://gitlab.com/grisetti/sistemi_operativi_2020_21/-/blob/master/projects_preliminary/readme.md):
@@ -59,32 +69,31 @@ Quoting from [Prof. Grisetti's repository](https://gitlab.com/grisetti/sistemi_o
 The entire project uses the _GNU Make_ build system. Client, Master and Slave
 programs' codebases are separated from each others.
 
-### Client
-
 A list of _make_ recipes is given below:
 ```
-# Compile and link the client-side executable
+# Make client executables and master and slave .elf binaries
 make
+
+# Compile and link the client-side executable
+make client
 
 # Install the -ALREADY COMPILED- client-side executable
 sudo make install
 
-# Generate (requires pandoc) man page
+# Generate man page (requires pandoc)
 make docs
 
 # Install man page (pregenerated in the repo)
 sudo make install-docs
-```
 
-### Master and Slave
+# Compile and link master .elf binary
+make master
 
-A list of _make_ recipes is given below:
-```
-# Compile and link the avr-side .elf executable
-make
+# Compile and link slave .elf binary
+make slave
 
-# Encode the .elf executable into a .hex file and flash it into the AVR
-make flash
+# Encode the slave .elf binary into a .hex file and flash it into the AVR
+make slave-flash
 ```
 
 
@@ -112,14 +121,17 @@ Field | Size (bits) | Description
 
 Type | Actual value | Description
 :-:|:-:|---
-`NUL`       | `0x00` | Reserved (not used)
-`HND`       | `0x01` | Handshake (sent by PC, ACKed by Master)
-`ACK`       | `0x02` | Acknowledgement
-`NAK`       | `0x03` | Communication error
-`ECHO`      | `0x04` | String echoing, used for debug
-`GET_SPEED` | `0x05` | Get DC motor(s) speed value(s) in m/s
-`SET_SPEED` | `0x06` | Set DC motor(s) speed value(s) in m/s
-`DAT`       | `0x07` | Data (sent from Master to Client)
+`COM_TYPE_NULL`      | `0x01` | Reserved, never use
+`COM_TYPE_HND`       | `0x02` | Handshake
+`COM_TYPE_ACK`       | `0x03` | Acknowledgement
+`COM_TYPE_NAK`       | `0x04` | Communication error
+`COM_TYPE_ECHO`      | `0x05` | [DEBUG] Echo between Client and Master
+`COM_TYPE_TWI_ECHO`  | `0x06` | [DEBUG] Echo a single char to the first Slave via TWI
+`COM_TYPE_GET_SPEED` | `0x07` | Get the current speed for a DC motor
+`COM_TYPE_SET_SPEED` | `0x08` | Set (and apply) the speed for a DC motor
+`COM_TYPE_APPLY`     | `0x09` | Tell all the slaves to apply the previously set speeds
+`COM_TYPE_DAT`       | `0x0A` | Primarily used for responses from the AVR device
+`COM_TYPE_LIMIT`     | `0x0B` | Used for sanity checks - Must have highest value
 
 #### Acknowledgements
 
@@ -137,8 +149,27 @@ code describing what happened on its side. Error codes can be found in
 
 #### Controlling DC motors' speed
 
-**TODO**
+The master controller offers an upper-level, command-based API to handle the DC
+motors:
+
+Client command | Description
+:-:|---
+`get-speed <motor_id>` | Get the speed of a DC motor
+`set-speed <motor_id> <speed>` | Set the speed of a DC motor
+`apply` | Apply the previously set speeds to all the DC motors
+
+Further informations can be found in the man page or by issuing the `help`
+command to the client shell.
+
+**NOTE**: The `sample` command has been removed from the specification, since
+the effective speed is periodically sampled by each Slave, as needed by the PID
+embedded controller.
 
 ### Master-Slave communication
 
-**TODO**
+Master and slaves communicate to each other using the TWI/I2C protocol. The
+implementation had been realized from scratch and also offers broadcasting
+capabilities from master to slaves, based on the `0x00` built-in broadcasting
+address.
+
+The communication layer on top of the I2C protocol is completely binary.

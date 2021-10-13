@@ -154,8 +154,8 @@ motors:
 
 Client command | Description
 :-:|---
-`get-speed <motor_id>` | Get the speed of a DC motor
-`set-speed <motor_id> <speed>` | Set the speed of a DC motor
+`get-speed <motor_id> [...]` | Get the speed of a DC motor
+`set-speed <motor_id>=<speed> [...]` | Set the speed of a DC motor
 `apply` | Apply the previously set speeds to all the DC motors
 
 Further informations can be found in the man page or by issuing the `help`

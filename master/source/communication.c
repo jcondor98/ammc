@@ -107,13 +107,9 @@ static state_t _op_twi_echo(const packet_t *p) {
 static state_t _op_get_speed(const packet_t *p) {
   //! \todo Sanity check on received packet
   communication_send(COM_TYPE_ACK, 0, 0, NULL);
-  uint8_t sel = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
-  uint8_t data[DC_MOTOR_NUM];
-
-  for (int i=0; i < DC_MOTOR_NUM; ++i)
-    if (sel & (1 << i)) data[i] = dcmotor_get(sel & (1 << i));
-
-  communication_send(COM_TYPE_DAT, sel, sizeof(data), data);
+  uint8_t motor_id = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
+  uint8_t speed = dcmotor_get(motor_id);
+  communication_send(COM_TYPE_DAT, motor_id, sizeof(speed), &speed);
   return STATE_LISTEN;
 }
 
@@ -121,12 +117,9 @@ static state_t _op_get_speed(const packet_t *p) {
 static state_t _op_set_speed(const packet_t *p) {
   //! \todo Sanity check on received packet
   communication_send(COM_TYPE_ACK, 0, 0, NULL);
-  uint8_t sel = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
+  uint8_t dc_motor_id = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
   dc_rpm_t *data = (dc_rpm_t*) p->body;
-
-  for (int i=0; i < DC_MOTOR_NUM; ++i)
-    if (sel & (1 << i)) dcmotor_set(sel & (1 << i), data[i]);
-
+  dcmotor_set(dc_motor_id, *data);
   return STATE_LISTEN;
 }
 

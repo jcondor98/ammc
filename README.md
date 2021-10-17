@@ -24,7 +24,7 @@ runs under POSIX-compliant OSes.
 * Master and Slave(s) controller firmware
 * Fully binary Client-Master communication protocol on top of the serial interface
 * Fully binary Master-Slave communication protocol on top of the I2C interface
-* Theoretically handles up to 127 DC motors (limited by 7-bit I2C slave addressing)
+* Up to 126 DC motors (limited by 7-bit I2C Slave addressing, `0x00` is reserved)
 * Ability to get and set the DC motors speed, individually
 * Software defined PID controller embedded in each Slave controller
 
@@ -163,8 +163,8 @@ motors:
 
 Client command | Description
 :-:|---
-`get-speed <motor_id> [...]` | Get the speed of a DC motor
-`set-speed <motor_id>=<speed> [...]` | Set the speed of a DC motor
+`get-speed <motor_id>` | Get the speed of a DC motor
+`set-speed <motor_id>=<speed>` | Set the speed of a DC motor
 `apply` | Apply the previously set speeds to all the DC motors
 
 Further informations can be found in the man page or by issuing the `help`

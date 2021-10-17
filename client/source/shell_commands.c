@@ -26,9 +26,9 @@
 #define precv(p) communication_recv(AVR_FD,p)
 
 
-// Number of DC motors
+// Limit mask for DC motor IDs
 //! \todo Define this in a head file
-#define DC_MOTOR_NUM 4
+#define DC_MOTOR_ID_LIMIT 127
 
 // Type to properly handle RPM values
 //! \todo Define this in a head file
@@ -180,28 +180,22 @@ int dev_echo_twi(int argc, char *argv[], void *storage) {
 
 
 // CMD: get-speed
-// Usage: get-speed [motor-id]
-// Get the speed of a DC motor in RPM, or of all the motors if no arguments
-// Multiple space-separated motors can be specified
+// Usage: get-speed <motor-id>
+// Get the speed of a DC motor in RPM
 int get_speed(int argc, char *argv[], void *storage) {
   _storage_cast(st, storage);
-  if (argc > 5) return 1;
+  if (argc != 2) return 1;
 
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
-  // Decode motors identifiers to selector masks
-  unsigned char selector = 0;
-  if (argc == 1) selector = ~0;
-  else for (unsigned char i=1; i < argc; ++i) {
-    unsigned char motor_id;
-    int ret = sscanf(argv[i], "%hhu", &motor_id);
-    sh_error_on(ret != 1 || ret >= DC_MOTOR_NUM, 1,
-        "Bad argument: %s", argv[i]);
-    selector |= 1 << motor_id;
-  }
+  unsigned char motor_id;
+  int ret = sscanf(argv[1], "%hhu", &motor_id);
+  sh_error_on(ret != 1 || ret >= DC_MOTOR_ID_LIMIT, 1,
+      "Bad argument: %s", argv[1]);
+  sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");
 
   // Send a GET_SPEED packet
-  sh_error_on(psend(COM_TYPE_GET_SPEED, selector, NULL, 0) != 0, 3,
+  sh_error_on(psend(COM_TYPE_GET_SPEED, motor_id, NULL, 0) != 0, 3,
       "Could not send GET_SPEED packet to Master");
 
   // Wait for the DAT response
@@ -211,42 +205,33 @@ int get_speed(int argc, char *argv[], void *storage) {
   //! \todo Sanity check on response
 
   // Print the received speeds
-  dc_rpm_t *speeds = (dc_rpm_t*) response->body;
-  for (unsigned char i=0; i < DC_MOTOR_NUM; ++i)
-    if (selector & (1 << i)) printf("%hhu: %hhu\n", i, speeds[i]);
+  dc_rpm_t speed = (dc_rpm_t)(*response->body);
+  printf("%hhu: %hhu\n", motor_id, speed);
 
   return 0;
 }
 
 
 // CMD: set-speed
-// Usage: set-speed [<motor-id>=<value>]
-// Set the speed of a DC motor. Multiple space-separated motors and values
-// can be specified
+// Usage: set-speed <motor-id>=<value>
+// Set the speed of a DC motor
 int set_speed(int argc, char *argv[], void *storage) {
   _storage_cast(st, storage);
-  if (argc < 2) return 1;
+  if (argc != 2) return 1;
 
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
-  // Store user-specified speeds for the DC motors
-  dc_rpm_t speeds[DC_MOTOR_NUM];
-
-  // Decode motors identifiers to selector masks
-  unsigned char selector = 0;
-  for (unsigned char i=1; i < argc; ++i) {
-    unsigned char motor_id;
-    dc_rpm_t rpm;
-    int ret = sscanf(argv[i], "%hhu=%hhu", &motor_id, &rpm);
-    sh_error_on(ret != 1 || ret >= DC_MOTOR_NUM, 1,
-        "Bad argument: %s", argv[i]);
-    selector |= 1 << motor_id;
-    speeds[motor_id] = rpm;
-  }
+  // Parse speed entered by user
+  unsigned char motor_id;
+  dc_rpm_t speed;
+  int ret = sscanf(argv[1], "%hhu=%hhu", &motor_id, &speed);
+  sh_error_on(ret != 1 || ret >= DC_MOTOR_ID_LIMIT, 1,
+      "Bad argument: %s", argv[1]);
+  sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");
 
   // Send a SET_SPEED packet with the parsed DC motor speeds
-  sh_error_on(psend(COM_TYPE_SET_SPEED, selector, (void*) speeds,
-        sizeof(speeds)) != 0, 3, "Could not send GET_SPEED packet to Master");
+  sh_error_on(psend(COM_TYPE_SET_SPEED, motor_id, (void*) &speed,
+        sizeof(speed)) != 0, 3, "Could not send SET_SPEED packet to Master");
 
   return 0;
 }
@@ -305,16 +290,14 @@ static shell_command_t _shell_commands[] = {
   (shell_command_t) { // CMD: get-speed
     .name = "get-speed",
     .help = "Usage: get-speed [motor-id]\n"
-      "Get the speed of a DC motor in RPM, or of all the motors if no arguments\n"
-      "Multiple space-separated motors can be specified (to a maximum of 4)\n",
+      "Get the speed of a DC motor in RPM\n",
     .exec = get_speed
   },
 
   (shell_command_t) { // CMD: set-speed
     .name = "set-speed",
     .help = "Usage: set-speed [<motor-id>=<value>]\n"
-      "Set the speed of a DC motor in RPM. Multiple space-separated motors and values\n"
-      "can be specified\n",
+      "Set the speed of a DC motor in RPM.\n",
     .exec = set_speed
   },
 

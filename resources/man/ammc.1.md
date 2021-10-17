@@ -48,13 +48,11 @@ Commands
 **dev-echo** \<_arg_> \[_arg2_ _arg3_ _..._]
 :   Send a string to the device, which should send it back
 
-**get-speed** \[_motor-id_]
-:   Get the speed of a DC motor in RPM, or of all the motors if no argument.
-:   Multiple space-separated motors can be specified (to a maximum of 4)
+**get-speed** \<_motor-id_>
+:   Get the speed of a DC motor in RPM
 
-**set-speed** \[\<_motor-id_>=\<_value_>]
-:   Set the speed of a DC motor in RPM. Multiple space-separated motors and
-:   values can be specified
+**set-speed** \<_motor-id_>=\<_value_>
+:   Set the speed of a DC motor in RPM
 
 AUTHOR
 ======

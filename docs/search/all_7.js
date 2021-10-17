@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['main_2ec_69',['main.c',['../master_2source_2main_8c.html',1,'(Global Namespace)'],['../client_2source_2main_8c.html',1,'(Global Namespace)'],['../slave_2source_2main_8c.html',1,'(Global Namespace)']]]
+  ['header_5ft_70',['header_t',['../master_2include_2packet_8h.html#a2b6faa706233e32ce06130c387649466',1,'header_t():&#160;packet.h'],['../client_2include_2packet_8h.html#a2b6faa706233e32ce06130c387649466',1,'header_t():&#160;packet.h']]]
 ];

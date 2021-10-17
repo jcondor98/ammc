@@ -124,13 +124,13 @@ Macros</h2></td></tr>
 <tr class="memitem:a1ea92855d455de59ce97c443ff52c4f9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a1ea92855d455de59ce97c443ff52c4f9">shell_flag_get</a>(sh,  flag)&#160;&#160;&#160;(((sh)-&gt;flags &amp; (flag)) ? 1 : 0)</td></tr>
 <tr class="memdesc:a1ea92855d455de59ce97c443ff52c4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value of a shell flag.  <a href="shell_8h.html#a1ea92855d455de59ce97c443ff52c4f9">More...</a><br /></td></tr>
 <tr class="separator:a1ea92855d455de59ce97c443ff52c4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e069e69db037207a7be764ce15eb74f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a0e069e69db037207a7be764ce15eb74f">shell_flag_set</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags |= (flag); } while 0</td></tr>
+<tr class="memitem:a0e069e69db037207a7be764ce15eb74f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a0e069e69db037207a7be764ce15eb74f">shell_flag_set</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags |= (flag); } while (0)</td></tr>
 <tr class="memdesc:a0e069e69db037207a7be764ce15eb74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a shell flag (to 1)  <a href="shell_8h.html#a0e069e69db037207a7be764ce15eb74f">More...</a><br /></td></tr>
 <tr class="separator:a0e069e69db037207a7be764ce15eb74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b3220e108325f5aea44b8512782e57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a54b3220e108325f5aea44b8512782e57">shell_flag_clr</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags &amp;= ~(flag); } while 0</td></tr>
+<tr class="memitem:a54b3220e108325f5aea44b8512782e57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a54b3220e108325f5aea44b8512782e57">shell_flag_clr</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags &amp;= ~(flag); } while (0)</td></tr>
 <tr class="memdesc:a54b3220e108325f5aea44b8512782e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear a shell flag (i.e.  <a href="shell_8h.html#a54b3220e108325f5aea44b8512782e57">More...</a><br /></td></tr>
 <tr class="separator:a54b3220e108325f5aea44b8512782e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac46130b4b0ce3b8c3e75f8ccd1ffcb88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#ac46130b4b0ce3b8c3e75f8ccd1ffcb88">shell_flag_tog</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags ^= (flag); } while 0</td></tr>
+<tr class="memitem:ac46130b4b0ce3b8c3e75f8ccd1ffcb88"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#ac46130b4b0ce3b8c3e75f8ccd1ffcb88">shell_flag_tog</a>(sh,  flag)&#160;&#160;&#160;do { (sh)-&gt;flags ^= (flag); } while (0)</td></tr>
 <tr class="memdesc:ac46130b4b0ce3b8c3e75f8ccd1ffcb88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggle a shell flag.  <a href="shell_8h.html#ac46130b4b0ce3b8c3e75f8ccd1ffcb88">More...</a><br /></td></tr>
 <tr class="separator:ac46130b4b0ce3b8c3e75f8ccd1ffcb88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d5366954564bf405a9f9798513746ef"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a9d5366954564bf405a9f9798513746ef">sh_error</a>(err_ret,  err_fmt, ...)</td></tr>
@@ -333,7 +333,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags &amp;= ~(flag); } while 0</td>
+          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags &amp;= ~(flag); } while (0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -408,7 +408,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags |= (flag); } while 0</td>
+          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags |= (flag); } while (0)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -445,7 +445,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags ^= (flag); } while 0</td>
+          <td></td><td>&#160;&#160;&#160;do { (sh)-&gt;flags ^= (flag); } while (0)</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -146,11 +146,11 @@ $(document).ready(function(){initNavTree('shell_8h_source.html',''); initResizab
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
 <div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="shell_8h.html#a1ea92855d455de59ce97c443ff52c4f9">  119</a></span>&#160;<span class="preprocessor">#define shell_flag_get(sh,flag) (((sh)-&gt;flags &amp; (flag)) ? 1 : 0)</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="shell_8h.html#a0e069e69db037207a7be764ce15eb74f">  127</a></span>&#160;<span class="preprocessor">#define shell_flag_set(sh,flag) do { (sh)-&gt;flags |= (flag); } while 0</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="shell_8h.html#a0e069e69db037207a7be764ce15eb74f">  127</a></span>&#160;<span class="preprocessor">#define shell_flag_set(sh,flag) do { (sh)-&gt;flags |= (flag); } while (0)</span></div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="shell_8h.html#a54b3220e108325f5aea44b8512782e57">  135</a></span>&#160;<span class="preprocessor">#define shell_flag_clr(sh,flag) do { (sh)-&gt;flags &amp;= ~(flag); } while 0</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="shell_8h.html#a54b3220e108325f5aea44b8512782e57">  135</a></span>&#160;<span class="preprocessor">#define shell_flag_clr(sh,flag) do { (sh)-&gt;flags &amp;= ~(flag); } while (0)</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="shell_8h.html#ac46130b4b0ce3b8c3e75f8ccd1ffcb88">  143</a></span>&#160;<span class="preprocessor">#define shell_flag_tog(sh,flag) do { (sh)-&gt;flags ^= (flag); } while 0</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="shell_8h.html#ac46130b4b0ce3b8c3e75f8ccd1ffcb88">  143</a></span>&#160;<span class="preprocessor">#define shell_flag_tog(sh,flag) do { (sh)-&gt;flags ^= (flag); } while (0)</span></div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
 <div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="shell_8h.html#a9d5366954564bf405a9f9798513746ef">  153</a></span>&#160;<span class="preprocessor">#define sh_error(err_ret, err_fmt, ...) do {\</span></div>

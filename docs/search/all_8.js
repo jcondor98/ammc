@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operation_5ff_70',['operation_f',['../master_2source_2communication_8c.html#a52490e97444e33953988a97b81e57c5b',1,'communication.c']]]
+  ['isr_71',['ISR',['../slave_2source_2twi_8c.html#a474f42eedbdc093683fdb4b88be3c48f',1,'twi.c']]]
 ];

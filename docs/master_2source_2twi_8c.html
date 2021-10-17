@@ -95,20 +95,20 @@ $(document).ready(function(){initNavTree('master_2source_2twi_8c.html',''); init
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;avr/io.h&gt;</code><br />
 <code>#include &lt;avr/interrupt.h&gt;</code><br />
-<code>#include &lt;util/delay.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;twi.h&quot;</code><br />
+<code>#include &quot;sleep_util.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for twi.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="master_2source_2twi_8c__incl.png" border="0" usemap="#amaster_2source_2twi_8c" alt=""/></div>
 <map name="amaster_2source_2twi_8c" id="amaster_2source_2twi_8c">
-<area shape="rect" title="I2C TWI Master Interface." alt="" coords="195,5,332,32"/>
+<area shape="rect" title="I2C TWI Master Interface." alt="" coords="185,5,323,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,71,107"/>
 <area shape="rect" title=" " alt="" coords="95,80,197,107"/>
-<area shape="rect" title=" " alt="" coords="221,80,305,107"/>
-<area shape="rect" title=" " alt="" coords="329,80,395,107"/>
-<area shape="rect" title=" " alt="" coords="419,80,470,107"/>
+<area shape="rect" title=" " alt="" coords="221,80,287,107"/>
+<area shape="rect" title=" " alt="" coords="311,80,362,107"/>
+<area shape="rect" title=" " alt="" coords="386,80,474,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
@@ -216,8 +216,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mast
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of effectively received bytes </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Pause instead of delaying </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Pause instead of delaying </dd></dl>
 
 </div>
 </div>
@@ -271,7 +269,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mast
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>0 on success, 1 on error </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Pause instead of delaying </dd></dl>
 
 </div>
 </div>

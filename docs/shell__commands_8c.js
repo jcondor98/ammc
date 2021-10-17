@@ -3,7 +3,7 @@ var shell__commands_8c =
     [ "_shell_storage_s", "struct__shell__storage__s.html", "struct__shell__storage__s" ],
     [ "_storage_cast", "shell__commands_8c.html#a26a3ab5abd2e215e648d64242d9163d3", null ],
     [ "AVR_FD", "shell__commands_8c.html#a1f596acdf43c715c241902a2ee182f37", null ],
-    [ "DC_MOTOR_NUM", "shell__commands_8c.html#a0a57473acc9eb966949e092e0aad655d", null ],
+    [ "DC_MOTOR_ID_LIMIT", "shell__commands_8c.html#ad2340c209b672ba298804507e20b2975", null ],
     [ "precv", "shell__commands_8c.html#a8829630d33ac375fe685fbd3ddcf3bec", null ],
     [ "psend", "shell__commands_8c.html#adfb015cca0e5114dce95a9b7aea8b20b", null ],
     [ "dc_rpm_t", "shell__commands_8c.html#a56de64d7c7709a6b34a840b8385d0e4b", null ],

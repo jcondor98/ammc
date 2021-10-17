@@ -104,7 +104,7 @@ Features</h2>
 <li>Master and Slave(s) controller firmware</li>
 <li>Fully binary Client-Master communication protocol on top of the serial interface</li>
 <li>Fully binary Master-Slave communication protocol on top of the I2C interface</li>
-<li>Theoretically handles up to 127 DC motors (limited by 7-bit I2C slave addressing)</li>
+<li>Up to 126 DC motors (limited by 7-bit I2C Slave addressing, <code>0x00</code> is reserved)</li>
 <li>Ability to get and set the DC motors speed, individually</li>
 <li>Software defined PID controller embedded in each Slave controller</li>
 </ul>
@@ -225,9 +225,9 @@ Controlling DC motors' speed</h3>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter">Client command   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>get-speed &lt;motor_id&gt; [...]</code>   </td><td class="markdownTableBodyNone">Get the speed of a DC motor    </td></tr>
+<td class="markdownTableBodyCenter"><code>get-speed &lt;motor_id&gt;</code>   </td><td class="markdownTableBodyNone">Get the speed of a DC motor    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>set-speed &lt;motor_id&gt;=&lt;speed&gt; [...]</code>   </td><td class="markdownTableBodyNone">Set the speed of a DC motor    </td></tr>
+<td class="markdownTableBodyCenter"><code>set-speed &lt;motor_id&gt;=&lt;speed&gt;</code>   </td><td class="markdownTableBodyNone">Set the speed of a DC motor    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyCenter"><code>apply</code>   </td><td class="markdownTableBodyNone">Apply the previously set speeds to all the DC motors   </td></tr>
 </table>

@@ -1,0 +1,5 @@
+<map id="client/include/ringbuffer.h" name="client/include/ringbuffer.h">
+<area shape="rect" id="node1" title="Multi&#45;threaded, lock&#45;free ringbuffer data structure." alt="" coords="23,5,189,32"/>
+<area shape="rect" id="node2" href="$client_2include_2serial_8h.html" title="Serial interface." alt="" coords="34,80,178,107"/>
+<area shape="rect" id="node3" href="$client_2include_2communication_8h.html" title="Communication layer." alt="" coords="5,155,207,181"/>
+</map>

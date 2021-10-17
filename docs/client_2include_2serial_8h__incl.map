@@ -1,0 +1,11 @@
+<map id="client/include/serial.h" name="client/include/serial.h">
+<area shape="rect" id="node1" title="Serial interface." alt="" coords="113,5,257,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,73,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="97,80,173,107"/>
+<area shape="rect" id="node4" href="$client_2include_2packet_8h.html" title="Packet module (Client)" alt="" coords="198,80,270,107"/>
+<area shape="rect" id="node7" href="$client_2include_2ringbuffer_8h.html" title="Multi&#45;threaded, lock&#45;free ringbuffer data structure." alt="" coords="295,80,381,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="175,229,240,256"/>
+<area shape="rect" id="node6" href="$client_2include_2crc_8h.html" title="Packet&#45;switched communication layer." alt="" coords="214,155,265,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="298,155,367,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="392,155,468,181"/>
+</map>

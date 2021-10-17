@@ -1,0 +1,90 @@
+% Bachelor Degree Thesis - Paolo Lucchesi
+% !TeX encoding = UTF-8
+% !TeX program = pdflatex
+% !TeX spellcheck = en_US
+
+\documentclass[binding=0.6cm,Lau]{sapthesis}
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+\hypersetup{pdftitle={AVR Multi Motor Control},pdfauthor={Paolo Lucchesi}}
+
+\title{AVR Multi Motor Control}
+\author{Paolo Lucchesi}
+\IDnumber{1765134}
+\course{Ingegneria Informatica e Automatica}
+\courseorganizer{Facoltà di Ingegneria dell'Informazione, Informatica e Statistica}
+\AcademicYear{2021/2022}
+\copyyear{2021}
+\advisor{Prof. Giorgio Grisetti}
+\advisor{Drs. Barbara Bazzana}
+\reviewerlabel{Reviewer}
+\reviewer{Prof. Silvia Bonomi}
+\authoremail{lucchesi.1765134@studenti.uniroma1.it}
+\website{https://github.com/jcondor98/ammc}
+
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\dedication{
+Dedicated to my family, my granddad Pietro, my mom Anna Rosa, my dad Marco,
+my grandmom Pierina and my sister Valentina, which I thank everyday for
+everything I am.\\
+To my dearest friends in Pitigliano, with whom I share some of the most
+beautiful memories I have.\\
+To Nicola, with whom I have shared part of this path; he helped me in a
+dark period of my life and he is one of my dearest friends.
+}
+
+\begin{abstract}
+\end{abstract}
+
+\tableofcontents
+
+
+\mainmatter
+
+\chapter{Introduction}
+
+\chapter{Client-side user interaction}
+\section{Overview}
+\section{Resources used}
+\section{User Interface}
+\section{Serial module}
+\section{Man page}
+
+\chapter{Master controller}
+\section{Overview}
+\section{MicroController Unit}
+\section{Resources used}
+\section{Wiring}
+\section{Power management}
+\section{I2C setup}
+
+\chapter{Slave controllers}
+\section{Overview}
+\section{MicroController Unit}
+\section{Resources used}
+\section{Wiring}
+\section{Power management}
+\section{I2C setup}
+
+\chapter{Client-Master communication}
+
+\chapter{Master-Slave communication}
+
+\chapter{Conclusions}
+
+
+\backmatter
+\cleardoublepage
+\phantomsection % Give this command only if hyperref is loaded
+\addcontentsline{toc}{chapter}{\bibname}
+% Here put the code for the bibliography. You can use BibTeX or
+% the BibLaTeX package or the simple environment thebibliography.
+\end{document}

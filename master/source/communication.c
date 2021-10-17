@@ -5,7 +5,6 @@
  * \author Paolo Lucchesi
  */
 #include <avr/io.h>
-#include <util/delay.h> //! \todo Remove
 
 #include "communication.h"
 #include "dcmotor.h"
@@ -98,7 +97,6 @@ static state_t _op_twi_echo(const packet_t *p) {
 
   //! \todo: Remove test 0x31 address
   data[1] = twi_send_sm(0x31, tx, 2);
-  //_delay_ms(200); //! \todo: Remove line
   data[2] = twi_recv_sm(0x31, data, 1);
   data[3] = TWI_CMD_ECHO;
   communication_send(COM_TYPE_DAT, 0, sizeof(data), data);

@@ -6,10 +6,10 @@
  */
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include <string.h>
 
 #include "twi.h"
+#include "sleep_util.h"
 
 // Mask to enable interrupts and TWI functionalities - For auxiliary functions
 #define _TW_ALL_ENABLED ((1<<TWINT) | (1<<TWEN) | (1<<TWIE))
@@ -83,7 +83,7 @@ uint8_t twi_send(uint8_t addr, const void *data, size_t size,
   if (!data || size > TW_TX_MAX_LEN) return 1;
 
   // Wait for the I2C channel to be ready and prepare the buffer
-  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
+  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
   tx_buffer[0] = twi_addr_write(addr);
   memcpy(tx_buffer + 1, data, size);
 
@@ -97,7 +97,7 @@ uint8_t twi_send(uint8_t addr, const void *data, size_t size,
 // Receive data from a single endpoint
 uint8_t twi_recv(uint8_t addr, void *buf, size_t to_recv, uint8_t bus_lock) {
   if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
-  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
+  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
 
   // Prepare buffers
   rx_buffer = buf;
@@ -108,7 +108,7 @@ uint8_t twi_recv(uint8_t addr, void *buf, size_t to_recv, uint8_t bus_lock) {
   tx_buffer[0] = twi_addr_read(addr);
   _twi_send(1, bus_lock);
 
-  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
+  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
   return rx_idx;
 }
 

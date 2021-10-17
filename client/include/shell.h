@@ -124,7 +124,7 @@ int shell_execv(shell_t *shell, char *argv[]);
  * @param sh Pointer to the reference shell
  * @param flag Flag identifier
  */
-#define shell_flag_set(sh,flag) do { (sh)->flags |= (flag); } while 0
+#define shell_flag_set(sh,flag) do { (sh)->flags |= (flag); } while (0)
 
 /*!
  * Clear a shell flag (i.e. set to 0)
@@ -132,7 +132,7 @@ int shell_execv(shell_t *shell, char *argv[]);
  * @param sh Pointer to the reference shell
  * @param flag Flag identifier
  */
-#define shell_flag_clr(sh,flag) do { (sh)->flags &= ~(flag); } while 0
+#define shell_flag_clr(sh,flag) do { (sh)->flags &= ~(flag); } while (0)
 
 /*!
  * Toggle a shell flag
@@ -140,7 +140,7 @@ int shell_execv(shell_t *shell, char *argv[]);
  * @param sh Pointer to the reference shell
  * @param flag Flag identifier
  */
-#define shell_flag_tog(sh,flag) do { (sh)->flags ^= (flag); } while 0
+#define shell_flag_tog(sh,flag) do { (sh)->flags ^= (flag); } while (0)
 
 
 /*!

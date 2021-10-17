@@ -30,12 +30,14 @@ static inline void power_setup(void) {
 
 
 int main(void) {
+  // Setup and initialize all modules
   power_setup();
   dcmotor_init();
   twi_init(TW_OWN_ADDRESS);
   sei();
 
-  //dcmotor_pid_start();
+  // Start Proportional-Integral-Derivative controller for the DC motor
+  dcmotor_pid_start();
 
   uint8_t rx_buf[TW_RX_MAX_LEN]; // TWI RX buffer
 

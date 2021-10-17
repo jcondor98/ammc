@@ -28,6 +28,15 @@ runs under POSIX-compliant OSes.
 * Ability to get and set the DC motors speed, individually
 * Software defined PID controller embedded in each Slave controller
 
+### Documentation
+
+An overview of the project is given in this Markdown document.
+
+Documentation generated with doxygen for the source code and the programming API
+can be found [here](https://jcondor98.github.io/ammc/).
+
+The client is documented by the man page `ammc(1)`.
+
 ### Professor Reference
 
 Quoting from [Prof. Grisetti's repository](https://gitlab.com/grisetti/sistemi_operativi_2020_21/-/blob/master/projects_preliminary/readme.md):
@@ -173,3 +182,9 @@ capabilities from master to slaves, based on the `0x00` built-in broadcasting
 address.
 
 The communication layer on top of the I2C protocol is completely binary.
+
+
+## Notes
+
+The doxygen custom CSS files is taken from _jothepro_, [here](https://github.com/jothepro/doxygen-awesome-css/blob/v1.6.0/LICENSE).
+It is released under the MIT license.

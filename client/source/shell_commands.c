@@ -27,16 +27,16 @@
 
 
 // Number of DC motors
-// TODO: Define this in a head file
+//! \todo Define this in a head file
 #define DC_MOTOR_NUM 4
 
 // Type to properly handle RPM values
-// TODO: Define this in a head file
+//! \todo Define this in a head file
 typedef uint8_t dc_rpm_t;
 
 
 // Type definition for the internal shell storage
-// TODO: Other application stuff to add?
+//! \todo Other application stuff to add?
 typedef struct _shell_storage_s {
   int avr_fd;
 } shell_storage_t;
@@ -208,7 +208,7 @@ int get_speed(int argc, char *argv[], void *storage) {
   packet_t response[1];
   sh_error_on(precv(response), 3, "Could not receive Master response");
 
-  // TODO: Sanity check on response
+  //! \todo Sanity check on response
 
   // Print the received speeds
   dc_rpm_t *speeds = (dc_rpm_t*) response->body;

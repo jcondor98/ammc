@@ -5,7 +5,7 @@
  * \author Paolo Lucchesi
  */
 #include <avr/io.h>
-#include <util/delay.h> // TODO
+#include <util/delay.h> //! \todo Remove
 
 #include "communication.h"
 #include "dcmotor.h"
@@ -96,8 +96,9 @@ static state_t _op_twi_echo(const packet_t *p) {
   uint8_t tx[2] = { TWI_CMD_ECHO, p->body[0] };
   uint8_t data[4] = {0};
 
+  //! \todo: Remove test 0x31 address
   data[1] = twi_send_sm(0x31, tx, 2);
-  _delay_ms(200); // TODO
+  //_delay_ms(200); //! \todo: Remove line
   data[2] = twi_recv_sm(0x31, data, 1);
   data[3] = TWI_CMD_ECHO;
   communication_send(COM_TYPE_DAT, 0, sizeof(data), data);
@@ -106,6 +107,7 @@ static state_t _op_twi_echo(const packet_t *p) {
 
 // Get the speed of the selected DC motors (0 for the others)
 static state_t _op_get_speed(const packet_t *p) {
+  //! \todo Sanity check on received packet
   communication_send(COM_TYPE_ACK, 0, 0, NULL);
   uint8_t sel = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
   uint8_t data[DC_MOTOR_NUM];
@@ -119,8 +121,8 @@ static state_t _op_get_speed(const packet_t *p) {
 
 // Get the speed of the selected DC motors (ignore the others)
 static state_t _op_set_speed(const packet_t *p) {
-  // TODO: Sanity check on received packet
-  communication_send(COM_TYPE_ACK, 0, 0, NULL); // TODO: Send after operations performed?
+  //! \todo Sanity check on received packet
+  communication_send(COM_TYPE_ACK, 0, 0, NULL);
   uint8_t sel = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
   dc_rpm_t *data = (dc_rpm_t*) p->body;
 
@@ -167,14 +169,17 @@ uint8_t communication_handler(void) {
   uint8_t error = E_SUCCESS;
 
   // Main handler loop
-  // TODO: Return 1 if at least a packet has been processed
   while (1) {
+    uint8_t ret = 0;
     switch (state) {
       case STATE_LISTEN:  // Check for available data
         if (serial_rx_available()) ++state;
-        else return 0;
+        else return ret;
         break;
+
       case STATE_FETCH:
+        ret = 1; // At least a packet is processed
+
         // Receive packet header
         serial_rx(_rx, sizeof(header_t));
         received = sizeof(header_t);
@@ -206,6 +211,7 @@ uint8_t communication_handler(void) {
         }
         else ++state;
         break;
+
       case STATE_EXECUTE:  // React to the packet
         uint8_t packet_type = packet_get_type(rx);
         if (packet_type >= COM_TYPE_LIMIT) {
@@ -214,11 +220,13 @@ uint8_t communication_handler(void) {
         }
         else state = op_table[packet_type](rx);
         break;
+
       case STATE_ACK:  // Acknowledge
         communication_send(COM_TYPE_ACK, 0, 0, NULL);
         packet_global_id = packet_next_id(packet_global_id);
         state = STATE_LISTEN;
         break;
+
       case STATE_NAK:  // Raise an error to the client
         communication_send(COM_TYPE_NAK, error, 0, NULL);
         packet_global_id = 0;

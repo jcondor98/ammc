@@ -13,7 +13,7 @@
 #include "twi.h"
 
 // TWI Slave own address
-// TODO: Set this dynamically (e.g. via EEPROM)
+//! \todo Set this dynamically (e.g. via EEPROM)
 #define TW_OWN_ADDRESS 0x31
 
 // Salviamo gli alberi insieme

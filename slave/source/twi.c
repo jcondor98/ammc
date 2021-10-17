@@ -37,7 +37,7 @@ void twi_init(uint8_t slave_addr) {
   TWSR = 0; // No prescaling
   TWBR = ((F_CPU / TW_FREQ) - 16) / 2; // TWI bit rate
   TWAR = (slave_addr << 1) | 1; // Own slave address (accept broadcast)
-  TWCR = 1 << TWEN; // TODO: Check
+  TWCR = 1 << TWEN;
 
   // Disable internal pull-up resistors
   DDRC  &= ~((1 << 4) | (1 << 5));
@@ -50,7 +50,7 @@ uint8_t twi_send(const void *data, size_t size) {
   if (!data || size > TW_TX_MAX_LEN) return 1;
 
   // Wait for the I2C channel to be ready and prepare the buffer
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
   memcpy(tx_buffer, data, size);
   tx_size = size;
   tx_idx = 0;
@@ -68,7 +68,7 @@ uint8_t twi_recv(void *buf, size_t to_recv) {
   if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
 
   // Wait for the I2C channel to be ready
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
   mode = TW_INITIALIZING;
 
   // Prepare buffers
@@ -78,7 +78,7 @@ uint8_t twi_recv(void *buf, size_t to_recv) {
 
   // Get ready for the transfer and wait for it to be completed
   twi_ack();
-  while (!twi_isready()) _delay_us(1); // TODO: Pause instead of delaying
+  while (!twi_isready()) _delay_us(1); //! \todo Pause instead of delaying
   return rx_idx;
 }
 
@@ -117,7 +117,7 @@ ISR(TWI_vect) {
       break;
     case TW_SR_DATA_ACK:  // Data received, ACK returned
     case TW_SR_GCALL_DATA_ACK: // Data received (broadcast), ACK returned
-      // TODO: Check out-of-bound index?
+      //! \todo Check out-of-bound index?
       rx_buffer[rx_idx++] = TWDR;
       error = TW_NO_INFO;
       twi_ack();

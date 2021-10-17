@@ -66,7 +66,6 @@ int communication_send(int avr_fd, const packet_t *p) {
   }
 
   // Flush the serial RX buffers before beginning the communication
-  // TODO: Remove?
   serial_rx_flush(avr_fd);
 
   // Blindly send the packet on the serial port

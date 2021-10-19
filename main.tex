@@ -129,8 +129,8 @@ commands to them using the I2C protocol. It also communicates directly with the
 client application via serial port.
 
 \section{Hardware setup}
-The master controller itself is an AVR \emph{ATMega2560} microcontroller unit.
-This particular MCU has some convenient features, such as:
+The master controller itself is an AVR \emph{ATMega2560} microcontroller unit\cite{twi-tutorial}.
+This particular MCU has features convenient for this project, such as:
 \begin{itemize}
   \item I2C dedicated hardware subsystem
   \item Serial-over-USB bridge
@@ -138,14 +138,36 @@ This particular MCU has some convenient features, such as:
   \item Plenty of timers and outgoing power pins
 \end{itemize}
 
+A $100 pF$ capacitor is used to block the reset capabilities of the
+serial-over-usb controller and enhance the serial channel reliability. Two
+$4.7 k\Omega$ resistors are used as open-drain resistors for the I2C bus.
+
 \section{I2C setup}
+The I2C protocol is used to communicate with slave controllers. Transmission
+and reception are interrupt-based, and no busy-wait is used.
+
+The I2C module has broadcasting capabilities, according to the informations
+found in the I2C standard I2C standard\cite{i2c-ref}; the broadcasting (i.e.\
+\emph{general call}) address used is $0x00$. As stated by the standard, the
+master controller has no knowledge on the number or identity of the slaves
+receiving a broadcast frame.
+
 \section{Power management}
+An own-written wrapper for the avr-gcc standard library's sleep functionalities is used for power management.
+By default, the master controller is in \emph{idle} mode, and it is awakened by
+any raised interrupt, e.g.\ by incoming serial or I2C data; then, its main loop
+routine is executed and, if no other operations must be performed, it returns
+in idle mode.
+
+The master controller is also put in idle when waiting for data inside serial
+or I2C routines; this is possible thanks to the interrupt-driven nature of the
+aforementioned modules.
+
 \section{Specification}
 \subsection{Software modules}
 \subsection{Modules dependency graph}
 \subsection{Circuit schematics}
 \subsection{Wiring}
-
 
 
 \chapter{Slave controllers}
@@ -172,7 +194,9 @@ This particular MCU has some convenient features, such as:
 \backmatter
 \cleardoublepage
 \phantomsection % Give this command only if hyperref is loaded
+
 \addcontentsline{toc}{chapter}{\bibname}
-% Here put the code for the bibliography. You can use BibTeX or
-% the BibLaTeX package or the simple environment thebibliography.
+\bibliographystyle{ieeetr}
+\bibliography{main}
+
 \end{document}

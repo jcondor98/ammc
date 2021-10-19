@@ -129,7 +129,7 @@ commands to them using the I2C protocol. It also communicates directly with the
 client application via serial port.
 
 \section{Hardware setup}
-The master controller itself is an AVR \emph{ATMega2560} microcontroller unit\cite{twi-tutorial}.
+The master controller itself is an AVR \emph{ATMega2560} microcontroller unit\cite{at2560-ref}.
 This particular MCU has features convenient for this project, such as:
 \begin{itemize}
   \item I2C dedicated hardware subsystem
@@ -172,8 +172,40 @@ aforementioned modules.
 
 \chapter{Slave controllers}
 \label{ch:slave}
+Each slave controller directly handles a single dc motor, receiving commands
+from the master controller via I2C. It must offer an interface to get and
+manipulate its motor's speed.
+
+The slave controller produces a PWM wave having a duty cycle consistent with
+the speed (given in RPM) specified by the end user in order to control its
+motor.
+
+Furthermore, it comes with a software Proportional-Integral-Derivative
+controller to correct the 
+
 \section{Hardware setup}
+The slave controller itself is an AVR \emph{ATMega328P} microcontroller
+unit\cite{at328p-ref}, which offers the following features of interest:
+
+\begin{itemize}
+  \item CH340 Serial-over-USB controller for convenient firmware flashing
+  \item Reduced size
+  \item Relatively high clock and resources
+  \item Dedicated I2C hardware subsystem
+  \item PWM-capable 8-bit and 16-bit timers
+\end{itemize}
+
+Apart from the motor itself (along with its power supply and eventually its
+dedicated control board) no additional hardware is used.
+
 \section{I2C setup}
+A slave controller communicates with the master controller using the I2C
+protocol. As for the master controller, both transmission and reception are
+interrupt-based.
+% TODO: Write more?
+
+\section{Proportional-Integral-Derivative controller}
+
 \section{Power management}
 \section{Specification}
 \subsection{Software modules}

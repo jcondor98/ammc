@@ -50,35 +50,123 @@ dark period of my life and he is one of my dearest friends.
 \mainmatter
 
 \chapter{Introduction}
+\label{ch:intro}
+
 
 \chapter{Client-side user interaction}
-\section{Overview}
-\section{Resources used}
+\label{ch:client}
+A client program has been realized to manipulate the dc motors directly from the
+PC. It can get and set the speed of individual motors, and to apply all the
+previously set speeds for all of them at once.\\ A brief list of the
+client's features is given below:
+\begin{itemize}
+  \item Granular handling for getting and setting motors' speed
+  \item Modular and extensible software architecture
+  \item Terminal User Interface, implemented as a command shell
+  \item Support for non-interactive use (i.e.\ scripting)
+  \item Communication with master controller using the serial protocol
+  \item Compatible with POSIX-compliant environments
+\end{itemize}
+The client is also documented with a man page, which can be found in section
+\ref{sec:client-manpage}.
+
 \section{User Interface}
+The end user interacts with the whole ammc ecosystem using a text-based client.
+It consists in a shell module, which I had written myself, offering some
+\emph{internal commands} (hardcoded in the shell module itself) and is extended
+by \emph{external commands} (found in a separated source code entity, and that
+can even be compiled in a detached transaction unit).
+
+A particular focus was made on the software architecture: indeed, every
+external command can be realized standalone, and it is easy to add new
+commands just by altering the \emph{client/source/shell\_commands.c} source
+file.
+
+\section{Primitives offered}
+The commands that can be used to interface with the ammc ecosystem are the
+following:
+\begin{description}
+  \item[connect <device-path>] Connect to a master controller, given the path
+    to the block device representing it.
+  \item[get-speed <motor-id>] Get the speed of a dc motor given its id.
+    The motor id must be specified as a decimal number.
+  \item[set-speed <motor-id>=<speed>] Set the speed of a dc motor given its id.
+    The motor id must be specified as a decimal number and the speed must be
+    specified in rpm.
+  \item[apply] Apply the previously set speed for all the dc motors.
+\end{description}
+
+\subsection{Non-interactive mode}
+The client shell is capable of running in non-interactive (i.e.\ scripting)
+mode with the \emph{-s} option.  If so, it will parse the input from a
+specified text file, or from \emph{stdin} if not provided.  A shell launched in
+non-interactive mode will not print shell prompts, and exit when end-of-file is
+encountered or on command failure.
+
 \section{Serial module}
+The client's serial module has been realized using the POSIX \emph{termios}
+interface. Unlike the master controller's counterpart, all its code is
+reentrant, therefore multiple instances of multiple serial devices can
+theoretically exist at the same time.
+
+From the client's perspective, the master controller is seen as a file
+descriptor, and the end user just have to specify the path of the block device
+file representing the serial communication channel (e.g. \emph{/dev/ttyACM0})
+using the \emph{connect} command.
+
+\section{Specification}
+\subsection{Software modules}
+\subsection{Modules dependency graph}
+
 \section{Man page}
+\label{sec:client-manpage}
+
 
 \chapter{Master controller}
-\section{Overview}
-\section{MicroController Unit}
-\section{Resources used}
-\section{Wiring}
-\section{Power management}
+\label{ch:master}
+The master controller handles all the slave controllers, dispaching arbitrary
+commands to them using the I2C protocol. It also communicates directly with the
+client application via serial port.
+
+\section{Hardware setup}
+The master controller itself is an AVR \emph{ATMega2560} microcontroller unit.
+This particular MCU has some convenient features, such as:
+\begin{itemize}
+  \item I2C dedicated hardware subsystem
+  \item Serial-over-USB bridge
+  \item Relatively powerful specifications for future feature adding
+  \item Plenty of timers and outgoing power pins
+\end{itemize}
+
 \section{I2C setup}
+\section{Power management}
+\section{Specification}
+\subsection{Software modules}
+\subsection{Modules dependency graph}
+\subsection{Circuit schematics}
+\subsection{Wiring}
+
+
 
 \chapter{Slave controllers}
-\section{Overview}
-\section{MicroController Unit}
-\section{Resources used}
-\section{Wiring}
-\section{Power management}
+\label{ch:slave}
+\section{Hardware setup}
 \section{I2C setup}
+\section{Power management}
+\section{Specification}
+\subsection{Software modules}
+\subsection{Modules dependency graph}
+\subsection{Circuit schematics}
+\subsection{Wiring}
 
 \chapter{Client-Master communication}
+\label{ch:client-master-comm}
 
 \chapter{Master-Slave communication}
+\label{ch:master-slave-comm}
 
 \chapter{Conclusions}
+\label{ch:conclusions}
 
 
 \backmatter

@@ -8,6 +8,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage{tabularx}
 
 \hypersetup{pdftitle={AVR Multi Motor Control},pdfauthor={Paolo Lucchesi}}
 
@@ -270,8 +271,127 @@ generate PWM waves to control the motors, even while sleeping.
 \subsection{Circuit schematics}
 \subsection{Wiring}
 
+
 \chapter{Client-Master communication}
 \label{ch:client-master-comm}
+The client application and the master controller communicate over a protocol
+built on top of the serial-over-usb layer. Such protocol is completely binary
+and packet-based. Each packet has a variable length (with a total maximum size
+of 36 bytes) and its integrity is checked with a trailing CRC-8 checksum.
+
+The protocol comes with a simple handshaking mechanism, in order to synchronize
+the packet IDs between endpoints and as a shallow proof of correct
+functionality of the communication layers.
+
+\section{Serial layer}
+Data exchange between client and master relies on the serial protocol. For the
+client application, the \emph{termios} library is used, while for the master
+controller the (hardware) serial subsystem offered by the AVR
+microcontroller\cite{at2560-ref} is used.
+
+The serial communication is set up as follows:
+\begin{itemize}
+  \item Baud rate of 115200 baud, double speed transmission
+  \item 8 bit frame width
+  \item No start bits, 1 stop bit (i.e.\ 8N1)
+  \item No embedded parity bit
+\end{itemize}
+
+For the master controller, both transmission and reception are
+interrupt-driven, so the communication main routine is only called when data is
+actually available.
+
+\section{Packet headers}
+Each packet's metadata is contained in a fixed size header, composed as
+describe in table \ref{tab:packet-header}.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c c X}
+    \toprule
+    Field & Size (bits) & Description \\
+    \midrule
+    id       & 8 & Packet ID \\
+    type     & 8 & Packet type \\
+    selector & 8 & Selector for DC motors. Also used to store error codes in NAK packets \\
+    size     & 8 & Total packet size, including header and checksum \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Packet header fields}
+  \label{tab:packet-header}
+\end{table}
+
+\subsection{Identifiers}
+The \emph{id} field stores the packet identifier, which is incremental and can
+be repeated in a single communication session. When the handshake is performed,
+or when any endpoint raises an error (issuing a \emph{NAK} packet), the id is
+reset to zero for both sides. Each \emph{ACK} and \emph{NAK} packet is
+generated with the same id of the referred packet (see TODO for further
+informations).
+
+\subsection{Packet types}
+The \emph{type} field stores the packet type. An exhaustive list of packet types
+is given in table \ref{tab:packet-types}
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c c X}
+    \toprule
+    Type & Code & Description \\
+    \midrule
+    NULL       & 0x00 & Reserved, never use \\
+    HND        & 0x01 & Handshake \\
+    ACK        & 0x02 & Acknowledgement \\
+    NAK        & 0x03 & Communication error \\
+    ECHO       & 0x04 & Echo between Client and Master (debug only)\\
+    TWI\_ECHO  & 0x05 & Echo a single char to the first Slave via TWI (debug only)\\
+    GET\_SPEED & 0x06 & Get the current speed for a DC motor \\
+    SET\_SPEED & 0x07 & Set (and apply) the speed for a DC motor \\
+    APPLY      & 0x08 & Tell all the slaves to apply the previously set speeds \\
+    DAT        & 0x09 & Primarily used for responses from the AVR device \\
+    LIMIT      & 0x0A & Used for sanity checks - Must have highest value \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Exhaustive list of packet types}
+  \label{tab:packet-types}
+\end{table}
+
+\subsection{Motor selector}
+The \emph{selector} field is used to store the identifier for the dc motor to
+manipulate. This field is used in \emph{GET\_SPEED} and \emph{SET\_SPEED} packets.
+
+For \emph{NAK} packets, instead, the \emph{selector} field is used to store
+error codes (found in table \ref{tab:packet-error-codes}).
+
+For all the other packet types, the \emph{selector} field is ignored.
+
+\section{Acknowledgements and errors}
+A communication endpoint must wait for an acknowledgement message from the
+counterpart once it sent a packet in order to send a new one. ACK and NAK
+packets do not bring any data.
+
+When a packet arrives, it is checked for integrity and sanity. If it is sane,
+then an ACK packet is sent; if not, then a NAK packet is sent.
+ACK and NAK packets are simply discarded if corrupted in some way.
+
+A NAK packet uses the \emph{selector} field to send to the other endpoint the
+error code describing what happened on its side. Error codes are listed in
+table \ref{tab:packet-error-codes}.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c c X}
+    \toprule
+    Error & Code & Description \\
+    \midrule
+    SUCCESS             & 0x00 & No errors encountered \\
+    ID\_MISMATCH        & 0x01 & Id of received packet is not consistent \\
+    CORRUPTED\_CHECKSUM & 0x02 & Checksum mismatch, received packet is corrupted \\
+    WRONG\_TYPE         & 0x03 & Received packet has invalid type \\
+    TOO\_BIG            & 0x04 & Received packet has invalid size (too big) \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Exhaustive list of packet types}
+  \label{tab:packet-error-codes}
+\end{table}
+
 
 \chapter{Master-Slave communication}
 \label{ch:master-slave-comm}

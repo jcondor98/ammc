@@ -31,6 +31,12 @@
 \contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{9}{subsection.4.5.3}%
 \contentsline {subsection}{\numberline {4.5.4}Wiring}{9}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Client-Master communication}{11}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Master-Slave communication}{13}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{15}{chapter.7}%
-\contentsline {chapter}{Bibliography}{17}{section*.2}%
+\contentsline {section}{\numberline {5.1}Serial layer}{11}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Packet headers}{11}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Identifiers}{11}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Packet types}{12}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Motor selector}{12}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Acknowledgements and errors}{12}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Master-Slave communication}{15}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{17}{chapter.7}%
+\contentsline {chapter}{Bibliography}{19}{section*.5}%

@@ -116,7 +116,50 @@ file representing the serial communication channel (e.g. \emph{/dev/ttyACM0})
 using the \emph{connect} command.
 
 \section{Specification}
+
 \subsection{Software modules}
+An exhaustive list of software modules for the client application is given
+in table \ref{tab:client-spec-modules}. File paths are relative to the
+\emph{client/} directory.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c X X}
+    \toprule
+    Module & Description & Files \\
+    \midrule
+    communication &
+      Contains all the top-level communication routines &
+      include/communication.h, source/communication.c \\
+    crc &
+      Contains the CRC generation and checking routines &
+      include/crc.h, source/crc.c \\
+    debug &
+      Contains convenient debug facilities &
+      include/debug.h \\
+    main &
+      Contains the main client application routine &
+      source/main.c \\
+    packet &
+      Contains packet generation and manipulation routines &
+      include/packet.h, source/packet.c \\
+    ringbuffer &
+      Circular buffer implementation for the serial module &
+      include/ringbuffer.h, source/ringbuffer.c \\
+    serial &
+      Contains all the routines for the underlying serial communication layer &
+      include/serial.h, source/serial.c \\
+    shell &
+      Main program shell with built-in commands &
+      include/shell.h, source/shell.c \\
+    shell\_commands &
+      Contains the custom external commands to interact with the master controller &
+      source/shell\_commands.c \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Client application software modules}
+  \label{tab:client-spec-modules}
+\end{table}
+
 \subsection{Modules dependency graph}
 
 \section{Man page}
@@ -165,9 +208,52 @@ or I2C routines; this is possible thanks to the interrupt-driven nature of the
 aforementioned modules.
 
 \section{Specification}
+
 \subsection{Software modules}
+An exhaustive list of software modules for the master controller firmware is
+given in table \ref{tab:master-spec-modules}. File paths are relative to the
+\emph{master/} directory.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c X X}
+    \toprule
+    Module & Description & Files \\
+    \midrule
+    communication &
+      Contains all the top-level communication routines &
+      include/communication.h, source/communication.c \\
+    crc &
+      Contains the CRC generation and checking routines &
+      include/crc.h, source/crc.c \\
+    dcmotor &
+      Contains the top-level routines for interfacing slave controllers &
+      include/dcmotor.h, source/dcmotor.c \\
+    main &
+      Contains the main and power management routines &
+      source/main.c \\
+    ringbuffer &
+      Circular buffer implementation for the serial module &
+      include/ringbuffer.h, source/ringbuffer.c \\
+    serial &
+      Contains all the routines for the underlying serial communication layer &
+      include/serial.h, source/serial.c \\
+    sleep\_util &
+      Handy wrapper for the avr-libc power management facilities &
+      include/sleep\_util.h \\
+    twi &
+      Contains the I2C/TWI layer which underlies the communication between master and slaves &
+      include/twi.h, source/twi.c \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Master application software modules}
+  \label{tab:master-spec-modules}
+\end{table}
+
+
 \subsection{Modules dependency graph}
+
 \subsection{Circuit schematics}
+
 \subsection{Wiring}
 
 
@@ -266,7 +352,36 @@ The AVR idle mode allows the timers to work, so the slave controller can
 generate PWM waves to control the motors, even while sleeping.
 
 \section{Specification}
+
 \subsection{Software modules}
+An exhaustive list of software modules for the slave controllers firmware is
+given in table \ref{tab:slave-spec-modules}. File paths are relative to the
+\emph{slave/} directory.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c X X}
+    \toprule
+    Module & Description & Files \\
+    \midrule
+    dcmotor &
+      Contains stuff to directly manipulate dc motors, including the PID controller, PWM waves generation and speed manipulation routines &
+      include/dcmotor.h, source/dcmotor.c \\
+    main &
+      Contains the main and power management routines &
+      source/main.c \\
+    sleep\_util &
+      Handy wrapper for the avr-libc power management facilities &
+      include/sleep\_util.h \\
+    twi &
+      Contains the I2C/TWI layer which underlies the communication between master and slaves &
+      include/twi.h, source/twi.c \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Slave application software modules}
+  \label{tab:slave-spec-modules}
+\end{table}
+
+
 \subsection{Modules dependency graph}
 \subsection{Circuit schematics}
 \subsection{Wiring}

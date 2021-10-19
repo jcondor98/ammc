@@ -9,34 +9,34 @@
 \contentsline {subsection}{\numberline {2.4.1}Software modules}{4}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Modules dependency graph}{4}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Man page}{4}{section.2.5}%
-\contentsline {chapter}{\numberline {3}Master controller}{5}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Hardware setup}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}I2C setup}{5}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Power management}{5}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Specification}{6}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Software modules}{6}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Modules dependency graph}{6}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Circuit schematics}{6}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Wiring}{6}{subsection.3.4.4}%
-\contentsline {chapter}{\numberline {4}Slave controllers}{7}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Hardware setup}{7}{section.4.1}%
-\contentsline {section}{\numberline {4.2}I2C setup}{7}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Proportional-Integral-Derivative controller}{8}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Measuring speed}{8}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Approximations}{8}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Power management}{9}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Specification}{9}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Software modules}{9}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{9}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{9}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Wiring}{9}{subsection.4.5.4}%
-\contentsline {chapter}{\numberline {5}Client-Master communication}{11}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Serial layer}{11}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Packet headers}{11}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Identifiers}{11}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Packet types}{12}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Motor selector}{12}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Acknowledgements and errors}{12}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Master-Slave communication}{15}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{17}{chapter.7}%
-\contentsline {chapter}{Bibliography}{19}{section*.5}%
+\contentsline {chapter}{\numberline {3}Master controller}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Hardware setup}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}I2C setup}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Power management}{7}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Specification}{8}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Software modules}{8}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Modules dependency graph}{8}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Circuit schematics}{8}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Wiring}{8}{subsection.3.4.4}%
+\contentsline {chapter}{\numberline {4}Slave controllers}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Hardware setup}{9}{section.4.1}%
+\contentsline {section}{\numberline {4.2}I2C setup}{9}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Proportional-Integral-Derivative controller}{10}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Measuring speed}{10}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Approximations}{10}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Power management}{11}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Specification}{11}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Software modules}{11}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{11}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{11}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Wiring}{11}{subsection.4.5.4}%
+\contentsline {chapter}{\numberline {5}Client-Master communication}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Serial layer}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Packet headers}{13}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Identifiers}{13}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Packet types}{14}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Motor selector}{14}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Acknowledgements and errors}{14}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Master-Slave communication}{17}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{19}{chapter.7}%
+\contentsline {chapter}{Bibliography}{21}{section*.8}%

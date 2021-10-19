@@ -181,7 +181,7 @@ the speed (given in RPM) specified by the end user in order to control its
 motor.
 
 Furthermore, it comes with a software Proportional-Integral-Derivative
-controller to correct the 
+controller to correct the bias between target and actual motor speeds.
 
 \section{Hardware setup}
 The slave controller itself is an AVR \emph{ATMega328P} microcontroller
@@ -202,7 +202,11 @@ dedicated control board) no additional hardware is used.
 A slave controller communicates with the master controller using the I2C
 protocol. As for the master controller, both transmission and reception are
 interrupt-based.
-% TODO: Write more?
+
+The slave controller is always passive on the bus, waiting to be addressed by
+the master.
+
+% TODO: Dynamic addressing
 
 \section{Proportional-Integral-Derivative controller}
 An own-written, software-defined Proportional-Integral-Derivative controller is
@@ -241,7 +245,8 @@ the approximating law is defined as:
 \begin{equation}
   \int_{t_0}^t e(\tau)\,d\tau \approx \sum_{k=1}^n e(t_k^*) \cdot \Delta t
 \end{equation}
-The derivative operation is approximated using its definition:
+The derivative operation is approximated using its
+definition\cite{levy-num-analysis}:
 \begin{equation}
   \frac{d}{dt}\,e(t) = \lim_{\Delta t \to 0} \frac{e(t + \Delta t) - e(t)}{\Delta t} \implies
   \frac{d}{dt}\,e(t) \approx \frac{e(t + \Delta t) - e(t)}{\Delta t}
@@ -249,6 +254,16 @@ The derivative operation is approximated using its definition:
 being $\Delta t$ a time delta (again, the actual speed sampling interval).
 
 \section{Power management}
+The same avr-libc wrapper written for the master controller power management is
+used.
+By default, the slave controller is in \emph{idle} mode, and it is awakened by
+any raised interrupt. The main loop routine is executed and the idle mode is
+entered again. Like for the master controller, the slave is put in idle when
+waiting for the I2C routines to return.
+
+The AVR idle mode allows the timers to work, so the slave controller can
+generate PWM waves to control the motors, even while sleeping.
+
 \section{Specification}
 \subsection{Software modules}
 \subsection{Modules dependency graph}
@@ -270,7 +285,7 @@ being $\Delta t$ a time delta (again, the actual speed sampling interval).
 \phantomsection % Give this command only if hyperref is loaded
 
 \addcontentsline{toc}{chapter}{\bibname}
-\bibliographystyle{ieeetr}
+\bibliographystyle{plain}
 \bibliography{main}
 
 \end{document}

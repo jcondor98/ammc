@@ -22,13 +22,15 @@
 \contentsline {section}{\numberline {4.1}Hardware setup}{7}{section.4.1}%
 \contentsline {section}{\numberline {4.2}I2C setup}{7}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Proportional-Integral-Derivative controller}{8}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Power management}{8}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Specification}{8}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Software modules}{8}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{8}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{8}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Wiring}{8}{subsection.4.5.4}%
-\contentsline {chapter}{\numberline {5}Client-Master communication}{9}{chapter.5}%
-\contentsline {chapter}{\numberline {6}Master-Slave communication}{11}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{13}{chapter.7}%
-\contentsline {chapter}{Bibliography}{15}{section*.2}%
+\contentsline {subsection}{\numberline {4.3.1}Measuring speed}{8}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Approximations}{8}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Power management}{9}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Specification}{9}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Software modules}{9}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{9}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{9}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Wiring}{9}{subsection.4.5.4}%
+\contentsline {chapter}{\numberline {5}Client-Master communication}{11}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Master-Slave communication}{13}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{15}{chapter.7}%
+\contentsline {chapter}{Bibliography}{17}{section*.2}%

@@ -205,6 +205,48 @@ interrupt-based.
 % TODO: Write more?
 
 \section{Proportional-Integral-Derivative controller}
+An own-written, software-defined Proportional-Integral-Derivative controller is
+used to correct the actual motor speed. As for any PID device, the equation
+controlling the error is:
+\begin{equation}
+  u(t) = K_p e(t) + K_i \int_{t_0}^t e(\tau)\,d\tau + K_d \frac{d}{dt}\,e(t)
+\end{equation}
+being:
+\begin{itemize}
+  \item $u(t)$ the PID control variable
+  \item $K_p$ the proportional gain
+  \item $K_i$ the integral gain
+  \item $K_d$ the derivative gain
+  \item $e(t)$ the measured speed error
+\end{itemize}
+
+\subsection{Measuring speed}
+For actual PID capabilities, the slave controller must sample the actual speed
+of the dc motor at fixed intervals. Therefore, the motor must have an embedded,
+two-phase digital encoder.
+
+In fact, one phase is wired to an interrupt-enabled input pin, so the slave
+controller is notified immediately when an encoder signal (raising edge) is
+generated. Every sampling intervals, the PID routine takes the motor's actual
+position (measured by the cumulative number of encoder triggers) and computes
+its real speed.
+
+\subsection{Approximations}
+Of course, a software digital PID controller can not compute exact integrals
+and derivatives, so it is necessary to use approximation.
+
+The integral operation is approximated using \emph{Riemann sums}. Given a time
+delta $\Delta t$ (the actual speed sampling interval in this particular case),
+the approximating law is defined as:
+\begin{equation}
+  \int_{t_0}^t e(\tau)\,d\tau \approx \sum_{k=1}^n e(t_k^*) \cdot \Delta t
+\end{equation}
+The derivative operation is approximated using its definition:
+\begin{equation}
+  \frac{d}{dt}\,e(t) = \lim_{\Delta t \to 0} \frac{e(t + \Delta t) - e(t)}{\Delta t} \implies
+  \frac{d}{dt}\,e(t) \approx \frac{e(t + \Delta t) - e(t)}{\Delta t}
+\end{equation}
+being $\Delta t$ a time delta (again, the actual speed sampling interval).
 
 \section{Power management}
 \section{Specification}

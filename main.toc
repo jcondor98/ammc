@@ -30,13 +30,13 @@
 \contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{13}{subsection.4.5.2}%
 \contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{13}{subsection.4.5.3}%
 \contentsline {subsection}{\numberline {4.5.4}Wiring}{13}{subsection.4.5.4}%
-\contentsline {chapter}{\numberline {5}Client-Master communication}{15}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Serial layer}{15}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Packet headers}{15}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Identifiers}{15}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Packet types}{16}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Motor selector}{16}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Acknowledgements and errors}{16}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Master-Slave communication}{19}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusions}{21}{chapter.7}%
-\contentsline {chapter}{Bibliography}{23}{section*.11}%
+\contentsline {chapter}{\numberline {5}Client-Master communication}{17}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Serial layer}{17}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Packet headers}{17}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Identifiers}{17}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Packet types}{18}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Motor selector}{18}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Acknowledgements and errors}{18}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Master-Slave communication}{21}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Conclusions}{23}{chapter.7}%
+\contentsline {chapter}{Bibliography}{25}{section*.15}%

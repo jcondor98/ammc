@@ -171,7 +171,7 @@ how the dependency flow goes in one direction (from top to bottom); this is the
 result of the software architecture policy used.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/client}
+  \includegraphics[width=\maxwidth{\textwidth}]{img/client-deps}
   \caption{Client application modules dependency graph}
   \label{img:client-deps-graph}
 \end{centering}
@@ -274,15 +274,40 @@ how the dependency flow goes in one direction (from top to bottom); this is the
 result of the software architecture policy used.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/master}
+  \includegraphics[width=\maxwidth{\textwidth}]{img/master-deps}
   \caption{Master controller modules dependency graph}
   \label{img:master-deps-graph}
 \end{centering}
 \end{figure}
 
 \subsection{Circuit schematics}
+The complete circuit schematics for the master controller and all its components
+is shown in figure \ref{img:master-sch}.
+\begin{figure}[hbp]
+\begin{centering}
+  \includegraphics[width=\maxwidth{\textwidth}]{img/master-schematics}
+  \caption{Master controller schematics}
+  \label{img:master-sch}
+\end{centering}
+\end{figure}
 
 \subsection{Wiring}
+The wiring correspondence for the master controller MCU is shown in table
+\ref{tab:master-wiring}.
+\begin{table}[hb]
+  \begin{tabularx}{\textwidth}{c l X}
+    \toprule
+    Board pin & MCU pin & Description \\
+    \midrule
+    D20 & 44/PD1/INT1/SDA  & I2C data bus \\
+    D21 & 43/PD0/INT0/SCL  & I2C clock bus \\
+    RESET & RESET & On-board MCU reset pin \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Master controller wiring}
+  \label{tab:master-wiring}
+\end{table}
+
 
 
 \chapter{Slave controllers}
@@ -415,14 +440,42 @@ The dependency graph for the slave controllers' software modules is shown in
 figure \ref{img:slave-deps-graph}. The \emph{debug} module is excluded.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/slave}
+  \includegraphics[width=\maxwidth{\textwidth}]{img/slave-deps}
   \caption{Slave controller modules dependency graph}
   \label{img:slave-deps-graph}
 \end{centering}
 \end{figure}
 
 \subsection{Circuit schematics}
+The complete circuit schematics for the slave controller and all its components
+is shown in figure \ref{img:slave-sch}. This circuit can be repeated multiple
+times (up to 126) in a single ammc ecosystem.
+\begin{figure}[hbp]
+\begin{centering}
+  \includegraphics[width=\maxwidth{\textwidth}]{img/slave-schematics}
+  \caption{Slave controller schematics}
+  \label{img:slave-sch}
+\end{centering}
+\end{figure}
+
 \subsection{Wiring}
+The wiring correspondence for the slave controller MCU is shown in table
+\ref{tab:slave-wiring}.
+\begin{table}[hb]
+  \begin{tabularx}{\textwidth}{c l X}
+    \toprule
+    Board pin & MCU pin & Description \\
+    \midrule
+    A4 & 27/PC4/ADC4/SDA  & I2C data bus \\
+    A5 & 28/PC5/ADC5/SCL  & I2C clock bus \\
+    D6 & 10/PD6/AIN0/OC0A & PWM output to the dc motor \\
+    D7 & 11/PD7/AIN1/ICP1 & Encoder phase A, interrupt-enabled \\
+    D8 & 12/PB0/CLK0/     & Encoder phase B \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Slave controller wiring}
+  \label{tab:slave-wiring}
+\end{table}
 
 
 \chapter{Client-Master communication}

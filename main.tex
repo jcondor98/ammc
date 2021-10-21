@@ -90,6 +90,45 @@ dark period of my life and he is one of my dearest friends.
 \chapter{Introduction}
 \label{ch:intro}
 
+\section{Motivation}
+The use of dc motors is widespread in many application fields. Often, the
+offered solutions are monolithic and use of very specific (and sometimes ad-hoc
+developed) hardware. The ammc ecosystem focuses on the use of very common,
+affordable and easily available hardware, such as AVR microcontrollers.
+
+The software is designed to be modular, extensible and easily hackable by any
+average C programmer, so that in the future other people interested in this
+project can contribute or adapt ammc to fit their needings and accomplish their
+business logic.
+
+\section{Technical approach}
+
+\subsection{Software architecture}
+I have developed all the top-level ammc components following the principles I
+have learned both from my University courses\cite{fondamenti2-prog} and my
+personal insights\cite{clean-architecture}\cite{cpp-ref}.
+
+The client application and the microcontroller firmwares were developed
+following the \emph{SOLID} principles, with attention on the \emph{Open-Close principle}.
+I have put particular attention on modularity; many of the software modules
+found in all the ammc applications are standalone and will work out of the box
+if brought in other projects.
+
+I tried to develop my software with the following policy: the core of the
+application should be composed of reusable, standalone modules; the business
+logic of the application, which obviously changes radically from project to
+project, should be placed in the peripheral modules and should use, when
+possible, interfaces for dependency inversion towards the core modules.
+
+For example, in the master controller firmware source code I use function
+pointers to generalize the operations to be triggered by client commands.
+Naturally, such practices would have been easier and more evident with a
+programming language explicitly supporting the object-oriented paradigm (e.g.\
+C++).
+
+\subsection{Documentation}
+
+
 
 \chapter{Client-side user interaction}
 \label{ch:client}

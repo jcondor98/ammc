@@ -1,5 +1,9 @@
 \babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Technical approach}{1}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Software architecture}{1}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Documentation}{1}{subsection.1.2.2}%
 \contentsline {chapter}{\numberline {2}Client-side user interaction}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}User Interface}{3}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Primitives offered}{3}{section.2.2}%

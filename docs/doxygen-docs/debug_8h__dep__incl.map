@@ -1,0 +1,7 @@
+<map id="client/include/debug.h" name="client/include/debug.h">
+<area shape="rect" id="node1" title="Debug and error handling facilities." alt="" coords="305,5,453,32"/>
+<area shape="rect" id="node2" href="$client_2source_2communication_8c.html" title="Communication layer." alt="" coords="5,87,204,114"/>
+<area shape="rect" id="node3" href="$client_2source_2main_8c.html" title="Main source file." alt="" coords="229,87,367,114"/>
+<area shape="rect" id="node4" href="$shell_8c.html" title="Shell module &#45; Source file." alt="" coords="391,87,530,114"/>
+<area shape="rect" id="node5" href="$shell__commands_8c.html" title="Shell module &#45; Commands." alt="" coords="555,80,681,121"/>
+</map>

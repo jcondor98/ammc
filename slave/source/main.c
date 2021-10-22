@@ -6,15 +6,20 @@
  */
 #include <avr/io.h>
 #include <avr/power.h>
-#include <util/delay.h>
+#include <avr/eeprom.h>
 
 #include "sleep_util.h"
 #include "dcmotor.h"
 #include "twi.h"
 
-// TWI Slave own address
-//! \todo Set this dynamically (e.g. via EEPROM)
-#define TW_OWN_ADDRESS 0x31
+//! TWI default address (likely to be changed)
+#ifndef TW_DEFAULT_ADDRESS
+#define TW_DEFAULT_ADDRESS 0x01
+#endif
+
+// TWI Slave own address, dynamically loaded from EEPROM
+uint8_t EEMEM twi_own_address = TW_DEFAULT_ADDRESS;
+
 
 // Salviamo gli alberi insieme
 static inline void power_setup(void) {
@@ -33,8 +38,11 @@ int main(void) {
   // Setup and initialize all modules
   power_setup();
   dcmotor_init();
-  twi_init(TW_OWN_ADDRESS);
   sei();
+
+  // Load slave own address and initialize the TWI module
+  uint8_t own_addr = eeprom_read_byte(&twi_own_address);
+  twi_init(own_addr);
 
   // Start Proportional-Integral-Derivative controller for the DC motor
   dcmotor_pid_start();
@@ -63,8 +71,17 @@ int main(void) {
         break;
 
       case TWI_CMD_ECHO: // Used for debug
-        PORTB |= 1 << 5;
+        PORTB |= 1 << 5; // Turn on embedded LED (show that TWI is receiving)
         twi_send(rx_buf + 1, 1);
+        break;
+
+      case TWI_CMD_SET_ADDR:
+        if (received != 2 || rx_buf[1] == 0 || rx_buf[1] > 126) break;
+        uint8_t new_addr = rx_buf[1];
+        eeprom_write_byte(&twi_own_address, new_addr);
+        // Apply changes immediately
+        own_addr = new_addr;
+        twi_init(new_addr);
         break;
 
       default: break; // Unknown command, simply ignore

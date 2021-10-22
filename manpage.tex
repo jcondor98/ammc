@@ -1,0 +1,51 @@
+\subsection*{NAME}
+\textbf{ammc} — AVR Temperature Monitor client
+
+\subsection*{SYNOPSIS}
+\textbf{ammc} [\textbf{-s} \emph{[script]}] [\textbf{-c} \emph{device-file}] \\
+\textbf{ammc} -h
+
+\subsection*{DESCRIPTION}
+\textbf{ammc} is a multi-motor control device realized with an AVR microcontroller;
+this program is an ad-hoc, tui client to interface it.  
+The ammc device is designed to work with DC motors with an embedded or external
+encoder.
+
+\subsubsection*{Options}
+\begin{description}
+\item[-c \emph{device-file}]
+\ \ Connect to the device identified by \emph{device-file} (e.g. /dev/ttyACM0)
+
+\item[-s \emph{[script]}]
+\ \ Execute in script mode (do not print prompt, exit on error etc...), being
+\ \ \emph{script} a file containing a command each line. If \emph{script} is not given,
+\ \ standard input is used
+
+\item[-h]
+\ \ Display a help message and exit
+\end{description}
+
+\subsubsection*{Commands}
+\begin{description}
+  \item[\textbf{help} [\emph{command}]]
+  \ \ Show help, also for a specific command if an argument is given
+
+  \item[\textbf{connect} \emph{device\_path}]
+  \ \ Connect to an ammc Master MCU given its device file (usually under /dev)
+
+  \item[\textbf{disconnect}]
+  \ \ Close an existing connection - Has no effect on the device
+
+  \item[\textbf{dev-echo} <\emph{arg}> [\emph{arg2} \emph{arg3} \emph{...}]]
+  \ \ Send a string to the device, which should send it back
+
+  \item[\textbf{get-speed} <\emph{motor-id}>]
+  \ \ Get the speed of a DC motor in RPM
+
+  \item[\textbf{set-speed} <\emph{motor-id}>=<\emph{value}>]
+  \ \ Set the speed of a DC motor in RPM
+\end{description}
+
+\subsection*{AUTHOR}
+Paolo Lucchesi <paololucchesi@protonmail.com> \\
+https://www.github.com/jcondor98/ammc

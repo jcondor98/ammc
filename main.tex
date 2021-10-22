@@ -9,6 +9,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \usepackage{tabularx}
+\usepackage{fontspec}
+\usepackage{setspace}
+
+\setmainfont{TeX Gyre Pagella}
+\onehalfspacing
+
 
 \makeatletter
 \def\maxwidth#1{\ifdim\Gin@nat@width>#1 #1\else\Gin@nat@width\fi}
@@ -136,10 +142,10 @@ have learned both from my University courses\cite{fondamenti2-prog} and my
 personal insights\cite{clean-architecture}\cite{cpp-ref}.
 
 The client application and the microcontroller firmwares were developed
-following the \emph{SOLID} principles, with attention on the \emph{Open-Close principle}.
-I have put particular attention on modularity; many of the software modules
-found in all the ammc applications are standalone and will work out of the box
-if brought into other projects.
+following the \emph{SOLID} principles, with attention on the \emph{Open-Close
+principle}.  I have put particular attention on modularity; many of the
+software modules found in all the ammc applications are standalone and will
+work out of the box if brought into other projects.
 
 I tried to develop my software with the following policy: the core of the
 application should be composed of reusable, standalone modules; the business
@@ -160,13 +166,13 @@ best to write precise and exhaustive documentation for every software piece I
 realized.
 
 This thesis is by itself a document dealing with every aspect of the ammc
-project. The \emph{README.md} file in the root directory of the repository
+project. The \texttt{README.md} file in the root directory of the repository
 offers a more concise resume.
 
 All the source code (the head files in particular) are exhaustively documented
 with \emph{doxygen}, a tool which automatically converts properly formatted
 comments found in the code into technical documentation; such resource is
-available in the \emph{gh-pages} git development branch and is hosted using
+available in the \texttt{gh-pages} git development branch and is hosted using
 GitHub Pages.
 
 The client-side application is documented with a Unix man page, which can also
@@ -199,7 +205,7 @@ can even be compiled in a detached transaction unit).
 
 A particular focus was made on the software architecture: indeed, every
 external command can be realized standalone, and it is easy to add new
-commands just by altering the \emph{client/source/shell\_commands.c} source
+commands just by altering the \texttt{client/source/shell\_commands.c} source
 file.
 
 \section{Primitives offered}
@@ -218,10 +224,10 @@ following:
 
 \subsection{Non-interactive mode}
 The client shell is capable of running in non-interactive (i.e.\ scripting)
-mode with the \emph{-s} option.  If so, it will parse the input from a
-specified text file, or from \emph{stdin} if not provided.  A shell launched in
-non-interactive mode will not print shell prompts, and exit when end-of-file is
-encountered or on command failure.
+mode with the \texttt{-s} option.  If so, it will parse the input from a
+specified text file, or from \texttt{stdin} if not provided.  A shell launched
+in non-interactive mode will not print shell prompts, and exit when end-of-file
+is encountered or on command failure.
 
 \section{Serial module}
 The client's serial module has been realized using the POSIX \emph{termios}
@@ -231,15 +237,15 @@ theoretically exist at the same time.
 
 From the client's perspective, the master controller is seen as a file
 descriptor, and the end user just have to specify the path of the block device
-file representing the serial communication channel (e.g. \emph{/dev/ttyACM0})
-using the \emph{connect} command.
+file representing the serial communication channel (e.g. \texttt{/dev/ttyACM0})
+using the \texttt{connect} command.
 
 \section{Specification}
 
 \subsection{Software modules}
 An exhaustive list of software modules for the client application is given
 in table \ref{tab:client-spec-modules}. File paths are relative to the
-\emph{client/} directory.
+\texttt{client/} directory.
 
 \begin{table}[bh]
   \begin{tabularx}{\textwidth}{c X X}
@@ -248,31 +254,31 @@ in table \ref{tab:client-spec-modules}. File paths are relative to the
     \midrule
     communication &
       Contains all the top-level communication routines &
-      include/communication.h, source/communication.c \\
+      \texttt{include/communication.h}, \texttt{source/communication.c} \\
     crc &
       Contains the CRC generation and checking routines &
-      include/crc.h, source/crc.c \\
+      \texttt{include/crc.h}, \texttt{source/crc.c} \\
     debug &
       Contains convenient debug facilities &
-      include/debug.h \\
+      \texttt{include/debug.h} \\
     main &
       Contains the main client application routine &
-      source/main.c \\
+      \texttt{source/main.c} \\
     packet &
       Contains packet generation and manipulation routines &
-      include/packet.h, source/packet.c \\
+      \texttt{include/packet.h}, \texttt{source/packet.c} \\
     ringbuffer &
       Circular buffer implementation for the serial module &
-      include/ringbuffer.h, source/ringbuffer.c \\
+      \texttt{include/ringbuffer.h}, \texttt{source/ringbuffer.c} \\
     serial &
       Contains all the routines for the underlying serial communication layer &
-      include/serial.h, source/serial.c \\
+      \texttt{include/serial.h}, \texttt{source/serial.c} \\
     shell &
       Main program shell with built-in commands &
-      include/shell.h, source/shell.c \\
+      \texttt{include/shell.h}, \texttt{source/shell.c} \\
     shell\_commands &
       Contains the custom external commands to interact with the master controller &
-      source/shell\_commands.c \\
+      \texttt{source/shell\_commands.c} \\
     \bottomrule
   \end{tabularx}
   \caption{Client application software modules}
@@ -286,7 +292,7 @@ how the dependency flow goes in one direction (from top to bottom); this is the
 result of the software architecture policy used.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/client-deps}
+  \includegraphics[scale=0.5]{img/client-deps}
   \caption{Client application modules dependency graph}
   \label{img:client-deps-graph}
 \end{centering}
@@ -303,8 +309,9 @@ commands to them using the I2C protocol. It also communicates directly with the
 client application via serial port.
 
 \section{Hardware setup}
-The master controller itself is an AVR \emph{ATMega2560} microcontroller unit\cite{at2560-ref}.
-This particular MCU has features convenient for this project, such as:
+The master controller itself is an AVR \emph{ATMega2560} microcontroller
+unit\cite{at2560-ref}. This particular MCU has features convenient for this
+project, such as:
 \begin{itemize}
   \item I2C dedicated hardware subsystem
   \item Serial-over-USB bridge
@@ -322,16 +329,16 @@ and reception are interrupt-based, and no busy-wait is used.
 
 The I2C module has broadcasting capabilities, according to the informations
 found in the I2C standard I2C standard\cite{i2c-ref}; the broadcasting (i.e.\
-\emph{general call}) address used is $0x00$. As stated by the standard, the
-master controller has no knowledge on the number or identity of the slaves
+\emph{general call}) address used is \texttt{0x00}. As stated by the standard,
+the master controller has no knowledge on the number or identity of the slaves
 receiving a broadcast frame.
 
 \section{Power management}
-An own-written wrapper for the avr-gcc standard library's sleep functionalities is used for power management.
-By default, the master controller is in \emph{idle} mode, and it is awakened by
-any raised interrupt, e.g.\ by incoming serial or I2C data; then, its main loop
-routine is executed and, if no other operations must be performed, it returns
-in idle mode.
+An own-written wrapper for the avr-gcc standard library's sleep functionalities
+is used for power management.  By default, the master controller is in
+\emph{idle} mode, and it is awakened by any raised interrupt, e.g.\ by incoming
+serial or I2C data; then, its main loop routine is executed and, if no other
+operations must be performed, it returns in idle mode.
 
 The master controller is also put in idle when waiting for data inside serial
 or I2C routines; this is possible thanks to the interrupt-driven nature of the
@@ -342,7 +349,7 @@ aforementioned modules.
 \subsection{Software modules}
 An exhaustive list of software modules for the master controller firmware is
 given in table \ref{tab:master-spec-modules}. File paths are relative to the
-\emph{master/} directory.
+\texttt{master/} directory.
 
 \begin{table}[bh]
   \begin{tabularx}{\textwidth}{c X X}
@@ -351,31 +358,31 @@ given in table \ref{tab:master-spec-modules}. File paths are relative to the
     \midrule
     communication &
       Contains all the top-level communication routines &
-      include/communication.h, source/communication.c \\
+      \texttt{include/communication.h}, \texttt{source/communication.c} \\
     crc &
       Contains the CRC generation and checking routines &
-      include/crc.h, source/crc.c \\
+      \texttt{include/crc.h}, \texttt{source/crc.c} \\
     dcmotor &
       Contains the top-level routines for interfacing slave controllers &
-      include/dcmotor.h, source/dcmotor.c \\
+      \texttt{include/dcmotor.h}, \texttt{source/dcmotor.c} \\
     main &
       Contains the main and power management routines &
-      source/main.c \\
+      \texttt{source/main.c} \\
     packet &
       Contains packet generation and manipulation routines &
-      include/packet.h, source/packet.c \\
+      \texttt{include/packet.h}, \texttt{source/packet.c} \\
     ringbuffer &
       Circular buffer implementation for the serial module &
-      include/ringbuffer.h, source/ringbuffer.c \\
+      \texttt{include/ringbuffer.h}, \texttt{source/ringbuffer.c} \\
     serial &
       Contains all the routines for the underlying serial communication layer &
-      include/serial.h, source/serial.c \\
+      \texttt{include/serial.h}, \texttt{source/serial.c} \\
     sleep\_util &
       Handy wrapper for the avr-libc power management facilities &
-      include/sleep\_util.h \\
+      \texttt{include/sleep\_util.h} \\
     twi &
       Contains the I2C/TWI layer which underlies the communication between master and slaves &
-      include/twi.h, source/twi.c \\
+      \texttt{include/twi.h}, \texttt{source/twi.c} \\
     \bottomrule
   \end{tabularx}
   \caption{Master application software modules}
@@ -389,7 +396,7 @@ how the dependency flow goes in one direction (from top to bottom); this is the
 result of the software architecture policy used.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/master-deps}
+  \includegraphics[scale=0.5]{img/master-deps}
   \caption{Master controller modules dependency graph}
   \label{img:master-deps-graph}
 \end{centering}
@@ -524,7 +531,7 @@ generate PWM waves to control the motors, even while sleeping.
 \subsection{Software modules}
 An exhaustive list of software modules for the slave controllers firmware is
 given in table \ref{tab:slave-spec-modules}. File paths are relative to the
-\emph{slave/} directory.
+\texttt{slave/} directory.
 
 \begin{table}[bh]
   \begin{tabularx}{\textwidth}{c X X}
@@ -533,16 +540,16 @@ given in table \ref{tab:slave-spec-modules}. File paths are relative to the
     \midrule
     dcmotor &
       Contains stuff to directly manipulate dc motors, including the PID controller, PWM waves generation and speed manipulation routines &
-      include/dcmotor.h, source/dcmotor.c \\
+      \texttt{include/dcmotor.h}, \texttt{source/dcmotor.c} \\
     main &
       Contains the main and power management routines &
-      source/main.c \\
+      \texttt{source/main.c} \\
     sleep\_util &
       Handy wrapper for the avr-libc power management facilities &
-      include/sleep\_util.h \\
+      \texttt{include/sleep\_util.h} \\
     twi &
       Contains the I2C/TWI layer which underlies the communication between master and slaves &
-      include/twi.h, source/twi.c \\
+      \texttt{include/twi.h}, \texttt{source/twi.c} \\
     \bottomrule
   \end{tabularx}
   \caption{Slave application software modules}
@@ -555,7 +562,7 @@ The dependency graph for the slave controllers' software modules is shown in
 figure \ref{img:slave-deps-graph}. The \emph{debug} module is excluded.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/slave-deps}
+  \includegraphics[scale=0.5]{img/slave-deps}
   \caption{Slave controller modules dependency graph}
   \label{img:slave-deps-graph}
 \end{centering}
@@ -631,10 +638,10 @@ describe in table \ref{tab:packet-header}.
     \toprule
     Field & Size (bits) & Description \\
     \midrule
-    id       & 8 & Packet ID \\
-    type     & 8 & Packet type \\
-    selector & 8 & Selector for DC motors. Also used to store error codes in NAK packets \\
-    size     & 8 & Total packet size, including header and checksum \\
+    id       & $8$ & Packet ID \\
+    type     & $8$ & Packet type \\
+    selector & $8$ & Selector for DC motors. Also used to store error codes in NAK packets \\
+    size     & $8$ & Total packet size, including header and checksum \\
     \bottomrule
   \end{tabularx}
   \caption{Packet header fields}
@@ -646,29 +653,29 @@ The \emph{id} field stores the packet identifier, which is incremental and can
 be repeated in a single communication session. When the handshake is performed,
 or when any endpoint raises an error (issuing a \emph{NAK} packet), the id is
 reset to zero for both sides. Each \emph{ACK} and \emph{NAK} packet is
-generated with the same id of the referred packet (see TODO for further
-informations).
+generated with the same id of the referred packet (see
+\ref{client-master-comm-ackerr} for further informations).
 
 \subsection{Packet types}
-The \emph{type} field stores the packet type. An exhaustive list of packet types
-is given in table \ref{tab:packet-types}
+The \emph{type} field stores the packet type. An exhaustive list of packet
+types is given in table \ref{tab:packet-types}
 
 \begin{table}[bh]
   \begin{tabularx}{\textwidth}{c c X}
     \toprule
     Type & Code & Description \\
     \midrule
-    NULL       & 0x00 & Reserved, never use \\
-    HND        & 0x01 & Handshake \\
-    ACK        & 0x02 & Acknowledgement \\
-    NAK        & 0x03 & Communication error \\
-    ECHO       & 0x04 & Echo between Client and Master (debug only)\\
-    TWI\_ECHO  & 0x05 & Echo a single char to the first Slave via TWI (debug only)\\
-    GET\_SPEED & 0x06 & Get the current speed for a DC motor \\
-    SET\_SPEED & 0x07 & Set (and apply) the speed for a DC motor \\
-    APPLY      & 0x08 & Tell all the slaves to apply the previously set speeds \\
-    DAT        & 0x09 & Primarily used for responses from the AVR device \\
-    LIMIT      & 0x0A & Used for sanity checks - Must have highest value \\
+    \texttt{NULL}       & \texttt{0x00} & Reserved, never use \\
+    \texttt{HND}        & \texttt{0x01} & Handshake \\
+    \texttt{ACK}        & \texttt{0x02} & Acknowledgement \\
+    \texttt{NAK}        & \texttt{0x03} & Communication error \\
+    \texttt{ECHO}       & \texttt{0x04} & Echo between Client and Master (debug only)\\
+    \texttt{TWI\_ECHO}  & \texttt{0x05} & Echo a single char to the first Slave via TWI (debug only)\\
+    \texttt{GET\_SPEED} & \texttt{0x06} & Get the current speed for a DC motor \\
+    \texttt{SET\_SPEED} & \texttt{0x07} & Set (and apply) the speed for a DC motor \\
+    \texttt{APPLY}      & \texttt{0x08} & Tell all the slaves to apply the previously set speeds \\
+    \texttt{DAT}        & \texttt{0x09} & Primarily used for responses from the AVR device \\
+    \texttt{LIMIT}      & \texttt{0x0A} & Used for sanity checks - Must have highest value \\
     \bottomrule
   \end{tabularx}
   \caption{Exhaustive list of packet types}
@@ -677,7 +684,7 @@ is given in table \ref{tab:packet-types}
 
 \subsection{Motor selector}
 The \emph{selector} field is used to store the identifier for the dc motor to
-manipulate. This field is used in \emph{GET\_SPEED} and \emph{SET\_SPEED} packets.
+manipulate. This field is used in \texttt{GET\_SPEED} and \texttt{SET\_SPEED} packets.
 
 For \emph{NAK} packets, instead, the \emph{selector} field is used to store
 error codes (found in table \ref{tab:packet-error-codes}).
@@ -685,6 +692,7 @@ error codes (found in table \ref{tab:packet-error-codes}).
 For all the other packet types, the \emph{selector} field is ignored.
 
 \section{Acknowledgements and errors}
+\label{client-master-comm-ackerr}
 A communication endpoint must wait for an acknowledgement message from the
 counterpart once it sent a packet in order to send a new one. ACK and NAK
 packets do not bring any data.
@@ -702,11 +710,11 @@ table \ref{tab:packet-error-codes}.
     \toprule
     Error & Code & Description \\
     \midrule
-    SUCCESS             & 0x00 & No errors encountered \\
-    ID\_MISMATCH        & 0x01 & Id of received packet is not consistent \\
-    CORRUPTED\_CHECKSUM & 0x02 & Checksum mismatch, received packet is corrupted \\
-    WRONG\_TYPE         & 0x03 & Received packet has invalid type \\
-    TOO\_BIG            & 0x04 & Received packet has invalid size (too big) \\
+    \texttt{SUCCESS}             & \texttt{0x00} & No errors encountered \\
+    \texttt{ID\_MISMATCH}        & \texttt{0x01} & Id of received packet is not consistent \\
+    \texttt{CORRUPTED\_CHECKSUM} & \texttt{0x02} & Checksum mismatch, received packet is corrupted \\
+    \texttt{WRONG\_TYPE}         & \texttt{0x03} & Received packet has invalid type \\
+    \texttt{TOO\_BIG}            & \texttt{0x04} & Received packet has invalid size (too big) \\
     \bottomrule
   \end{tabularx}
   \caption{Exhaustive list of packet types}
@@ -725,7 +733,7 @@ original I2C standard\cite{i2c-ref} (excluding fast modes, which were
 implemented later).
 
 \subsection{Hardware setup}
-The I2C bus itself is a pair of bus rails, named \emph{SDA} and \emph{SCL},
+The I2C bus itself is a pair of bus rails, named \texttt{SDA} and \texttt{SCL},
 representing data and bus clock respectively.
 
 Two $4.7 k\Omega$ resistors connects SDA and SCL to a $5V$ voltage generator
@@ -744,10 +752,10 @@ specific arguments, are shown in table \ref{tab:i2c-commands}.
     \toprule
     Command & Code & Argument size (bytes) & Description \\
     \midrule
-      case DC\_MOTOR\_CMD\_GET & 0x00 & - & Get the dc motor speed in rpm \\
-      case DC\_MOTOR\_CMD\_SET & 0x01 & 1 & Set the dc motor target speed \\
-      case DC\_MOTOR\_CMD\_APPLY & 0x02 & - & Apply the previously set target speed \\
-      case TWI\_CMD\_ECHO & 0x03 & 1 & Send back the received character to the master (debug)\\
+      \texttt{DC\_MOTOR\_CMD\_GET}   & \texttt{0x00} & - & Get the dc motor speed in rpm \\
+      \texttt{DC\_MOTOR\_CMD\_SET}   & \texttt{0x01} & 1 & Set the dc motor target speed \\
+      \texttt{DC\_MOTOR\_CMD\_APPLY} & \texttt{0x02} & - & Apply the previously set target speed \\
+      \texttt{TWI\_CMD\_ECHO}        & \texttt{0x03} & 1 & Send back the received character to the master (debug)\\
     \bottomrule
   \end{tabularx}
   \caption{Master-to-slave commands}

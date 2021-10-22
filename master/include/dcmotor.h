@@ -50,4 +50,12 @@ uint8_t dcmotor_set(uint8_t slave_addr, dc_rpm_t rpm);
 //! Tell all the DC motor controllers to apply their speed
 void dcmotor_apply(void);
 
+/*!
+ * Set a new TWI address for the selected slave
+ *
+ * @param actual_addr Current slave address
+ * @param new_addr New slave address to set
+ */
+void dcmotor_change_id(uint8_t actual_addr, uint8_t new_addr);
+
 #endif	// __DC_MOTOR_MODULE_H

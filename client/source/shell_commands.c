@@ -333,6 +333,13 @@ static shell_command_t _shell_commands[] = {
       "Tell all the slaves to apply the previously set speed\n",
     .exec = apply
   },
+
+  (shell_command_t) { // CMD: set-slave-addr
+    .name = "set-slave-addr",
+    .help = "Usage: set-slave-addr <actual-addr> <new-addr>\n"
+      "Set a new TWI address for a slave controller\n",
+    .exec = set_slave_addr
+  },
 };
 
 // This is the exposed shell commands set

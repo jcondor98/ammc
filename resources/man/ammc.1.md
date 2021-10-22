@@ -54,6 +54,9 @@ Commands
 **set-speed** \<_motor-id_>=\<_value_>
 :   Set the speed of a DC motor in RPM
 
+**set-slave-addr** \<_actual-addr_> \<_new-addr_>
+:   Set a new TWI address for a slave controller
+
 AUTHOR
 ======
 

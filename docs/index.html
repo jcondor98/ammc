@@ -237,7 +237,24 @@ Controlling DC motors' speed</h3>
 Master-Slave communication</h2>
 <p>Master and slaves communicate to each other using the TWI/I2C protocol. The implementation had been realized from scratch and also offers broadcasting capabilities from master to slaves, based on the <code>0x00</code> built-in broadcasting address.</p>
 <p>The communication layer on top of the I2C protocol is completely binary.</p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h3><a class="anchor" id="autotoc_md12"></a>
+Communication frame</h3>
+<p>The I2C communication frame is composed of a leading byte representing the code of the command to be executed by the slave controller, and a variable size trailing argument. The commands are listed below:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadCenter">Command   </th><th class="markdownTableHeadCenter">Code   </th><th class="markdownTableHeadNone">Description    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><code>DC\_MOTOR\_CMD\_GET</code>   </td><td class="markdownTableBodyCenter"><code>0x00</code>   </td><td class="markdownTableBodyNone">Get the sampled motor speed    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><code>DC\_MOTOR\_CMD\_SET</code>   </td><td class="markdownTableBodyCenter"><code>0x01</code>   </td><td class="markdownTableBodyNone">Set a new target speed    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><code>DC\_MOTOR\_CMD\_APPLY</code>   </td><td class="markdownTableBodyCenter"><code>0x02</code>   </td><td class="markdownTableBodyNone">Apply the previously set speed    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter"><code>TWI\_CMD\_ECHO</code>   </td><td class="markdownTableBodyCenter"><code>0x03</code>   </td><td class="markdownTableBodyNone">Echo a byte back to master (debug)    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter"><code>TWI\_CMD\_SET\_ADDR</code>   </td><td class="markdownTableBodyCenter"><code>0x04</code>   </td><td class="markdownTableBodyNone">Change the current I2C address (i.e. motor id)   </td></tr>
+</table>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Notes</h1>
 <p>The doxygen custom CSS files is taken from <em>jothepro</em>, <a href="https://github.com/jothepro/doxygen-awesome-css/blob/v1.6.0/LICENSE">here</a>. It is released under the MIT license. </p>
 </div></div><!-- PageDoc -->

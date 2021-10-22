@@ -10,12 +10,15 @@ var master_2include_2dcmotor_8h =
       [ "DC_MOTOR_CMD_SET", "master_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58ac654838b414c4831e4aaa560dc6006f3", null ],
       [ "DC_MOTOR_CMD_APPLY", "master_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a4e102831c97dd18f5b1fae146f6ec90b", null ],
       [ "TWI_CMD_ECHO", "master_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a7852a4df34527d69cc6217934f0be8cf", null ],
+      [ "TWI_CMD_SET_ADDR", "master_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a9b4484798a81b2d9de9c1ac80b8c2e1a", null ],
       [ "DC_MOTOR_CMD_GET", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58aac46f1d909a1e21b71b0fce5f5862c90", null ],
       [ "DC_MOTOR_CMD_SET", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58ac654838b414c4831e4aaa560dc6006f3", null ],
       [ "DC_MOTOR_CMD_APPLY", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a4e102831c97dd18f5b1fae146f6ec90b", null ],
-      [ "TWI_CMD_ECHO", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a7852a4df34527d69cc6217934f0be8cf", null ]
+      [ "TWI_CMD_ECHO", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a7852a4df34527d69cc6217934f0be8cf", null ],
+      [ "TWI_CMD_SET_ADDR", "slave_2include_2dcmotor_8h.html#ae35d987fc8d641688982b67cb485bd58a9b4484798a81b2d9de9c1ac80b8c2e1a", null ]
     ] ],
     [ "dcmotor_apply", "master_2include_2dcmotor_8h.html#aedbae0d3abdbd642b9119f14425b0d3f", null ],
+    [ "dcmotor_change_id", "master_2include_2dcmotor_8h.html#ab207460acef8df4fc41f28604552977a", null ],
     [ "dcmotor_get", "master_2include_2dcmotor_8h.html#a2ad2ded83cfd883506ed0e70f835aec4", null ],
     [ "dcmotor_set", "master_2include_2dcmotor_8h.html#a0e4f08e7fb91259abefdba6f6498d7a9", null ]
 ];

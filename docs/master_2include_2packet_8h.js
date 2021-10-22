@@ -24,6 +24,7 @@ var master_2include_2packet_8h =
       [ "COM_TYPE_SET_SPEED", "master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea02f0c852db2981bbf3e9a58b193f8470", null ],
       [ "COM_TYPE_APPLY", "master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228", null ],
       [ "COM_TYPE_DAT", "master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530", null ],
+      [ "COM_TYPE_SET_SLAVE_ADDR", "master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730", null ],
       [ "COM_TYPE_LIMIT", "master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1", null ],
       [ "COM_TYPE_NULL", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea1591d776281443af8039c85aaa348b49", null ],
       [ "COM_TYPE_HND", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea65310db2b719def3f6eb65bd9efeb62c", null ],
@@ -35,6 +36,7 @@ var master_2include_2packet_8h =
       [ "COM_TYPE_SET_SPEED", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea02f0c852db2981bbf3e9a58b193f8470", null ],
       [ "COM_TYPE_APPLY", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228", null ],
       [ "COM_TYPE_DAT", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530", null ],
+      [ "COM_TYPE_SET_SLAVE_ADDR", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730", null ],
       [ "COM_TYPE_LIMIT", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1", null ]
     ] ],
     [ "packet_craft", "master_2include_2packet_8h.html#a7917af18515139e8ca0f90adf323581e", null ],

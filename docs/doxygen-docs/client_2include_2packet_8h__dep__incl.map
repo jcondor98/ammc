@@ -1,5 +1,0 @@
-<map id="client/include/packet.h" name="client/include/packet.h">
-<area shape="rect" id="node1" title="Packet module (Client)" alt="" coords="30,5,182,32"/>
-<area shape="rect" id="node2" href="$client_2include_2communication_8h.html" title="Communication layer." alt="" coords="5,155,207,181"/>
-<area shape="rect" id="node3" href="$client_2include_2serial_8h.html" title="Serial interface." alt="" coords="89,80,233,107"/>
-</map>

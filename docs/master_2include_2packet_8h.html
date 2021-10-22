@@ -156,20 +156,22 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228">COM_TYPE_APPLY</a>
 , <a class="el" href="master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530">COM_TYPE_DAT</a>
+, <a class="el" href="master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730">COM_TYPE_SET_SLAVE_ADDR</a>
 , <a class="el" href="master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1">COM_TYPE_LIMIT</a>
-, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea1591d776281443af8039c85aaa348b49">COM_TYPE_NULL</a>
 , <br />
-&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea65310db2b719def3f6eb65bd9efeb62c">COM_TYPE_HND</a>
+&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea1591d776281443af8039c85aaa348b49">COM_TYPE_NULL</a>
+, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea65310db2b719def3f6eb65bd9efeb62c">COM_TYPE_HND</a>
 , <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeab23628e70e716b8b57e4edc37895d9f0">COM_TYPE_ACK</a>
 , <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea2420649418aefb42532babbd908b8e6c">COM_TYPE_NAK</a>
-, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabec3aa7fedafd6d472436ed5153b78ba">COM_TYPE_ECHO</a>
 , <br />
-&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabdb33e727148359a694889dea905e213">COM_TYPE_ECHO_TWI</a>
+&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabec3aa7fedafd6d472436ed5153b78ba">COM_TYPE_ECHO</a>
+, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabdb33e727148359a694889dea905e213">COM_TYPE_ECHO_TWI</a>
 , <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeaaff3bb68a5f4fe9f6e09ded03ef04e25">COM_TYPE_GET_SPEED</a>
 , <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea02f0c852db2981bbf3e9a58b193f8470">COM_TYPE_SET_SPEED</a>
-, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228">COM_TYPE_APPLY</a>
 , <br />
-&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530">COM_TYPE_DAT</a>
+&#160;&#160;<a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228">COM_TYPE_APPLY</a>
+, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530">COM_TYPE_DAT</a>
+, <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730">COM_TYPE_SET_SLAVE_ADDR</a>
 , <a class="el" href="client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1">COM_TYPE_LIMIT</a>
 <br />
  }</td></tr>
@@ -265,6 +267,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="m
 </td></tr>
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530"></a>COM_TYPE_DAT&#160;</td><td class="fielddoc"><p>Primarily used for responses from the AVR device. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730"></a>COM_TYPE_SET_SLAVE_ADDR&#160;</td><td class="fielddoc"><p>Set new TWI address for a slave controller. </p>
+</td></tr>
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1"></a>COM_TYPE_LIMIT&#160;</td><td class="fielddoc"><p>Used for sanity checks - Must have highest value. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea1591d776281443af8039c85aaa348b49"></a>COM_TYPE_NULL&#160;</td><td class="fielddoc"><p>Reserved, never use. </p>
@@ -286,6 +290,8 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="m
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228"></a>COM_TYPE_APPLY&#160;</td><td class="fielddoc"><p>Tell all the slaves to apply the previously set speeds. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea9ca7a2a9f4e84ad5c1815f43b685c530"></a>COM_TYPE_DAT&#160;</td><td class="fielddoc"><p>Primarily used for responses from the AVR device. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730"></a>COM_TYPE_SET_SLAVE_ADDR&#160;</td><td class="fielddoc"><p>Set new TWI address for a slave controller. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab85cf1164d203deeb0273ed882de5ddeae5bd3a0a510973065873e1f96d861ba1"></a>COM_TYPE_LIMIT&#160;</td><td class="fielddoc"><p>Used for sanity checks - Must have highest value. </p>
 </td></tr>

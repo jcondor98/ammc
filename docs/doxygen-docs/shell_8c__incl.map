@@ -1,9 +1,0 @@
-<map id="client/source/shell.c" name="client/source/shell.c">
-<area shape="rect" id="node1" title="Shell module &#45; Source file." alt="" coords="121,5,260,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="167,155,228,181"/>
-<area shape="rect" id="node3" title=" " alt="" coords="25,80,89,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="114,80,179,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="203,80,266,107"/>
-<area shape="rect" id="node6" href="$shell_8h.html" title="Program shell." alt="" coords="290,80,350,107"/>
-<area shape="rect" id="node7" href="$debug_8h.html" title="Debug and error handling facilities." alt="" coords="374,80,442,107"/>
-</map>

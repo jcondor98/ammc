@@ -1,6 +1,0 @@
-<map id="client/include/crc.h" name="client/include/crc.h">
-<area shape="rect" id="node1" title="Packet&#45;switched communication layer." alt="" coords="41,5,171,32"/>
-<area shape="rect" id="node2" href="$client_2include_2packet_8h.html" title="Packet module (Client)" alt="" coords="30,80,182,107"/>
-<area shape="rect" id="node3" href="$client_2include_2communication_8h.html" title="Communication layer." alt="" coords="5,229,207,256"/>
-<area shape="rect" id="node4" href="$client_2include_2serial_8h.html" title="Serial interface." alt="" coords="89,155,233,181"/>
-</map>

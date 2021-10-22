@@ -85,7 +85,8 @@ $(document).ready(function(){initNavTree('slave_2source_2main_8c.html',''); init
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">main.c File Reference</div>  </div>
 </div><!--header-->
@@ -95,7 +96,7 @@ $(document).ready(function(){initNavTree('slave_2source_2main_8c.html',''); init
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;avr/io.h&gt;</code><br />
 <code>#include &lt;avr/power.h&gt;</code><br />
-<code>#include &lt;util/delay.h&gt;</code><br />
+<code>#include &lt;avr/eeprom.h&gt;</code><br />
 <code>#include &quot;sleep_util.h&quot;</code><br />
 <code>#include &quot;dcmotor.h&quot;</code><br />
 <code>#include &quot;twi.h&quot;</code><br />
@@ -104,47 +105,39 @@ Include dependency graph for main.c:</div>
 <div class="dyncontent">
 <div class="center"><img src="slave_2source_2main_8c__incl.png" border="0" usemap="#aslave_2source_2main_8c" alt=""/></div>
 <map name="aslave_2source_2main_8c" id="aslave_2source_2main_8c">
-<area shape="rect" title="Slave Main routine." alt="" coords="238,5,377,32"/>
+<area shape="rect" title="Slave Main routine." alt="" coords="247,5,386,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,71,107"/>
-<area shape="rect" title=" " alt="" coords="95,80,186,107"/>
-<area shape="rect" title=" " alt="" coords="211,80,295,107"/>
-<area shape="rect" title=" " alt="" coords="319,80,407,107"/>
-<area shape="rect" title=" " alt="" coords="431,80,511,107"/>
-<area shape="rect" title=" " alt="" coords="535,80,586,107"/>
+<area shape="rect" title=" " alt="" coords="95,80,184,107"/>
+<area shape="rect" title=" " alt="" coords="209,80,307,107"/>
+<area shape="rect" title=" " alt="" coords="331,80,419,107"/>
+<area shape="rect" title=" " alt="" coords="444,80,523,107"/>
+<area shape="rect" title=" " alt="" coords="547,80,598,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a7bc878ed06017091b45f0659849c497f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="slave_2source_2main_8c.html#a7bc878ed06017091b45f0659849c497f">TW_OWN_ADDRESS</a>&#160;&#160;&#160;0x31</td></tr>
-<tr class="separator:a7bc878ed06017091b45f0659849c497f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d210226acd515395dac4e6a1fe4dc64"><td class="memItemLeft" align="right" valign="top"><a id="a5d210226acd515395dac4e6a1fe4dc64"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="slave_2source_2main_8c.html#a5d210226acd515395dac4e6a1fe4dc64">TW_DEFAULT_ADDRESS</a>&#160;&#160;&#160;0x01</td></tr>
+<tr class="memdesc:a5d210226acd515395dac4e6a1fe4dc64"><td class="mdescLeft">&#160;</td><td class="mdescRight">TWI default address (likely to be changed) <br /></td></tr>
+<tr class="separator:a5d210226acd515395dac4e6a1fe4dc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a840291bc02cba5474a4cb46a9b9566fe"><td class="memItemLeft" align="right" valign="top"><a id="a840291bc02cba5474a4cb46a9b9566fe"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (void)</td></tr>
 <tr class="separator:a840291bc02cba5474a4cb46a9b9566fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a2d7ae19dcb280ae1b90b0d98600e0344"><td class="memItemLeft" align="right" valign="top"><a id="a2d7ae19dcb280ae1b90b0d98600e0344"></a>
+uint8_t EEMEM&#160;</td><td class="memItemRight" valign="bottom"><b>twi_own_address</b> = <a class="el" href="slave_2source_2main_8c.html#a5d210226acd515395dac4e6a1fe4dc64">TW_DEFAULT_ADDRESS</a></td></tr>
+<tr class="separator:a2d7ae19dcb280ae1b90b0d98600e0344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Slave Main routine. </p>
 <dl class="section author"><dt>Author</dt><dd>Paolo Lucchesi </dd></dl>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a7bc878ed06017091b45f0659849c497f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bc878ed06017091b45f0659849c497f">&#9670;&nbsp;</a></span>TW_OWN_ADDRESS</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define TW_OWN_ADDRESS&#160;&#160;&#160;0x31</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Set this dynamically (e.g. via EEPROM) </dd></dl>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

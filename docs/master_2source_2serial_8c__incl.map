@@ -1,9 +1,9 @@
 <map id="master/source/serial.c" name="master/source/serial.c">
-<area shape="rect" id="node1" title="Serial communication layer." alt="" coords="239,5,389,32"/>
+<area shape="rect" id="node1" title="Serial communication layer." alt="" coords="237,5,388,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,71,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="95,80,197,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="221,80,305,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="330,80,399,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="423,80,487,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="512,80,599,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="222,80,305,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="329,80,398,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="422,80,486,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="511,80,597,107"/>
 </map>

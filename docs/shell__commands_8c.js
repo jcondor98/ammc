@@ -14,6 +14,7 @@ var shell__commands_8c =
     [ "dev_echo_twi", "shell__commands_8c.html#a74ff2aa69c8fd1fc0b23a0efa1812935", null ],
     [ "disconnect", "shell__commands_8c.html#ae72e0666bc79ce09fca01da1f02155e0", null ],
     [ "get_speed", "shell__commands_8c.html#ada46ae8c49fa3c10e2023deb00b1b758", null ],
+    [ "set_slave_addr", "shell__commands_8c.html#a3ee769814f656455f78a47ef1ddd03ef", null ],
     [ "set_speed", "shell__commands_8c.html#a4cf83dbf6dc709aa713a33a0fcad1697", null ],
     [ "shell_cleanup", "shell__commands_8c.html#abd3a9453d8c891b188dee97231d61926", null ],
     [ "shell_storage_new", "shell__commands_8c.html#a554c3edc3836f5ff888507af294c31c5", null ],

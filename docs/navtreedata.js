@@ -38,9 +38,11 @@ var NAVTREE =
           [ "Acknowledgements", "index.html#autotoc_md9", null ],
           [ "Controlling DC motors' speed", "index.html#autotoc_md10", null ]
         ] ],
-        [ "Master-Slave communication", "index.html#autotoc_md11", null ]
+        [ "Master-Slave communication", "index.html#autotoc_md11", [
+          [ "Communication frame", "index.html#autotoc_md12", null ]
+        ] ]
       ] ],
-      [ "Notes", "index.html#autotoc_md12", null ]
+      [ "Notes", "index.html#autotoc_md13", null ]
     ] ],
     [ "Todo List", "todo.html", null ],
     [ "Data Structures", "annotated.html", [
@@ -64,8 +66,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeab23628e70e716b8b57e4edc37895d9f0",
-"slave_2source_2twi_8c.html#acbb504b71deae64f750c2fe51e9bf09a"
+"master_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5d6af4b3b55be413b2976faae97cd730",
+"slave_2source_2dcmotor_8c.html#aab92491e9cc065eb58cdaea0da1eb714"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

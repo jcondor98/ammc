@@ -29,9 +29,10 @@
 \contentsline {chapter}{\numberline {4}Slave controllers}{13}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Hardware setup}{13}{section.4.1}%
 \contentsline {section}{\numberline {4.2}I2C setup}{13}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Dynamic I2C addressing}{14}{subsection.4.2.1}%
 \contentsline {section}{\numberline {4.3}Proportional-Integral-Derivative controller}{14}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Measuring speed}{14}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Approximations}{14}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.2}Approximations}{15}{subsection.4.3.2}%
 \contentsline {section}{\numberline {4.4}Power management}{15}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Specification}{15}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Software modules}{15}{subsection.4.5.1}%

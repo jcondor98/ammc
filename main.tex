@@ -220,6 +220,7 @@ following:
     The motor id must be specified as a decimal number and the speed must be
     specified in rpm.
   \item[apply] Apply the previously set speed for all the dc motors.
+  \item[set-slave-addr] Set a new TWI address for a slave controller.
 \end{description}
 
 \subsection{Non-interactive mode}
@@ -468,7 +469,20 @@ interrupt-based.
 The slave controller is always passive on the bus, waiting to be addressed by
 the master.
 
-% TODO: Dynamic addressing
+\subsection{Dynamic I2C addressing}
+Each slave controller needs a unique I2C address. Basically, there are two ways
+to assign an arbitrary address to a slave.
+
+The first and most trivial one is to define the \texttt{TW\_DEFAULT\_ADDR}
+macro to the desired address when building the slave controller firmware. This
+solution is impractical for obvious reasons and should be avoided.
+
+The second (and suggested) method is to connect the master and slave
+controllers via I2C and the master controller with the client via serial. Then
+the \texttt{set-slave-addr} command can be used to change the I2C address to
+the desired one. The changes take place immediately, as the slave controller's
+I2C software module is reinitialized, and they will be saved in the EEPROM
+embedded into the AVR microcontroller for durability.
 
 \section{Proportional-Integral-Derivative controller}
 An own-written, software-defined Proportional-Integral-Derivative controller is
@@ -533,7 +547,7 @@ An exhaustive list of software modules for the slave controllers firmware is
 given in table \ref{tab:slave-spec-modules}. File paths are relative to the
 \texttt{slave/} directory.
 
-\begin{table}[bh]
+\begin{table}[hb]
   \begin{tabularx}{\textwidth}{c X X}
     \toprule
     Module & Description & Files \\
@@ -669,13 +683,14 @@ types is given in table \ref{tab:packet-types}
     \texttt{HND}        & \texttt{0x01} & Handshake \\
     \texttt{ACK}        & \texttt{0x02} & Acknowledgement \\
     \texttt{NAK}        & \texttt{0x03} & Communication error \\
-    \texttt{ECHO}       & \texttt{0x04} & Echo between Client and Master (debug only)\\
-    \texttt{TWI\_ECHO}  & \texttt{0x05} & Echo a single char to the first Slave via TWI (debug only)\\
-    \texttt{GET\_SPEED} & \texttt{0x06} & Get the current speed for a DC motor \\
-    \texttt{SET\_SPEED} & \texttt{0x07} & Set (and apply) the speed for a DC motor \\
+    \texttt{ECHO}       & \texttt{0x04} & Echo between client and master (debug only)\\
+    \texttt{TWI\_ECHO}  & \texttt{0x05} & Echo a single char to the first slave via TWI (debug only)\\
+    \texttt{GET\_SPEED} & \texttt{0x06} & Get the current speed for a dc motor \\
+    \texttt{SET\_SPEED} & \texttt{0x07} & Set (and apply) the speed for a dc motor \\
     \texttt{APPLY}      & \texttt{0x08} & Tell all the slaves to apply the previously set speeds \\
     \texttt{DAT}        & \texttt{0x09} & Primarily used for responses from the AVR device \\
-    \texttt{LIMIT}      & \texttt{0x0A} & Used for sanity checks - Must have highest value \\
+    \texttt{SET\_ADDR}  & \texttt{0x0A} & Change the I2C address of a slave \\
+    \texttt{LIMIT}      & \texttt{0x0B} & Used for sanity checks - Must have highest value \\
     \bottomrule
   \end{tabularx}
   \caption{Exhaustive list of packet types}
@@ -736,8 +751,8 @@ implemented later).
 The I2C bus itself is a pair of bus rails, named \texttt{SDA} and \texttt{SCL},
 representing data and bus clock respectively.
 
-Two $4.7 k\Omega$ resistors connects SDA and SCL to a $5V$ voltage generator
-and act as \emph{open-drain} resistors.
+Two $4.7 k\Omega$ resistors connects \texttt{SDA} and \texttt{SCL} to a $5V$
+voltage generator and act as \emph{open-drain} resistors.
 % TODO: Footnote?
 
 \subsection{Communication frames}
@@ -756,6 +771,7 @@ specific arguments, are shown in table \ref{tab:i2c-commands}.
       \texttt{DC\_MOTOR\_CMD\_SET}   & \texttt{0x01} & 1 & Set the dc motor target speed \\
       \texttt{DC\_MOTOR\_CMD\_APPLY} & \texttt{0x02} & - & Apply the previously set target speed \\
       \texttt{TWI\_CMD\_ECHO}        & \texttt{0x03} & 1 & Send back the received character to the master (debug)\\
+      \texttt{TWI\_CMD\_SET\_ADDR}   & \texttt{0x04} & 1 & Set a different I2C slave address \\
     \bottomrule
   \end{tabularx}
   \caption{Master-to-slave commands}

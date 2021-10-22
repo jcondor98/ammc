@@ -26,7 +26,8 @@ typedef enum _DC_MOTOR_CMD_E {
   DC_MOTOR_CMD_GET,
   DC_MOTOR_CMD_SET,
   DC_MOTOR_CMD_APPLY,
-  TWI_CMD_ECHO
+  TWI_CMD_ECHO,
+  TWI_CMD_SET_ADDR
 } dc_motor_cmd_t;
 
 /*!

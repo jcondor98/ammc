@@ -254,6 +254,32 @@ int apply(int argc, char *argv[], void *storage) {
 }
 
 
+// CMD: set-slave-addr
+// Usage: set-slave-addr <actual-addr> <new-addr>
+// Set a new TWI address for a slave controller
+int set_slave_addr(int argc, char *argv[], void *storage) {
+  if (argc != 3) return 1;
+  _storage_cast(st, storage);
+
+  sh_error_on(AVR_FD < 0, 2, "Device is not connected");
+
+  unsigned char addr_actual, addr_new;
+  int ret = sscanf(argv[1], "%hhi", &addr_actual);
+  ret += sscanf(argv[2], "%hhi", &addr_new);
+
+  sh_error_on(ret != 2, 1, "Wrong address format. Use (hexa)decimal notation");
+  sh_error_on(addr_actual == 0 || addr_new == 0 ||
+      addr_actual >= DC_MOTOR_ID_LIMIT || addr_new >= DC_MOTOR_ID_LIMIT,
+      1, "Addresses must be between 1 and %u\n", DC_MOTOR_ID_LIMIT-1);
+
+  if (addr_actual != addr_new)
+    sh_error_on(psend(COM_TYPE_SET_SLAVE_ADDR, addr_actual, &addr_new, 1) != 0,
+        3, "Could not send packet to Master");
+
+  return 0;
+}
+
+
 
 // Set of all the shell commands
 static shell_command_t _shell_commands[] = {

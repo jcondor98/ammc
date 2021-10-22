@@ -183,6 +183,20 @@ address.
 
 The communication layer on top of the I2C protocol is completely binary.
 
+#### Communication frame
+
+The I2C communication frame is composed of a leading byte representing the
+code of the command to be executed by the slave controller, and a variable
+size trailing argument. The commands are listed below:
+
+Command | Code | Description
+:-:|:-:|---
+`DC\_MOTOR\_CMD\_GET`   | `0x00` | Get the sampled motor speed
+`DC\_MOTOR\_CMD\_SET`   | `0x01` | Set a new target speed
+`DC\_MOTOR\_CMD\_APPLY` | `0x02` | Apply the previously set speed
+`TWI\_CMD\_ECHO`        | `0x03` | Echo a byte back to master (debug)
+`TWI\_CMD\_SET\_ADDR`   | `0x04` | Change the current I2C address (i.e. motor id)
+
 
 ## Notes
 

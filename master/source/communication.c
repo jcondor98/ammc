@@ -129,6 +129,12 @@ static state_t _op_apply(const packet_t *p) {
   return STATE_ACK;
 }
 
+// Set a new TWI address for the selected slave
+static state_t _op_set_slave_addr(const packet_t *p) {
+  dcmotor_change_id(packet_get_selector(p), p->body[0]);
+  return STATE_ACK;
+}
+
 
 // Operation table
 static operation_f op_table[] = {
@@ -141,7 +147,8 @@ static operation_f op_table[] = {
   _op_get_speed,
   _op_set_speed,
   _op_apply,
-  _op_dat
+  _op_dat,
+  _op_set_slave_addr
 };
 
 

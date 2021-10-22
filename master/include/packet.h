@@ -48,6 +48,8 @@ typedef enum COM_TYPE_E {
   COM_TYPE_APPLY,
   //! Primarily used for responses from the AVR device
   COM_TYPE_DAT,
+  //! Set new TWI address for a slave controller
+  COM_TYPE_SET_SLAVE_ADDR,
   //! Used for sanity checks - Must have highest value
   COM_TYPE_LIMIT
 } com_type_t;

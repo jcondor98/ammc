@@ -43,3 +43,10 @@ void dcmotor_apply(void) {
   uint8_t cmd = DC_MOTOR_CMD_APPLY;
   twi_bcast_sm(&cmd, 1);
 }
+
+
+// Set a new TWI address for the selected slave
+void dcmotor_change_id(uint8_t actual_addr, uint8_t new_addr) {
+  uint8_t data[] = { TWI_CMD_SET_ADDR, new_addr };
+  twi_send_sm(actual_addr, data, sizeof(data));
+}

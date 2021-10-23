@@ -590,7 +590,7 @@ is shown in figure \ref{img:slave-sch}. This circuit can be repeated multiple
 times (up to 126) in a single ammc ecosystem.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{img/slave-schematics}
+  \includegraphics[scale=0.7]{img/slave-schematics}
   \caption{Slave controller schematics}
   \label{img:slave-sch}
 \end{centering}
@@ -767,7 +767,7 @@ specific arguments, are shown in table \ref{tab:i2c-commands}.
 \begin{table}[bh]
   \begin{tabularx}{\textwidth}{c c c X}
     \toprule
-    Command & Code & Argument size (bytes) & Description \\
+    Command & Code & Arg. size (bytes) & Description \\
     \midrule
       \texttt{DC\_MOTOR\_CMD\_GET}   & \texttt{0x00} & - & Get the dc motor speed in rpm \\
       \texttt{DC\_MOTOR\_CMD\_SET}   & \texttt{0x01} & 1 & Set the dc motor target speed \\

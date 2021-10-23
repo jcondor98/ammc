@@ -38,7 +38,7 @@
 \contentsline {subsection}{\numberline {4.5.1}Software modules}{17}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{18}{subsection.4.5.2}%
 \contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{18}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Wiring}{19}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.4}Wiring}{18}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Client-Master communication}{21}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Serial layer}{21}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Packet headers}{21}{section.5.2}%

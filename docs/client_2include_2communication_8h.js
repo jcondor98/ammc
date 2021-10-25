@@ -5,7 +5,8 @@ var client_2include_2communication_8h =
       [ "E_SUCCESS", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4ac3121e429a129b2ccb51a92b7c78c4b4", null ],
       [ "E_ID_MISMATCH", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4a1bee13b32088fe0bb3457ebfe0fe5031", null ],
       [ "E_CORRUPTED_CHECKSUM", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4ac221beb0ec19f5221b7c9856b0a6cecf", null ],
-      [ "E_WRONG_TYPE", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4ab0b6c0f64163e214c544cf3d14868b70", null ]
+      [ "E_WRONG_TYPE", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4ab0b6c0f64163e214c544cf3d14868b70", null ],
+      [ "E_TOO_BIG", "client_2include_2communication_8h.html#a4b5791c09477afe46e69aad18725a8f4ae9153270f993ee81e26a70448a8f7ba0", null ]
     ] ],
     [ "communication_connect", "client_2include_2communication_8h.html#a0d12b10353ce81395e3edce2a1ba5e2f", null ],
     [ "communication_craft_and_send", "client_2include_2communication_8h.html#a1159e5debfc8b21f38cd6576f50bc1f3", null ],

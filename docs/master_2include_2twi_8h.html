@@ -154,13 +154,13 @@ typedef enum <a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d8
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a33ec006dbb9f3c7d85638eee5d3df511"><td class="memItemLeft" align="right" valign="top"><a id="a33ec006dbb9f3c7d85638eee5d3df511"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511">_TWI_MODE_E</a> { <br />
-&#160;&#160;<b>TW_READY</b>
-, <b>TW_REPEATED_START</b>
-, <b>TW_INITIALIZING</b>
-, <b>TW_TRANSMITTING</b>
+<tr class="memitem:a33ec006dbb9f3c7d85638eee5d3df511"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511">_TWI_MODE_E</a> { <br />
+&#160;&#160;<a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511a1d3eb0e42e288811e16f304c63f5c569">TW_READY</a>
+, <a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511a761fb7c56da70be1f6f922c295969ce8">TW_REPEATED_START</a>
+, <a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511a6dbfb3743db4878e277cfefd6cdc1b67">TW_INITIALIZING</a>
+, <a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511a12115c19b797722a508d25d615a4339f">TW_TRANSMITTING</a>
 , <br />
-&#160;&#160;<b>TW_RECEIVING</b>
+&#160;&#160;<a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511a6de28f0f0602d6dfc2e13d6772d6508f">TW_RECEIVING</a>
 , <b>TW_READY</b>
 , <b>TW_INITIALIZING</b>
 , <b>TW_TRANSMITTING</b>
@@ -168,7 +168,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>TW_RECEIVING</b>
 <br />
  }</td></tr>
-<tr class="memdesc:a33ec006dbb9f3c7d85638eee5d3df511"><td class="mdescLeft">&#160;</td><td class="mdescRight">TWI mode (i.e. status) <br /></td></tr>
+<tr class="memdesc:a33ec006dbb9f3c7d85638eee5d3df511"><td class="mdescLeft">&#160;</td><td class="mdescRight">TWI mode (i.e. status)  <a href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511">More...</a><br /></td></tr>
 <tr class="separator:a33ec006dbb9f3c7d85638eee5d3df511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -259,6 +259,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mast
 
 <p>Send data in broadcast, single master. </p>
 <dl class="section attention"><dt>Attention</dt><dd>Slaves can not acknowledge </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a33ec006dbb9f3c7d85638eee5d3df511"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33ec006dbb9f3c7d85638eee5d3df511">&#9670;&nbsp;</a></span>_TWI_MODE_E</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="master_2include_2twi_8h.html#a33ec006dbb9f3c7d85638eee5d3df511">_TWI_MODE_E</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>TWI mode (i.e. status) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a33ec006dbb9f3c7d85638eee5d3df511a1d3eb0e42e288811e16f304c63f5c569"></a>TW_READY&#160;</td><td class="fielddoc"><p>I2C module ready. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a33ec006dbb9f3c7d85638eee5d3df511a761fb7c56da70be1f6f922c295969ce8"></a>TW_REPEATED_START&#160;</td><td class="fielddoc"><p>I2C module ready, slave already addressed by repeated start. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a33ec006dbb9f3c7d85638eee5d3df511a6dbfb3743db4878e277cfefd6cdc1b67"></a>TW_INITIALIZING&#160;</td><td class="fielddoc"><p>Setting up for I2C communicaton session. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a33ec006dbb9f3c7d85638eee5d3df511a12115c19b797722a508d25d615a4339f"></a>TW_TRANSMITTING&#160;</td><td class="fielddoc"><p>Transmitting data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a33ec006dbb9f3c7d85638eee5d3df511a6de28f0f0602d6dfc2e13d6772d6508f"></a>TW_RECEIVING&#160;</td><td class="fielddoc"><p>Receiving data. </p>
+</td></tr>
+</table>
 
 </div>
 </div>

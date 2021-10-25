@@ -24,7 +24,7 @@ var client_2include_2packet_8h =
       [ "COM_TYPE_ACK", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeab23628e70e716b8b57e4edc37895d9f0", null ],
       [ "COM_TYPE_NAK", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea2420649418aefb42532babbd908b8e6c", null ],
       [ "COM_TYPE_ECHO", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabec3aa7fedafd6d472436ed5153b78ba", null ],
-      [ "COM_TYPE_ECHO_TWI", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeabdb33e727148359a694889dea905e213", null ],
+      [ "COM_TYPE_TWI_ECHO", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea13c440b2ec3eb25850d1a6debec8dc81", null ],
       [ "COM_TYPE_GET_SPEED", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddeaaff3bb68a5f4fe9f6e09ded03ef04e25", null ],
       [ "COM_TYPE_SET_SPEED", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea02f0c852db2981bbf3e9a58b193f8470", null ],
       [ "COM_TYPE_APPLY", "client_2include_2packet_8h.html#ab85cf1164d203deeb0273ed882de5ddea5ad3d2097eb03baf3ccbc3da85788228", null ],

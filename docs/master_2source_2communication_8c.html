@@ -130,16 +130,16 @@ typedef <a class="el" href="master_2source_2communication_8c.html#a72747714f9a67
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ac9a2944cc4aae5aaea008c3a3209ffc7"><td class="memItemLeft" align="right" valign="top"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7">STATE_E</a> { <br />
-&#160;&#160;<b>STATE_LISTEN</b>
-, <b>STATE_FETCH</b>
-, <b>STATE_EXECUTE</b>
-, <b>STATE_ACK</b>
+<tr class="memitem:ac9a2944cc4aae5aaea008c3a3209ffc7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7">STATE_E</a> { <br />
+&#160;&#160;<a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7a9d01e6b0ac91fdc6bb3283a1e381b51f">STATE_LISTEN</a>
+, <a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7a3fbdca17453494cddcffab0a702e3384">STATE_FETCH</a>
+, <a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7adf1408a263245be7ac4b5040f006d3fe">STATE_EXECUTE</a>
+, <a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7a2e95f684d24fa226fd276ee1c6ba73c1">STATE_ACK</a>
 , <br />
-&#160;&#160;<b>STATE_NAK</b>
+&#160;&#160;<a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7a748ce48c81c7a58c23581af7b6618903">STATE_NAK</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ac9a2944cc4aae5aaea008c3a3209ffc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Communication handler state. <br /></td></tr>
+<tr class="memdesc:ac9a2944cc4aae5aaea008c3a3209ffc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Communication handler state.  <a href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7">More...</a><br /></td></tr>
 <tr class="separator:ac9a2944cc4aae5aaea008c3a3209ffc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -154,7 +154,36 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Communication module (server) </p>
 <dl class="section author"><dt>Author</dt><dd>Paolo Lucchesi </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ac9a2944cc4aae5aaea008c3a3209ffc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9a2944cc4aae5aaea008c3a3209ffc7">&#9670;&nbsp;</a></span>STATE_E</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="master_2source_2communication_8c.html#ac9a2944cc4aae5aaea008c3a3209ffc7">STATE_E</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Communication handler state. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7a9d01e6b0ac91fdc6bb3283a1e381b51f"></a>STATE_LISTEN&#160;</td><td class="fielddoc"><p>Waiting for incoming packet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7a3fbdca17453494cddcffab0a702e3384"></a>STATE_FETCH&#160;</td><td class="fielddoc"><p>Fetching incoming packet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7adf1408a263245be7ac4b5040f006d3fe"></a>STATE_EXECUTE&#160;</td><td class="fielddoc"><p>Executing the command issued by the client. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7a2e95f684d24fa226fd276ee1c6ba73c1"></a>STATE_ACK&#160;</td><td class="fielddoc"><p>Acknowledging packet. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac9a2944cc4aae5aaea008c3a3209ffc7a748ce48c81c7a58c23581af7b6618903"></a>STATE_NAK&#160;</td><td class="fielddoc"><p>Communication error. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ae12caab774f3fe35ceb98b89951e4c4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae12caab774f3fe35ceb98b89951e4c4d">&#9670;&nbsp;</a></span>communication_handler()</h2>
 

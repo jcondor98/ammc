@@ -164,6 +164,9 @@ Installation</h1>
 <div class="line"># Compile and link slave .elf binary</div>
 <div class="line">make slave</div>
 <div class="line"> </div>
+<div class="line"># Encode the master .elf binary into a .hex file and flash it into the AVR</div>
+<div class="line">make master-flash</div>
+<div class="line"> </div>
 <div class="line"># Encode the slave .elf binary into a .hex file and flash it into the AVR</div>
 <div class="line">make slave-flash</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
@@ -191,27 +194,27 @@ Packet Header</h3>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter">Type   </th><th class="markdownTableHeadCenter">Actual value   </th><th class="markdownTableHeadNone">Description    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_NULL</code>   </td><td class="markdownTableBodyCenter"><code>0x01</code>   </td><td class="markdownTableBodyNone">Reserved, never use    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_NULL</code>   </td><td class="markdownTableBodyCenter"><code>0x00</code>   </td><td class="markdownTableBodyNone">Reserved, never use    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_HND</code>   </td><td class="markdownTableBodyCenter"><code>0x02</code>   </td><td class="markdownTableBodyNone">Handshake    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_HND</code>   </td><td class="markdownTableBodyCenter"><code>0x01</code>   </td><td class="markdownTableBodyNone">Handshake    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_ACK</code>   </td><td class="markdownTableBodyCenter"><code>0x03</code>   </td><td class="markdownTableBodyNone">Acknowledgement    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_ACK</code>   </td><td class="markdownTableBodyCenter"><code>0x02</code>   </td><td class="markdownTableBodyNone">Acknowledgement    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_NAK</code>   </td><td class="markdownTableBodyCenter"><code>0x04</code>   </td><td class="markdownTableBodyNone">Communication error    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_NAK</code>   </td><td class="markdownTableBodyCenter"><code>0x03</code>   </td><td class="markdownTableBodyNone">Communication error    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_ECHO</code>   </td><td class="markdownTableBodyCenter"><code>0x05</code>   </td><td class="markdownTableBodyNone">[DEBUG] Echo between Client and Master    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_ECHO</code>   </td><td class="markdownTableBodyCenter"><code>0x04</code>   </td><td class="markdownTableBodyNone">[DEBUG] Echo between Client and Master    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_TWI_ECHO</code>   </td><td class="markdownTableBodyCenter"><code>0x06</code>   </td><td class="markdownTableBodyNone">[DEBUG] Echo a single char to the first Slave via TWI    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_TWI_ECHO</code>   </td><td class="markdownTableBodyCenter"><code>0x05</code>   </td><td class="markdownTableBodyNone">[DEBUG] Echo a single char to the first Slave via TWI    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_GET_SPEED</code>   </td><td class="markdownTableBodyCenter"><code>0x07</code>   </td><td class="markdownTableBodyNone">Get the current speed for a DC motor    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_GET_SPEED</code>   </td><td class="markdownTableBodyCenter"><code>0x06</code>   </td><td class="markdownTableBodyNone">Get the current speed for a DC motor    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_SET_SPEED</code>   </td><td class="markdownTableBodyCenter"><code>0x08</code>   </td><td class="markdownTableBodyNone">Set (and apply) the speed for a DC motor    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_SET_SPEED</code>   </td><td class="markdownTableBodyCenter"><code>0x07</code>   </td><td class="markdownTableBodyNone">Set (and apply) the speed for a DC motor    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_APPLY</code>   </td><td class="markdownTableBodyCenter"><code>0x09</code>   </td><td class="markdownTableBodyNone">Tell all the slaves to apply the previously set speeds    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_APPLY</code>   </td><td class="markdownTableBodyCenter"><code>0x08</code>   </td><td class="markdownTableBodyNone">Tell all the slaves to apply the previously set speeds    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_DAT</code>   </td><td class="markdownTableBodyCenter"><code>0x0A</code>   </td><td class="markdownTableBodyNone">Primarily used for responses from the AVR device    </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_DAT</code>   </td><td class="markdownTableBodyCenter"><code>0x09</code>   </td><td class="markdownTableBodyNone">Primarily used for responses from the AVR device    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyCenter"><code>COM_TYPE_LIMIT</code>   </td><td class="markdownTableBodyCenter"><code>0x0B</code>   </td><td class="markdownTableBodyNone">Used for sanity checks - Must have highest value   </td></tr>
+<td class="markdownTableBodyCenter"><code>COM_TYPE_LIMIT</code>   </td><td class="markdownTableBodyCenter"><code>0x0A</code>   </td><td class="markdownTableBodyNone">Used for sanity checks - Must have highest value   </td></tr>
 </table>
 <h3><a class="anchor" id="autotoc_md9"></a>
 Acknowledgements</h3>

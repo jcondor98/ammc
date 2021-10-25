@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"slave_2source_2dcmotor_8c.html#aa64c6dce15e9de9105b4ae9533c9a267":[3,0,2,1,0,8],
 "slave_2source_2dcmotor_8c.html#aab92491e9cc065eb58cdaea0da1eb714":[3,0,2,1,0,3],
 "slave_2source_2dcmotor_8c.html#aaeda207bcaf2a02d31d74aa3131e58bc":[3,0,2,1,0,5],
 "slave_2source_2dcmotor_8c.html#ad1ad5185e09668e5a24433f541b86f54":[3,0,2,1,0,4],

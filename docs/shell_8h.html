@@ -164,18 +164,18 @@ typedef struct <a class="el" href="struct__shell__s.html">_shell_s</a>&#160;</td
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a6425a6ccd86402c852b3279db8d62a6f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6f">COMMAND_TYPE_T</a> { <b>CMD_TYPE_ALL</b> = 0
-, <b>CMD_TYPE_BUILTIN</b>
-, <b>CMD_TYPE_EXTERNAL</b>
-, <b>CMD_TYPE_NONE</b>
+<tr class="memitem:a6425a6ccd86402c852b3279db8d62a6f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6f">COMMAND_TYPE_T</a> { <a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6facff7520020266ccdc90a848dc7ec289d">CMD_TYPE_ALL</a>
+, <a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6fa01f46d2042d098ca5a57560fd74d4d90">CMD_TYPE_BUILTIN</a>
+, <a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6fa4b22c4eb613bfb477315fdeaac571dac">CMD_TYPE_EXTERNAL</a>
+, <a class="el" href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6fafbc26ec677d023d8d361f729011c2ae7">CMD_TYPE_NONE</a>
  }</td></tr>
 <tr class="memdesc:a6425a6ccd86402c852b3279db8d62a6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Different types of commands, in order of descending priority.  <a href="shell_8h.html#a6425a6ccd86402c852b3279db8d62a6f">More...</a><br /></td></tr>
 <tr class="separator:a6425a6ccd86402c852b3279db8d62a6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafac71cbd75202b244cc095e7a092db3"><td class="memItemLeft" align="right" valign="top"><a id="aafac71cbd75202b244cc095e7a092db3"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3">SHELL_FLAG_E</a> { <b>SH_SIG_EXIT</b> = 1 &lt;&lt; 0
-, <b>SH_SCRIPT_MODE</b> = 1 &lt;&lt; 1
-, <b>SH_EXIT_ON_ERR</b> = 1 &lt;&lt; 2
+<tr class="memitem:aafac71cbd75202b244cc095e7a092db3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3">SHELL_FLAG_E</a> { <a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3ae2c50397068ffa2c0723472374491b8c">SH_SIG_EXIT</a> = 1 &lt;&lt; 0
+, <a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3a3577763b084a58b2c0658f5a7017daee">SH_SCRIPT_MODE</a> = 1 &lt;&lt; 1
+, <a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3a6d1c00742a165114db4bacddbefa3c69">SH_EXIT_ON_ERR</a> = 1 &lt;&lt; 2
  }</td></tr>
-<tr class="memdesc:aafac71cbd75202b244cc095e7a092db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell flags. <br /></td></tr>
+<tr class="memdesc:aafac71cbd75202b244cc095e7a092db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell flags.  <a href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3">More...</a><br /></td></tr>
 <tr class="separator:aafac71cbd75202b244cc095e7a092db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -494,6 +494,41 @@ Functions</h2></td></tr>
 
 <p>Different types of commands, in order of descending priority. </p>
 <dl class="section attention"><dt>Attention</dt><dd>CMD_TYPE_NONE must be the last value! </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6425a6ccd86402c852b3279db8d62a6facff7520020266ccdc90a848dc7ec289d"></a>CMD_TYPE_ALL&#160;</td><td class="fielddoc"><p>Matches any command. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6425a6ccd86402c852b3279db8d62a6fa01f46d2042d098ca5a57560fd74d4d90"></a>CMD_TYPE_BUILTIN&#160;</td><td class="fielddoc"><p>Built-in command. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6425a6ccd86402c852b3279db8d62a6fa4b22c4eb613bfb477315fdeaac571dac"></a>CMD_TYPE_EXTERNAL&#160;</td><td class="fielddoc"><p>External command. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6425a6ccd86402c852b3279db8d62a6fafbc26ec677d023d8d361f729011c2ae7"></a>CMD_TYPE_NONE&#160;</td><td class="fielddoc"><p>Unknown command type. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="aafac71cbd75202b244cc095e7a092db3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafac71cbd75202b244cc095e7a092db3">&#9670;&nbsp;</a></span>SHELL_FLAG_E</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="shell_8h.html#aafac71cbd75202b244cc095e7a092db3">SHELL_FLAG_E</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Shell flags. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aafac71cbd75202b244cc095e7a092db3ae2c50397068ffa2c0723472374491b8c"></a>SH_SIG_EXIT&#160;</td><td class="fielddoc"><p>Exit at the next shell iteration. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aafac71cbd75202b244cc095e7a092db3a3577763b084a58b2c0658f5a7017daee"></a>SH_SCRIPT_MODE&#160;</td><td class="fielddoc"><p>Non-interactive (i.e. </p>
+<p>script) mode </p>
+</td></tr>
+<tr><td class="fieldname"><a id="aafac71cbd75202b244cc095e7a092db3a6d1c00742a165114db4bacddbefa3c69"></a>SH_EXIT_ON_ERR&#160;</td><td class="fielddoc"><p>Exit if a command fails. </p>
+</td></tr>
+</table>
 
 </div>
 </div>

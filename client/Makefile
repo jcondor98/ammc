@@ -8,7 +8,7 @@
 SRCDIR := source
 INCDIR := include
 OBJDIR := objects
-RESDIR := resources
+RESDIR := ../resources
 TGTDIR := target
 
 # Search Paths

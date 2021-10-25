@@ -11,7 +11,11 @@
 
 //! Precise error state codes for receiving/sending errors
 typedef enum ERR_CODE_E {
-  E_SUCCESS = 0, E_ID_MISMATCH, E_CORRUPTED_CHECKSUM, E_WRONG_TYPE
+  E_SUCCESS,            // Communication ended successfully
+  E_ID_MISMATCH,        // Packet ID mismatch
+  E_CORRUPTED_CHECKSUM, // Checksum mismatch, packet is corrupted
+  E_WRONG_TYPE,         // Packet type is not valid
+  E_TOO_BIG             // Packet is too big
 } err_code_t;
 
 

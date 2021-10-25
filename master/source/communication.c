@@ -44,11 +44,11 @@ void communication_send(uint8_t type, uint8_t selector,
 
 //! Communication handler state
 typedef enum STATE_E {
-  STATE_LISTEN,
-  STATE_FETCH,
-  STATE_EXECUTE,
-  STATE_ACK,
-  STATE_NAK
+  STATE_LISTEN,  //!< Waiting for incoming packet
+  STATE_FETCH,   //!< Fetching incoming packet
+  STATE_EXECUTE, //!< Executing the command issued by the client
+  STATE_ACK,     //!< Acknowledging packet
+  STATE_NAK      //!< Communication error
 } state_t;
 
 //! Callback for communication operation

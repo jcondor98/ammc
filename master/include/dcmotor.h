@@ -21,13 +21,16 @@
 //! Type to properly store a rounds per minute value
 typedef uint8_t dc_rpm_t;
 
-//! Master -> Slave commands
+/*!
+ * \enum _DC_MOTOR_CMD_E
+ * \brief Master -> Slave commands
+ */
 typedef enum _DC_MOTOR_CMD_E {
-  DC_MOTOR_CMD_GET,
-  DC_MOTOR_CMD_SET,
-  DC_MOTOR_CMD_APPLY,
-  TWI_CMD_ECHO,
-  TWI_CMD_SET_ADDR
+  DC_MOTOR_CMD_GET,   //!< Get the dc motor speed
+  DC_MOTOR_CMD_SET,   //!< Set a new speed for the dc motor
+  DC_MOTOR_CMD_APPLY, //!< Apply the previously set speed
+  TWI_CMD_ECHO,       //!< [Debug] Echo a single character via I2C
+  TWI_CMD_SET_ADDR    //!< Change the slave current address
 } dc_motor_cmd_t;
 
 /*!

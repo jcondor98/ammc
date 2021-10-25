@@ -13,7 +13,10 @@
  * \attention CMD_TYPE_NONE must be the last value!
  */
 typedef enum COMMAND_TYPE_T {
-  CMD_TYPE_ALL = 0, CMD_TYPE_BUILTIN, CMD_TYPE_EXTERNAL, CMD_TYPE_NONE
+  CMD_TYPE_ALL,       //!< Matches any command
+  CMD_TYPE_BUILTIN,   //!< Built-in command
+  CMD_TYPE_EXTERNAL,  //!< External command
+  CMD_TYPE_NONE       //!< Unknown command type
 } command_type_t;
 
 /*!
@@ -34,9 +37,9 @@ typedef struct _shell_command_s {
 
 //! Shell flags
 typedef enum SHELL_FLAG_E {
-  SH_SIG_EXIT = 1 << 0,
-  SH_SCRIPT_MODE = 1 << 1,
-  SH_EXIT_ON_ERR = 1 << 2
+  SH_SIG_EXIT = 1 << 0,     //!< Exit at the next shell iteration
+  SH_SCRIPT_MODE = 1 << 1,  //!< Non-interactive (i.e. script) mode
+  SH_EXIT_ON_ERR = 1 << 2   //!< Exit if a command fails
 } shell_flag_t;
 
 

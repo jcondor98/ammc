@@ -24,10 +24,10 @@
 
 //! TWI status
 typedef enum _TWI_MODE_E {
-  TW_READY,
-  TW_INITIALIZING,
-  TW_TRANSMITTING,
-  TW_RECEIVING
+  TW_READY,           // I2C module ready
+  TW_INITIALIZING,    // Setting up for I2C communicaton session
+  TW_TRANSMITTING,    // Transmitting data
+  TW_RECEIVING        // Receiving data
 } twi_mode_t;
 
 

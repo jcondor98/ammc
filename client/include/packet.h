@@ -28,30 +28,18 @@ typedef uint8_t header_t[4];
 
 //! Packet types
 typedef enum COM_TYPE_E {
-  //! Reserved, never use
-  COM_TYPE_NULL,
-  //! Handshake
-  COM_TYPE_HND,
-  //! Acknowledgement
-  COM_TYPE_ACK,
-  //! Communication error
-  COM_TYPE_NAK,
-  //! [DEBUG] Echo between Client and Master
-  COM_TYPE_ECHO,
-  //! [DEBUG] Echo between Master and Slave via TWI
-  COM_TYPE_ECHO_TWI,
-  //! Get the current speed for a DC motor
-  COM_TYPE_GET_SPEED,
-  //! Set (and apply) the speed for a DC motor
-  COM_TYPE_SET_SPEED,
-  //! Tell all the slaves to apply the previously set speeds
-  COM_TYPE_APPLY,
-  //! Primarily used for responses from the AVR device
-  COM_TYPE_DAT,
-  //! Set new TWI address for a slave controller
-  COM_TYPE_SET_SLAVE_ADDR,
-  //! Used for sanity checks - Must have highest value
-  COM_TYPE_LIMIT
+  COM_TYPE_NULL,      // Reserved, never use
+  COM_TYPE_HND,       // Handshake
+  COM_TYPE_ACK,       // Acknowledgement
+  COM_TYPE_NAK,       // Communication error
+  COM_TYPE_ECHO,      // [DEBUG] Echo between Client and Master
+  COM_TYPE_TWI_ECHO,  // [DEBUG] Echo a single char to the first Slave via TWI
+  COM_TYPE_GET_SPEED, // Get the current speed for a DC motor
+  COM_TYPE_SET_SPEED, // Set (and apply) the speed for a DC motor
+  COM_TYPE_APPLY,     // Tell all the slaves to apply the previously set speeds
+  COM_TYPE_DAT,       // Primarily used for responses from the AVR device
+  COM_TYPE_SET_SLAVE_ADDR, // Set new TWI address for a slave controller
+  COM_TYPE_LIMIT      // Used for sanity checks - Must have highest value
 } com_type_t;
 
 //! Type definition for a whole packet

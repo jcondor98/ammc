@@ -1,0 +1,84 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+\section{Motivation}
+The use of dc motors is widespread in many application fields. Often, the
+offered solutions are monolithic and use of very specific (and sometimes ad-hoc
+developed) hardware. The ammc ecosystem focuses on the use of very common,
+affordable and easily available hardware, such as AVR microcontrollers.
+
+The software is designed to be modular, extensible and easily hackable by any
+average C programmer, so that in the future other people interested in this
+project can contribute or adapt ammc to fit their needings and accomplish their
+business logic.
+
+\section{Contributions}
+The ammc ecosystem offers a flexible, affordable, hackable solution for the
+management of multiple dc motors. It is composed of three main components:
+
+\begin{itemize}
+  \item A client-side application
+  \item A master controller
+  \item One or more slave controllers
+\end{itemize}
+
+\subsection{Client}
+The client-side application is written in C. It makes use of the POSIX standard
+library, and in particular the \emph{termios} interface to generic serial
+devices. It offers a shell-fashioned terminal user interface.
+
+\subsection{Master}
+The master controller is an AVR microcontroller unit. The firmware is written
+in C, using the \emph{avr-gcc} compiler and the \emph{avr-libc} standard
+library implementation. It dispatches user commands (taken by the client) to
+slave controllers.
+
+\subsection{Slave}
+The slave controllers are AVR microcontroller units. The firmware is written in
+C, using the \emph{avr-gcc} compiler and the \emph{avr-libc} standard library
+implementation. Each slave controller manages a single dc motor, taking
+commands by the master controller.
+
+\section{Technical approach}
+
+\subsection{Software architecture}
+I have developed all the top-level ammc components following the principles I
+have learned both from my University courses\cite{fondamenti2-prog} and my
+personal insights\cite{clean-architecture}\cite{cpp-ref}.
+
+The client application and the microcontroller firmwares were developed
+following the \emph{SOLID} principles, with attention on the \emph{Open-Close
+principle}.  I have put particular attention on modularity; many of the
+software modules found in all the ammc applications are standalone and will
+work out of the box if brought into other projects.
+
+I tried to develop my software with the following policy: the core of the
+application should be composed of reusable, standalone modules; the business
+logic of the application, which obviously changes radically from project to
+project, should be placed in the peripheral modules and should use, when
+possible, interfaces for dependency inversion towards the core modules.
+
+For example, in the master controller firmware source code I use function
+pointers to generalize the operations to be triggered by client commands.
+Naturally, such practices would have been easier and more evident with a
+programming language explicitly supporting the object-oriented paradigm (e.g.\
+C++).
+
+\subsection{Documentation}
+Documentation is paramount in any software project; Damian Conway once said:
+"Documentation is a love letter that you write to your future self". I did my
+best to write precise and exhaustive documentation for every software piece I
+realized.
+
+This thesis is by itself a document dealing with every aspect of the ammc
+project. The \texttt{README.md} file in the root directory of the repository
+offers a more concise resume.
+
+All the source code (the head files in particular) are exhaustively documented
+with \emph{doxygen}, a tool which automatically converts properly formatted
+comments found in the code into technical documentation; such resource is
+available in the \texttt{gh-pages} git development branch and is hosted using
+GitHub Pages.
+
+The client-side application is documented with a Unix man page, which can also
+be found in this thesis in section \ref{sec:client-manpage}.

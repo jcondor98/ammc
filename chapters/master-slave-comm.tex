@@ -1,0 +1,40 @@
+\chapter{Master-Slave communication}
+\label{ch:master-slave-comm}
+The master and slave controllers communicate to each other using the I2C
+bus. Naturally, the master controller is responsible for starting communication
+sessions, addressing one or all the slaves.
+
+The bitrate is set to 100kbit/s, i.e.\ the maximum speed available for the
+original I2C standard\cite{i2c-ref} (excluding fast modes, which were
+implemented later).
+
+\subsection{Hardware setup}
+The I2C bus itself is a pair of bus rails, named \texttt{SDA} and \texttt{SCL},
+representing data and bus clock respectively.
+
+Two $4.7 k\Omega$ resistors connects \texttt{SDA} and \texttt{SCL} to a $5V$
+voltage generator and act as \emph{open-drain} resistors.
+% TODO: Footnote?
+
+\subsection{Communication frames}
+The first byte of the I2C communication frame (excluding, of course, the slave
+address) is an 8-bit unsigned integer representing the command sent by the
+master to the slave. The trailing data represents an argument, with its size
+and shape depending on the type of command issued. Command codes, with their
+specific arguments, are shown in table \ref{tab:i2c-commands}.
+
+\begin{table}[bh]
+  \begin{tabularx}{\textwidth}{c c c X}
+    \toprule
+    Command & Code & Arg.\ size (bytes) & Description \\
+    \midrule
+      \texttt{DC\_MOTOR\_CMD\_GET}   & \texttt{0x00} & - & Get the dc motor speed in rpm \\
+      \texttt{DC\_MOTOR\_CMD\_SET}   & \texttt{0x01} & 1 & Set the dc motor target speed \\
+      \texttt{DC\_MOTOR\_CMD\_APPLY} & \texttt{0x02} & - & Apply the previously set target speed \\
+      \texttt{TWI\_CMD\_ECHO}        & \texttt{0x03} & 1 & Send back the received character to the master (debug)\\
+      \texttt{TWI\_CMD\_SET\_ADDR}   & \texttt{0x04} & 1 & Set a different I2C slave address \\
+    \bottomrule
+  \end{tabularx}
+  \caption{Master-to-slave commands}
+  \label{tab:i2c-commands}
+\end{table}

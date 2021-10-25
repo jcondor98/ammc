@@ -1,4 +1,13 @@
+private
+
+*/objects/*.o
+*/target/*
+!*/target/.gitkeep
+
+docs
+
 .ammc
+
 *.aux
 *.log
 *.out

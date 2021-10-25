@@ -1,0 +1,43 @@
+\chapter{Conclusions}
+\label{ch:conclusions}
+In this work I developed an electrical motor handling hardware/software
+solution with modularity and extensibility in mind. In this very final chapter
+I demonstrate how ammc can be used in practice and I explain how it could be
+developed further in the future.
+
+\section{Example setup}
+
+\subsection{Hardware}
+The hardware required for the example setup given here is the following:
+\begin{itemize}
+  \item One \emph{ATMega2560} microcontroller unit for the master controller
+  \item One \emph{ATMega328P} microcontroller unit for the slave controller
+  \item One dc motor with embedded two-phase encoder
+  \item Two $4.7 k\Omega$ resistors for the I2C open-drain
+  \item One capacitor of about $100 pF$ to inhibit the reset-over-serial
+    capabilities of the ATMega2560 board
+\end{itemize}
+Optionally, a dedicated motor board may be used.
+
+The hardware setup must be performed as shown in figures \ref{img:master-sch}
+and \ref{img:slave-sch}.
+The motor must be powered consistently with its requirements (usually $12 V$).
+The AVR microcontrollers can be powered using their USB sockets. The I2C
+reference voltage can be set by using a $5 V$ output pin of the master
+controller board.
+
+\subsection{Software}
+The software can be built and eventually flashed using GNU Make. the
+\emph{avr-gcc} toolchain and the \emph{avr-libc} library are required for the
+build, while \emph{avrdude} is required for flashing.
+
+The \texttt{make} command will build all the ammc software, i.e.\ the master
+and slave controllers firmwares and the client application. The \texttt{make
+master-flash} and the \texttt{make slave-flash} commands will flash the master
+and slave firmwares into their respective microcontrollers.
+
+At last, the user may want to use the \texttt{set-slave-addr} command to assign
+an arbitrary address to the only slave controller.
+
+\section{Future work}
+% Enhance customizability to directly embed business logic into the master controller

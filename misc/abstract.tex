@@ -1,0 +1,35 @@
+\begin{abstract}
+  Nowadays, men physical work is gradually being taken or eased by technology.
+  Many solutions in this area of interest rely on the use of electrical motors
+  to accomplish tasks. Furthermore, electrical motors are widely used in many
+  retail products, such as toys, domotic devices and so on.
+
+  In this work I propose, as the result of my bachelor degree apprenticeship,
+  the \emph{AVR Multi Motor Control} ecosystem as a solution for the management
+  of multiple dc motors. It is composed of a \emph{client} application for user
+  interaction, a \emph{master} controller and multiple \emph{slave}
+  controllers, each handling a single motor. The master controller manages
+  slave controllers, reading and manipulating the dc motors' speed with
+  granularity.
+
+  In chapter \ref{ch:intro} I give a broad overview on the work done, focusing
+  on the structure of the entire project and the approach I had relating to 
+  software architecture, coding and documentation writing.
+
+  In chapter \ref{ch:client} I discuss the client-side application, focusing on
+  user interaction and software architectural characteristics.
+
+  In chapter \ref{ch:master} I discuss the master controller, focusing on
+  hardware setup and firmware internals.
+
+  In chapter \ref{ch:slave} I discuss the slave controller, focusing on
+  hardware and the software-defined Proportional-Integral-Derivative controller
+  embedded in the firmware.
+
+  In chapter \ref{ch:client-master-comm} I discuss the protocols responsible
+  for the communication between the client application and the master
+  controller, and how I used the underlying serial communication channel.
+
+  In chapter \ref{ch:master-slave-comm} I explain how I used the I2C bus to
+  connect the master controller to multiple slave controllers.
+\end{abstract}

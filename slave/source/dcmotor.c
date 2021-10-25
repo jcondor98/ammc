@@ -31,7 +31,7 @@ static uint8_t pid_ongoing; // Is the PID sampling daemon ongoing?
 
 // Convert RPM in a proper PWM duty cycle value
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
-  return 0xFF - rpm * 0xFF / DC_MOTOR_MAX_RPM;
+  return 0xFF * rpm / DC_MOTOR_MAX_RPM; // Non-inverting
 }
 
 

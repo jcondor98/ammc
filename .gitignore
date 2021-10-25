@@ -7,3 +7,9 @@ private
 docs
 
 .ammc
+
+*.aux
+*.log
+*.out
+*.bbl
+*.blg

@@ -101,6 +101,9 @@ make master
 # Compile and link slave .elf binary
 make slave
 
+# Encode the master .elf binary into a .hex file and flash it into the AVR
+make master-flash
+
 # Encode the slave .elf binary into a .hex file and flash it into the AVR
 make slave-flash
 ```
@@ -130,17 +133,17 @@ Field | Size (bits) | Description
 
 Type | Actual value | Description
 :-:|:-:|---
-`COM_TYPE_NULL`      | `0x01` | Reserved, never use
-`COM_TYPE_HND`       | `0x02` | Handshake
-`COM_TYPE_ACK`       | `0x03` | Acknowledgement
-`COM_TYPE_NAK`       | `0x04` | Communication error
-`COM_TYPE_ECHO`      | `0x05` | [DEBUG] Echo between Client and Master
-`COM_TYPE_TWI_ECHO`  | `0x06` | [DEBUG] Echo a single char to the first Slave via TWI
-`COM_TYPE_GET_SPEED` | `0x07` | Get the current speed for a DC motor
-`COM_TYPE_SET_SPEED` | `0x08` | Set (and apply) the speed for a DC motor
-`COM_TYPE_APPLY`     | `0x09` | Tell all the slaves to apply the previously set speeds
-`COM_TYPE_DAT`       | `0x0A` | Primarily used for responses from the AVR device
-`COM_TYPE_LIMIT`     | `0x0B` | Used for sanity checks - Must have highest value
+`COM_TYPE_NULL`      | `0x00` | Reserved, never use
+`COM_TYPE_HND`       | `0x01` | Handshake
+`COM_TYPE_ACK`       | `0x02` | Acknowledgement
+`COM_TYPE_NAK`       | `0x03` | Communication error
+`COM_TYPE_ECHO`      | `0x04` | [DEBUG] Echo between Client and Master
+`COM_TYPE_TWI_ECHO`  | `0x05` | [DEBUG] Echo a single char to the first Slave via TWI
+`COM_TYPE_GET_SPEED` | `0x06` | Get the current speed for a DC motor
+`COM_TYPE_SET_SPEED` | `0x07` | Set (and apply) the speed for a DC motor
+`COM_TYPE_APPLY`     | `0x08` | Tell all the slaves to apply the previously set speeds
+`COM_TYPE_DAT`       | `0x09` | Primarily used for responses from the AVR device
+`COM_TYPE_LIMIT`     | `0x0A` | Used for sanity checks - Must have highest value
 
 #### Acknowledgements
 

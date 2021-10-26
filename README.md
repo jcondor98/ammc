@@ -143,7 +143,8 @@ Type | Actual value | Description
 `COM_TYPE_SET_SPEED` | `0x07` | Set (and apply) the speed for a DC motor
 `COM_TYPE_APPLY`     | `0x08` | Tell all the slaves to apply the previously set speeds
 `COM_TYPE_DAT`       | `0x09` | Primarily used for responses from the AVR device
-`COM_TYPE_LIMIT`     | `0x0A` | Used for sanity checks - Must have highest value
+`COM_TYPE_SET_SLAVE_ADDR` | `0x0A` | Set new TWI address for a slave controller
+`COM_TYPE_LIMIT`     | `0x0B` | Used for sanity checks - Must have highest value
 
 #### Acknowledgements
 
@@ -194,11 +195,11 @@ size trailing argument. The commands are listed below:
 
 Command | Code | Description
 :-:|:-:|---
-`DC\_MOTOR\_CMD\_GET`   | `0x00` | Get the sampled motor speed
-`DC\_MOTOR\_CMD\_SET`   | `0x01` | Set a new target speed
-`DC\_MOTOR\_CMD\_APPLY` | `0x02` | Apply the previously set speed
-`TWI\_CMD\_ECHO`        | `0x03` | Echo a byte back to master (debug)
-`TWI\_CMD\_SET\_ADDR`   | `0x04` | Change the current I2C address (i.e. motor id)
+`DC_MOTOR_CMD_GET`   | `0x00` | Get the sampled motor speed
+`DC_MOTOR_CMD_SET`   | `0x01` | Set a new target speed
+`DC_MOTOR_CMD_APPLY` | `0x02` | Apply the previously set speed
+`TWI_CMD_ECHO`        | `0x03` | Echo a byte back to master (debug)
+`TWI_CMD_SET_ADDR`   | `0x04` | Change the current I2C address (i.e. motor id)
 
 
 ## Notes

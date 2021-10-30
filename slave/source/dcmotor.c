@@ -1,7 +1,7 @@
 // AVR Multi Motor Control
 /*! \file slave/source/dcmotor.c
  * DC Motor Slave Module
- * \todo Handle counter-clockwise rotation
+ * \todo Use 16-bit PWM
  *
  * \author Paolo Lucchesi
  */
@@ -10,15 +10,25 @@
 #include "dcmotor.h"
 
 #define OCR_ONE_MSEC 15.625
+#define abs(x) ((x) > 0 ? (x) : -(x))
 
-// Type to properly store Rounds Per Minutes
+//! Type to properly store Rounds Per Minutes
 typedef uint8_t duty_cycle_t;
 
+//! Type defining the DC motor rotation direction
+typedef enum _DC_DIRECTION_E {
+  DIR_CLOCKWISE, DIR_COUNTER_CLOCKWISE
+} dc_direction_t;
+
+
 // DC motor RPM variables
-static uint16_t dc_motor_position;   // Raw position measured via encoder
+static int64_t dc_motor_position;   // Raw position measured via encoder
 static volatile dc_rpm_t rpm_actual; // Actual RPM measured via encoder
 static dc_rpm_t rpm_target; // DC motor current target RPM
 static dc_rpm_t rpm_next;   // Next target RPM to apply
+
+// Rotation direction
+dc_direction_t dc_motor_direction;
 
 // Proportional Integral Derivative controller variables
 static float pid_kp = 0.80; // Proportional weight
@@ -29,11 +39,25 @@ static float pid_err_prev;  // Previous error, used to compute Derivative
 static uint8_t pid_ongoing; // Is the PID sampling daemon ongoing?
 
 
-// Convert RPM in a proper PWM duty cycle value
+/*!
+ * Convert RPM in a proper PWM duty cycle value
+ *
+ * @param rpm A speed value given in RPM
+ */
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
   return 0xFF * rpm / DC_MOTOR_MAX_RPM; // Non-inverting
 }
 
+/*!
+ * Internally set rotation direction
+ * \todo: Implement direction set
+ */
+static inline void dcmotor_set_direction(dc_direction_t dir) {
+  if (dir == DIR_CLOCKWISE)
+    ;
+  else
+    ;
+}
 
 // Initialize DC motor handling -- Use PORTD6, i.e. OC0A, as PWM pin
 void dcmotor_init(void) {
@@ -52,6 +76,9 @@ void dcmotor_init(void) {
   DDRD &= ~(1 << 7); PORTD |= 1 << 7;
   DDRB &= ~(1 << 0); PORTB |= 1 << 0;
 
+  // Set clockwise rotation direction as default
+  dcmotor_set_direction(DIR_CLOCKWISE);
+
   // Enable interrupt for one of the encoder pins (we use Encoder Phase A)
   // Pin PD7 is PCINT0
   PCICR |= 1 << PCIE0;
@@ -68,7 +95,8 @@ void dcmotor_set(dc_rpm_t next) {
 
 // Apply the previously given RPM value
 void dcmotor_apply(void) {
-  OCR0A = rpm2pwm(rpm_next);
+  dcmotor_set_direction(rpm_next > 0 ? DIR_CLOCKWISE : DIR_COUNTER_CLOCKWISE);
+  OCR0A = rpm2pwm(abs(rpm_next));
   rpm_target = rpm_next;
 }
 
@@ -111,7 +139,8 @@ ISR(TIMER2_COMPA_vect) {
 
   // Compute and apply PID corrected value
   float u = pid_kp * e_rpm + pid_ki * pid_err_int + pid_kd + e_rpm_der;
-  OCR0A = rpm2pwm((dc_rpm_t) u);
+  dcmotor_set_direction(u > 0 ? DIR_CLOCKWISE : DIR_COUNTER_CLOCKWISE);
+  OCR0A = rpm2pwm(abs((dc_rpm_t) u));
 
   // Setup for next sample
   dc_motor_position = 0;

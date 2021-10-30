@@ -8,9 +8,9 @@
 #define __DC_MOTOR_MODULE_H
 #include <stdint.h>
 
-//! \todo Set this to something meaningful
+//! \todo Set this dynamically, also using the EEPROM
 //! Maximum speed of a motor in RPM
-#define DC_MOTOR_MAX_SPEED 200
+#define DC_MOTOR_MAX_SPEED 3100
 
 //! Handle DC motor number
 #define DC_MOTOR_NUM 4
@@ -19,7 +19,7 @@
 #define DC_MOTOR_SEL_ALL (0xFF << (8-DC_MOTOR_NUM) >> (8-DC_MOTOR_NUM))
 
 //! Type to properly store a rounds per minute value
-typedef uint8_t dc_rpm_t;
+typedef int16_t dc_rpm_t;
 
 /*!
  * \enum _DC_MOTOR_CMD_E

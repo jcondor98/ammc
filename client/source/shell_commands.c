@@ -3,6 +3,7 @@
  * Shell module - Commands
  *
  * \author Paolo Lucchesi
+ * \todo Define various declarations and macros in a head file
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,16 +28,13 @@
 
 
 // Limit mask for DC motor IDs
-//! \todo Define this in a head file
 #define DC_MOTOR_ID_LIMIT 127
 
 // Type to properly handle RPM values
-//! \todo Define this in a head file
-typedef uint8_t dc_rpm_t;
+typedef int16_t dc_rpm_t;
 
 
 // Type definition for the internal shell storage
-//! \todo Other application stuff to add?
 typedef struct _shell_storage_s {
   int avr_fd;
 } shell_storage_t;
@@ -168,7 +166,7 @@ int dev_echo_twi(int argc, char *argv[], void *storage) {
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
   // Send the character to Master
-  sh_error_on(psend(COM_TYPE_ECHO_TWI, 0, (const void*) argv[1], 1) != 0, 3,
+  sh_error_on(psend(COM_TYPE_TWI_ECHO, 0, (const void*) argv[1], 1) != 0, 3,
       "Could not send char to Master");
 
   // Get the character back from Master
@@ -206,7 +204,7 @@ int get_speed(int argc, char *argv[], void *storage) {
 
   // Print the received speeds
   dc_rpm_t speed = (dc_rpm_t)(*response->body);
-  printf("%hhu: %hhu\n", motor_id, speed);
+  printf("%hhu: %hd\n", motor_id, speed);
 
   return 0;
 }
@@ -224,7 +222,7 @@ int set_speed(int argc, char *argv[], void *storage) {
   // Parse speed entered by user
   unsigned char motor_id;
   dc_rpm_t speed;
-  int ret = sscanf(argv[1], "%hhu=%hhu", &motor_id, &speed);
+  int ret = sscanf(argv[1], "%hhu=%hd", &motor_id, &speed);
   sh_error_on(ret != 1 || ret >= DC_MOTOR_ID_LIMIT, 1,
       "Bad argument: %s", argv[1]);
   sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");

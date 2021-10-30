@@ -22,7 +22,7 @@
 #define DC_SAMPLING_INTERVAL 100
 
 //! Type to properly store Rounds Per Minutes
-typedef uint8_t dc_rpm_t;
+typedef uint16_t dc_rpm_t;
 
 /*!
  * \enum _DC_MOTOR_CMD_E

@@ -40,4 +40,19 @@ At last, the user may want to use the \texttt{set-slave-addr} command to assign
 an arbitrary address to the only slave controller.
 
 \section{Future work}
-% Enhance customizability to directly embed business logic into the master controller
+
+\subsection{Extended connectivity}
+The extension of the master controller connectivity would make ammc suitable
+for whole new range of application possibilities. For example, \emph{LoRaWAN}
+and similar communication vectors would make ammc a motor management system
+suitable for dc motor distributed in a wide-area. The use of multiple wired
+low-level communication means such as SPI or raw serial ports would make ammc
+suitable for a multi-master, multi-group setup.
+
+\subsection{Programming API}
+The client application offers a non-interactive mode for basic scriping
+functionality. Thus it is good for basic automation, it is quite limited when
+more complex features are required, such as an advanced use of logic or control
+flow capabilities. For this purpose, the implementation of a programming API,
+eventually with bindings in various languages, would make the ammc
+functionality directly available to the programmer as high-level functions.

@@ -54,4 +54,6 @@
 \contentsline {subsection}{\numberline {7.1.1}Hardware}{27}{subsection.7.1.1}%
 \contentsline {subsection}{\numberline {7.1.2}Software}{28}{subsection.7.1.2}%
 \contentsline {section}{\numberline {7.2}Future work}{28}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Extended connectivity}{28}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Programming API}{28}{subsection.7.2.2}%
 \contentsline {chapter}{Bibliography}{29}{section*.24}%

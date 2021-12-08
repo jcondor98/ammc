@@ -223,7 +223,7 @@ int set_speed(int argc, char *argv[], void *storage) {
   unsigned char motor_id;
   dc_rpm_t speed;
   int ret = sscanf(argv[1], "%hhu=%hd", &motor_id, &speed);
-  sh_error_on(ret != 1 || ret >= DC_MOTOR_ID_LIMIT, 1,
+  sh_error_on(ret != 2 || ret >= DC_MOTOR_ID_LIMIT, 1,
       "Bad argument: %s", argv[1]);
   sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");
 

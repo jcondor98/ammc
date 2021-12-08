@@ -165,11 +165,13 @@ uint8_t communication_handler(void) {
 
   // Encountered error - In case of NAK, the selector field will be used
   // to communicate this
-  uint8_t error = E_SUCCESS;
+  uint8_t error;
+  uint8_t ret = 0;
 
   // Main handler loop
   while (1) {
-    uint8_t ret = 0;
+    error = E_SUCCESS;
+
     switch (state) {
       case STATE_LISTEN:  // Check for available data
         if (serial_rx_available()) ++state;

@@ -3,6 +3,7 @@
  * Communication module (server)
  *
  * \author Paolo Lucchesi
+ * \todo Move the operations outside of the communication module
  */
 #include <avr/io.h>
 
@@ -53,38 +54,45 @@ void communication_send(uint8_t type, uint8_t selector,
   serial_tx((uint8_t*) p, packet_get_size(p));
 }
 
-// Receive a packet
-com_error_t communication_recv(packet_t *rx) {
-  uint8_t *_rx = (uint8_t*) rx;
-  uint8_t received = 0;
-  uint8_t to_recv;
-  uint8_t id, size, type; // Header parameters (just for convenience)
 
-  // Receive packet header
-  serial_rx(_rx, sizeof(header_t));
-  received = sizeof(header_t);
-  id = packet_get_id(rx);
-  type = packet_get_type(rx);
-  size = packet_get_size(rx);
-
+// Check packet header sanity
+static inline com_error_t packet_header_sanity(const packet_t *p) {
+  uint8_t id = packet_get_id(p);
+  uint8_t type = packet_get_type(p);
+  uint8_t size = packet_get_size(p);
   // Check on packet ID
   if (id != packet_global_id && (type != COM_TYPE_HND || id != 0))
     return E_ID_MISMATCH;
-
   // Check on packet size
   if (size > sizeof(header_t) + BODY_MAX_LEN + sizeof(crc_t))
     return E_TOO_BIG;
+  return E_SUCCESS; // Sane packet header
+}
 
-  // Receive packet body and checksum
-  to_recv = size - sizeof(header_t);
-  serial_rx(_rx + received, to_recv);
-  received += to_recv;
+// Check packet sanity (not considering header)
+static inline com_error_t packet_sanity(const packet_t *p) {
+  if (packet_get_type(p) >= COM_TYPE_LIMIT)  return E_WRONG_TYPE;
+  if (crc_check(p, packet_get_size(p)) != 0) return E_CORRUPTED_CHECKSUM;
+  return E_SUCCESS; // Sane packet
+}
 
-  // Check packet type and checksum
-  if (type >= COM_TYPE_LIMIT)   return E_WRONG_TYPE;
-  if (crc_check(rx, size) != 0) return E_CORRUPTED_CHECKSUM;
+static inline void recv_packet_header(packet_t *rx) {
+  serial_rx((void*) rx, sizeof(header_t));
+}
 
-  return E_SUCCESS;
+static inline void recv_packet_body(packet_t *rx) {
+  void *rx_body = ((void*) rx) + sizeof(header_t);
+  uint8_t body_size = packet_get_size(rx) - sizeof(header_t);
+  serial_rx(rx_body, body_size);
+}
+
+com_error_t communication_recv(packet_t *rx) {
+  recv_packet_header(rx);
+  com_error_t header_sanity = packet_header_sanity(rx);
+  if (header_sanity != E_SUCCESS)
+    return header_sanity;
+  recv_packet_body(rx);
+  return packet_sanity(rx);
 }
 
 

@@ -8,7 +8,7 @@
 #include "packet.h"
 
 // Compose packet header
-static void packet_header(packet_t *p, uint8_t id, uint8_t type,
+static inline void packet_header(packet_t *p, uint8_t id, uint8_t type,
     uint8_t selector, uint8_t size) {
   p->header[0] = id;
   p->header[1] = type;
@@ -24,15 +24,13 @@ uint8_t packet_craft(packet_t *p, uint8_t id, uint8_t type, uint8_t selector,
       type >= COM_TYPE_LIMIT)
     return 1;
 
-  // Compose packet header
+  // Compute missing packet fields
   uint8_t size = sizeof(header_t) + body_size + sizeof(crc_t);
-  packet_header(p, id, type, selector, size);
-
-  // Compose packet body
-  if (body) memcpy(p->body, body, body_size);
-
-  // Compute and attach checksum
   crc_t cksum = crc(p, packet_get_size(p) - sizeof(cksum));
+
+  // Populate the packet
+  packet_header(p, id, type, selector, size);
+  if (body) memcpy(p->body, body, body_size);
   memcpy(p->body + body_size, &cksum, sizeof(cksum));
 
   return 0;

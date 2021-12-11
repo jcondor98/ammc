@@ -54,9 +54,9 @@ static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
  */
 static inline void dcmotor_set_direction(dc_direction_t dir) {
   if (dir == DIR_CLOCKWISE)
-    ;
-  else
-    ;
+    PORTD &= ~(1 << 4);
+  else if (dir == DIR_COUNTER_CLOCKWISE)
+    PORTD |= ~(1 << 4);
 }
 
 // Initialize DC motor handling -- Use PORTD6, i.e. OC0A, as PWM pin
@@ -77,6 +77,7 @@ void dcmotor_init(void) {
   DDRB &= ~(1 << 0); PORTB |= 1 << 0;
 
   // Set clockwise rotation direction as default
+  DDRD |= (1 << 4); // Use pin D6
   dcmotor_set_direction(DIR_CLOCKWISE);
 
   // Enable interrupt for one of the encoder pins (we use Encoder Phase A)

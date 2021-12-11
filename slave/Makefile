@@ -24,15 +24,15 @@ CC := avr-gcc
 AS := avr-gcc
 CFLAGS := -Wall --std=gnu99 -DF_CPU=16000000UL -O3 -funsigned-char\
  -funsigned-bitfields  -fshort-enums -Wstrict-prototypes\
- -mmcu=atmega328p -I$(INCDIR) -DAVR -D__AVR_3_BYTE_PC__
+ -mmcu=atmega2560 -I$(INCDIR) -DAVR -D__AVR_3_BYTE_PC__
 ASFLAGS := -x assembler-with-cpp $(CFLAGS)
 
 # Avrdude settings
 AVRDUDE := avrdude
-AVRDUDE_MCU := m328p
+AVRDUDE_MCU := atmega2560
 AVRDUDE_PROGRAMMER := arduino
 AVRDUDE_BAUDRATE := 115200
-AVRDUDE_PORT := /dev/ttyUSB0
+AVRDUDE_PORT := /dev/ttyACM0
 AVRDUDE_NO_VERIFY := -V
 
 AVRDUDE_FLAGS := -p $(AVRDUDE_MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)\

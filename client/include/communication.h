@@ -58,8 +58,12 @@ int communication_recv(int dev_fd, packet_t *p);
  * @returns 0 on success, 1 on failure
  * \warning Never use for HND, ACK or ERR packet types
  */
-int communication_craft_and_send(int dev_fd, unsigned char type,
-    unsigned char selector, const unsigned char *data,
-    unsigned char data_size);
+int communication_craft_and_send(
+  int dev_fd,
+  unsigned char type,
+  unsigned char selector,
+  const unsigned char *data,
+  unsigned char data_size
+);
 
 #endif   // __COMMUNICATION_MODULE_H

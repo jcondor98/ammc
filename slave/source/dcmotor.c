@@ -8,51 +8,30 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "dcmotor.h"
+#include "dcmotor_pid.h"
+#include "dcmotor_types.h"
 
 #define OCR_ONE_MSEC 15.625
 #define abs(x) ((x) > 0 ? (x) : -(x))
 
-//! Type to properly store Rounds Per Minutes
 typedef uint8_t duty_cycle_t;
 
-//! Type defining the DC motor rotation direction
-typedef enum _DC_DIRECTION_E {
+typedef enum _DIRECTION_E {
   DIR_CLOCKWISE, DIR_COUNTER_CLOCKWISE
-} dc_direction_t;
+} direction_t;
 
 
-// DC motor RPM variables
-static int64_t dc_motor_position;   // Raw position measured via encoder
-static volatile dc_rpm_t rpm_actual; // Actual RPM measured via encoder
-static dc_rpm_t rpm_target; // DC motor current target RPM
-static dc_rpm_t rpm_next;   // Next target RPM to apply
-
-// Rotation direction
-dc_direction_t dc_motor_direction;
-
-// Proportional Integral Derivative controller variables
-static float pid_kp = 0.80; // Proportional weight
-static float pid_ki = 0.05; // Integral weight
-static float pid_kd = 0.15; // Derivative weight
-static float pid_err_int;   // Integral error value
-static float pid_err_prev;  // Previous error, used to compute Derivative
-static uint8_t pid_ongoing; // Is the PID sampling daemon ongoing?
+static int64_t motor_position;
+static volatile dc_rpm_t speed_actual;
+static dc_rpm_t speed_target;
+static dc_rpm_t speed_next;
 
 
-/*!
- * Convert RPM in a proper PWM duty cycle value
- *
- * @param rpm A speed value given in RPM
- */
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
   return 0xFF * rpm / DC_MOTOR_MAX_RPM; // Non-inverting
 }
 
-/*!
- * Internally set rotation direction
- * \todo: Implement direction set
- */
-static inline void dcmotor_set_direction(dc_direction_t dir) {
+static inline void dcmotor_set_direction(direction_t dir) {
   if (dir == DIR_CLOCKWISE)
     PORTD &= ~(1 << 4);
   else if (dir == DIR_COUNTER_CLOCKWISE)
@@ -61,6 +40,9 @@ static inline void dcmotor_set_direction(dc_direction_t dir) {
 
 // Initialize DC motor handling -- Use PORTD6, i.e. OC0A, as PWM pin
 void dcmotor_init(void) {
+  // TODO: Clean those ugly constants
+  dcmotor_pid_init(0.80, 0.05, 0.15, DC_SAMPLING_INTERVAL);
+
   // Configure PWM timer -- Fast PWM, 8 bits, non inverted
   DDRD |= 1 << 6;
   TCCR0A = (1 << WGM00) | (1 << COM0A1) | (1 << COM0A0);
@@ -86,32 +68,19 @@ void dcmotor_init(void) {
   PCMSK0 |= 1 << 0;
 }
 
-// Get the last sampled speed, internally stored
-dc_rpm_t dcmotor_get(void) { return rpm_actual; }
+dc_rpm_t dcmotor_get(void) {
+  return speed_actual;
+}
 
-// Set a new speed (without applying it)
 void dcmotor_set(dc_rpm_t next) {
-  rpm_next = next;
+  speed_next = next;
 }
 
-// Apply the previously given RPM value
 void dcmotor_apply(void) {
-  dcmotor_set_direction(rpm_next > 0 ? DIR_CLOCKWISE : DIR_COUNTER_CLOCKWISE);
-  OCR0A = rpm2pwm(abs(rpm_next));
-  rpm_target = rpm_next;
-}
-
-// Start the DC motor PID sampling timer
-void dcmotor_pid_start(void) {
-  TCNT1 = 0;
-  TIMSK1 |=  (1 << OCIE1A);
-  pid_ongoing = 1;
-}
-
-// Stop the DC motor PID sampling timer
-void dcmotor_pid_stop(void) {
-  TIMSK1 &= ~(1 << OCIE1A);
-  pid_ongoing = 0;
+  dcmotor_set_direction(
+      speed_next > 0 ? DIR_CLOCKWISE : DIR_COUNTER_CLOCKWISE);
+  OCR0A = rpm2pwm(abs(speed_next));
+  speed_target = speed_next;
 }
 
 
@@ -119,32 +88,34 @@ void dcmotor_pid_stop(void) {
 ISR(PCINT0_vect) {
   uint8_t enc_a = PIND | (1 << 7);
   uint8_t enc_b = PINB | (1 << 0);
-  if (enc_a != 0) dc_motor_position += (enc_b == 1) ? 1 : -1;
+  if (enc_a != 0) motor_position += (enc_b == 1) ? 1 : -1;
 }
 
 
-// PID sampling timer ISR
-ISR(TIMER2_COMPA_vect) {
-  // Finish actual RPM sampling
-  float rpm = dc_motor_position * 60000 /
+void dcmotor_pid_start(void) {
+  TCNT1 = 0;
+  TIMSK1 |=  (1 << OCIE1A);
+}
+
+void dcmotor_pid_stop(void) {
+  TIMSK1 &= ~(1 << OCIE1A);
+}
+
+
+static inline float compute_speed_from_position(int64_t position) {
+  return position * 60000 /
     DC_ENC_SIGNALS_PER_ROUND / DC_SAMPLING_INTERVAL;
+}
 
-  // Proportional factor (i.e. current error)
-  float e_rpm = rpm - rpm_target;
+// PID sampling timer ISR
+ISR(TIMER1_COMPA_vect) {
+  float speed = compute_speed_from_position(motor_position);
+  float u = dcmotor_pid_iterate(speed, speed_target);
 
-  // Integral factor
-  pid_err_int += e_rpm * DC_SAMPLING_INTERVAL / 60000;
-
-  // Derivative factor
-  float e_rpm_der = (e_rpm - pid_err_prev) * 60000 / DC_SAMPLING_INTERVAL;
-
-  // Compute and apply PID corrected value
-  float u = pid_kp * e_rpm + pid_ki * pid_err_int + pid_kd + e_rpm_der;
   dcmotor_set_direction(u > 0 ? DIR_CLOCKWISE : DIR_COUNTER_CLOCKWISE);
   OCR0A = rpm2pwm(abs((dc_rpm_t) u));
 
   // Setup for next sample
-  dc_motor_position = 0;
-  rpm_actual = (dc_rpm_t) rpm;
-  pid_err_prev = e_rpm;
+  motor_position = 0;
+  speed_actual = (dc_rpm_t) speed;
 }

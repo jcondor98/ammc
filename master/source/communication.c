@@ -6,6 +6,7 @@
  * \todo Move the operations outside of the communication module
  */
 #include <avr/io.h>
+#include <stddef.h>
 
 #include "communication.h"
 #include "serial.h"

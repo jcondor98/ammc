@@ -10,6 +10,7 @@ INCDIR := include
 OBJDIR := objects
 RESDIR := ../resources
 TGTDIR := target
+INCDIR_COMMON := ../include
 
 # Search Paths
 vpath %.c $(SRCDIR)
@@ -17,7 +18,7 @@ vpath %.s $(SRCDIR)
 
 # Compiler setup
 CC := gcc
-CFLAGS := -std=gnu99 -Wall -I$(INCDIR) -funsigned-bitfields -fshort-enums -Wno-missing-braces
+CFLAGS := -std=gnu99 -Wall -I$(INCDIR) -I$(INCDIR_COMMON) -funsigned-bitfields -fshort-enums -Wno-missing-braces
 NDEBUGFLAGS := -O2 -DNDEBUG
 DEBUGFLAGS := -O2 -ggdb -DDEBUG
 

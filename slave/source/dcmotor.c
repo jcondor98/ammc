@@ -9,7 +9,6 @@
 #include <avr/interrupt.h>
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
-#include "dcmotor_types.h"
 
 #define OCR_ONE_MSEC 15.625
 #define abs(x) ((x) > 0 ? (x) : -(x))
@@ -28,7 +27,7 @@ static dc_rpm_t speed_next;
 
 
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
-  return 0xFF * rpm / DC_MOTOR_MAX_RPM; // Non-inverting
+  return 0xFF * rpm / DC_MOTOR_MAX_RPM_SPEED; // Non-inverting
 }
 
 static inline void dcmotor_set_direction(direction_t dir) {

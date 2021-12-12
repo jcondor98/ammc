@@ -11,6 +11,7 @@ SRCDIR := source
 INCDIR := include
 OBJDIR := objects
 TGTDIR := target
+INCDIR_COMMON := ../include
 
 # Search paths
 vpath %.c $(SRCDIR)
@@ -24,7 +25,7 @@ CC := avr-gcc
 AS := avr-gcc
 CFLAGS := -Wall --std=gnu99 -DF_CPU=16000000UL -O3 -funsigned-char\
  -funsigned-bitfields  -fshort-enums -Wstrict-prototypes\
- -mmcu=atmega2560 -I$(INCDIR) -DAVR -D__AVR_3_BYTE_PC__
+ -mmcu=atmega2560 -I$(INCDIR) -I$(INCDIR_COMMON) -DAVR -D__AVR_3_BYTE_PC__
 ASFLAGS := -x assembler-with-cpp $(CFLAGS)
 
 # Avrdude settings

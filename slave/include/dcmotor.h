@@ -7,6 +7,7 @@
 #ifndef __DC_MOTOR_MODULE_H
 #define __DC_MOTOR_MODULE_H
 #include <stdint.h>
+#include "common/dcmotor.h"
 
 //! Initialize DC motor handling
 void dcmotor_init(void);

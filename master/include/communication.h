@@ -7,6 +7,7 @@
 #ifndef __COMMUNICATION_H
 #define __COMMUNICATION_H
 #include <stdint.h>
+#include "common/communication.h"
 #include "packet.h"
 
 /*!

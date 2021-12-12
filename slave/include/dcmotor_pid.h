@@ -6,7 +6,7 @@
  */
 #ifndef __DCMOTOR_PID_MODULE_H
 #define __DCMOTOR_PID_MODULE_H
-#include "dcmotor_types.h"
+#include "common/dcmotor.h"
 
 /*!
  * Initialize the PID controller

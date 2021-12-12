@@ -6,29 +6,8 @@
  */
 #ifndef __MASTER_TO_SLAVE_COMMANDS_H
 #define __MASTER_TO_SLAVE_COMMANDS_H
+#include "common/master_commands.h"
 #include "twi.h"
-
-#define COMMAND_MAX_SIZE TW_RX_MAX_LEN
-#define COMMAND_ARG_MAX_SIZE (COMMAND_MAX_SIZE-1)
-
-//! Data type for a master command
-typedef struct _master_command_s {
-  uint8_t id;
-  uint8_t argument[COMMAND_ARG_MAX_SIZE];
-} master_command_t;
-
-
-/*!
- * \enum _DC_MOTOR_CMD_E
- * \brief Master -> Slave commands
- */
-typedef enum _DC_MOTOR_CMD_E {
-  CMD_GET_SPEED,   // Get the dc motor speed
-  CMD_SET_SPEED,   // Set a new speed for the dc motor
-  CMD_APPLY_SPEED, // Apply the previously set speed
-  CMD_ECHO,        // [Debug] Echo a single character via I2C
-  CMD_SET_ADDR     // Change the slave current address
-} dc_motor_cmd_t;
 
 /*!
  * Receive a command

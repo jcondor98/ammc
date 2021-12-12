@@ -3,23 +3,12 @@
  * DC Motor Master Module
  *
  * \author Paolo Lucchesi
+ * \todo Make a common header file?
  */
 #ifndef __DC_MOTOR_MODULE_H
 #define __DC_MOTOR_MODULE_H
 #include <stdint.h>
-
-//! \todo Set this dynamically, also using the EEPROM
-//! Maximum speed of a motor in RPM
-#define DC_MOTOR_MAX_SPEED 3100
-
-//! Handle DC motor number
-#define DC_MOTOR_NUM 4
-
-//! Predefined selector value with all motors selected
-#define DC_MOTOR_SEL_ALL (0xFF << (8-DC_MOTOR_NUM) >> (8-DC_MOTOR_NUM))
-
-//! Type to properly store a rounds per minute value
-typedef int16_t dc_rpm_t;
+#include "common/dcmotor.h"
 
 /*!
  * Get the speed of a DC motor in RPM

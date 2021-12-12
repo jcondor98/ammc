@@ -8,23 +8,13 @@
 #include <avr/io.h>
 
 #include "communication.h"
-#include "dcmotor.h"
 #include "serial.h"
 #include "crc.h"
-#include "twi.h"
 
-//! Communication handler state
-typedef enum STATE_E {
-  STATE_RECEIVING, //!< Waiting for incoming packet
-  STATE_HND,       //!< Handshake client
-  STATE_ACK,       //!< Acknowledging packet
-  STATE_NAK,       //!< Communication error
-  STATE_EXECUTE,   //!< Executing the command issued by the client
-} state_t;
 
-//! Callback for communication operation
-typedef state_t (*operation_f)(const packet_t*);
-
+// Operation table
+// TODO: Make a function to set this instead of importing like this
+extern operation_f com_operation_table[];
 
 // Global ID for packets
 // In case of NAK, this variable is reset to 0
@@ -45,7 +35,6 @@ static inline uint8_t _count_bits(const void *data, size_t size) {
   return count;
 }
 
-
 // Create in-place and send a packet
 void communication_send(uint8_t type, uint8_t selector,
     uint8_t body_size, const void *body) {
@@ -53,7 +42,6 @@ void communication_send(uint8_t type, uint8_t selector,
   packet_craft(p, packet_global_id, type, selector, body_size, body);
   serial_tx((uint8_t*) p, packet_get_size(p));
 }
-
 
 // Check packet header sanity
 static inline com_error_t packet_header_sanity(const packet_t *p) {
@@ -96,69 +84,14 @@ com_error_t communication_recv(packet_t *rx) {
 }
 
 
-// Echo back data to the host
-static state_t _op_echo(const packet_t *p) {
-  communication_send(COM_TYPE_DAT, 0,
-      packet_get_size(p) - sizeof(header_t) - sizeof(crc_t), p->body);
-  return STATE_RECEIVING;
-}
-
-// Test the TWI module via single-character echoing
-static state_t _op_twi_echo(const packet_t *p) {
-  uint8_t tx[2] = { TWI_CMD_ECHO, p->body[0] };
-  uint8_t data[4] = {0};
-  //! \todo: Remove test 0x31 address
-  data[1] = twi_send_sm(0x31, tx, 2);
-  data[2] = twi_recv_sm(0x31, data, 1);
-  data[3] = TWI_CMD_ECHO;
-  communication_send(COM_TYPE_DAT, 0, sizeof(data), data);
-  return STATE_RECEIVING;
-}
-
-// Get the speed of the selected DC motors (0 for the others)
-static state_t _op_get_speed(const packet_t *p) {
-  //! \todo Sanity check on received packet
-  uint8_t motor_id = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
-  dc_rpm_t speed = dcmotor_get(motor_id);
-  communication_send(COM_TYPE_DAT, motor_id, sizeof(speed), &speed);
-  return STATE_RECEIVING;
-}
-
-// Get the speed of the selected DC motors (ignore the others)
-static state_t _op_set_speed(const packet_t *p) {
-  //! \todo Sanity check on received packet
-  uint8_t dc_motor_id = packet_get_selector(p) & DC_MOTOR_SEL_ALL;
-  dc_rpm_t *data = (dc_rpm_t*) p->body;
-  dcmotor_set(dc_motor_id, *data);
-  return STATE_RECEIVING;
-}
-
-// Tell a slave to apply the previously set speed
-static state_t _op_apply(const packet_t *p) {
-  dcmotor_apply();
-  return STATE_RECEIVING;
-}
-
-// Set a new TWI address for the selected slave
-static state_t _op_set_slave_addr(const packet_t *p) {
-  dcmotor_change_id(packet_get_selector(p), p->body[0]);
-  return STATE_RECEIVING;
-}
-
-// Operation table
-static operation_f op_table[] = {
-  NULL, // NULL
-  NULL, // HND
-  NULL, // ACK
-  NULL, // NAK
-  _op_echo,
-  _op_twi_echo,
-  _op_get_speed,
-  _op_set_speed,
-  _op_apply,
-  NULL, // DAT
-  _op_set_slave_addr
-};
+//! Communication handler state
+typedef enum STATE_E {
+  STATE_RECEIVING, //!< Waiting for incoming packet
+  STATE_HND,       //!< Handshake client
+  STATE_ACK,       //!< Acknowledging packet
+  STATE_NAK,       //!< Communication error
+  STATE_EXECUTE,   //!< Executing the command issued by the client
+} state_t;
 
 
 // Communication handler routine
@@ -203,7 +136,7 @@ uint8_t communication_handler(void) {
         break;
 
       case STATE_EXECUTE: // React to the packet
-        operation_f action = op_table[packet_get_type(rx)];
+        operation_f action = com_operation_table[packet_get_type(rx)];
         state = action ? action(rx) : STATE_RECEIVING;
         break;
     }

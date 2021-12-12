@@ -10,6 +10,13 @@
 #include "packet.h"
 
 /*!
+ * Callback for communication operation
+ * Must return 1 if the operation is not completed yet, 0 otherwise
+ */
+typedef uint8_t (*operation_f)(const packet_t*);
+
+
+/*!
  *  Create (in-place) and send a packet
  *
  *  @param type       Packet type

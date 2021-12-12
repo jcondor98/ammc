@@ -22,18 +22,6 @@
 typedef int16_t dc_rpm_t;
 
 /*!
- * \enum _DC_MOTOR_CMD_E
- * \brief Master -> Slave commands
- */
-typedef enum _DC_MOTOR_CMD_E {
-  DC_MOTOR_CMD_GET,   //!< Get the dc motor speed
-  DC_MOTOR_CMD_SET,   //!< Set a new speed for the dc motor
-  DC_MOTOR_CMD_APPLY, //!< Apply the previously set speed
-  TWI_CMD_ECHO,       //!< [Debug] Echo a single character via I2C
-  TWI_CMD_SET_ADDR    //!< Change the slave current address
-} dc_motor_cmd_t;
-
-/*!
  * Get the speed of a DC motor in RPM
  *
  * @param slave_addr Slave address
@@ -46,9 +34,8 @@ dc_rpm_t dcmotor_get(uint8_t slave_addr);
  *
  * @param slave_addr Slave address
  * @param rpm Next target DC motor speed in RPM
- * @return 1 on success, 0 otherwise
  */
-uint8_t dcmotor_set(uint8_t slave_addr, dc_rpm_t rpm);
+void dcmotor_set(uint8_t slave_addr, dc_rpm_t speed);
 
 //! Tell all the DC motor controllers to apply their speed
 void dcmotor_apply(void);

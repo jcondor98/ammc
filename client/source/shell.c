@@ -79,7 +79,6 @@ shell_t *shell_new(const char *prompt, const shell_command_t *commands,
     return shell;
   } while (0);
 
-
   // Error handler
   if (shell) {
     if (shell->prompt)   free(shell->prompt);
@@ -91,7 +90,6 @@ shell_t *shell_new(const char *prompt, const shell_command_t *commands,
 }
 
 
-// Delete a shell (along with all the memory objects it uses)
 void shell_delete(shell_t *shell) {
   if (!shell) return;
   free(shell->commands);
@@ -126,6 +124,17 @@ static int _execute(shell_t *shell, int argc, char *argv[]) {
 }
 
 
+static inline void tokenize_line(const char *line, int *argc, char *argv[]) {
+  argv[0] = strtok(line, " \t\n");
+  if (!argv[0]) {
+    argc = 0;
+    argv[0] = NULL;
+    return;
+  }
+  for (argc = 1; (argv[argc] = strtok(NULL, " \t\n")) != NULL; ++argc)
+    ;
+  argv[argc] = NULL;
+}
 
 // Process an input line
 // Returns the code returned by the executed command, or 127 if the command
@@ -133,20 +142,12 @@ static int _execute(shell_t *shell, int argc, char *argv[]) {
 static int _shell_exec(shell_t *shell, char *_line) {
   if (!shell->command_ops.get) return 0xFF;
 
-  // argv-like buffer for the processed input line
-  char *argv[SHELL_LINE_MAX_LEN / 2 + 1];
   int argc;
+  char *argv[SHELL_LINE_MAX_LEN / 2 + 1];
+  tokenize_line(line, argc, argv);
 
-  // Tokenize the line
-  // Take the first token. If it is null (i.e. an empty line was inserted),
-  // just skip the command, as a POSIX shell would do
-  argv[0] = strtok(_line, " \t\n");
-  if (!argv[0]) return 0;
-
-  // Get the command arguments (i.e. the other tokens)
-  for (argc = 1; (argv[argc] = strtok(NULL, " \t\n")) != NULL; ++argc)
-    ;
-
+  if (argc == 0)
+    return 0;
   return _execute(shell, argc, argv);
 }
 
@@ -204,12 +205,11 @@ void shell_loop(shell_t *shell, FILE *input) {
     if (ret && shell_flag_get(shell, SH_EXIT_ON_ERR))
       break;
 
-    // Catch exit signal
+    // Catch eventual exit signal
     if (shell_flag_get(shell, SH_SIG_EXIT))
       break;
 
-    // Print the shell prompt again for the next input line
-    _prompt(shell);
+    _prompt(shell); // Print the shell prompt again for the next input line
   }
 
   // User exited, print the exit message and return
@@ -234,12 +234,13 @@ static shell_command_t *shell_command_get(const shell_t *shell,
     const char *name, unsigned char type) {
   // Bad cast, I know, but 'name' is not going to be touched
   const shell_command_t cmd_dummy = { .name = (char*) name };
-  shell_command_t *cmd;
 
   switch (type) {
     case CMD_TYPE_ALL:
-      while (++type < CMD_TYPE_NONE)
-        if ((cmd = shell_command_get(shell, name, type)) != NULL) return cmd;
+      while (++type < CMD_TYPE_NONE) {
+        shell_command_t *cmd = shell_command_get(shell, name, type);
+        if (cmd) return cmd;
+      }
       return NULL;
 
     case CMD_TYPE_BUILTIN:
@@ -280,36 +281,37 @@ void shell_print(const shell_t *shell) {
 
 // Built-in shell commands
 
+static inline void _print_command_list(void) {
+  printf("\nBuilt-in commands: %zu\n", sh->builtins_count);
+  for (size_t i=0; i < sh->builtins_count; ++i)
+    printf(" - %s\n", sh->builtins[i].name);
+  printf("\nExternal commands: %zu\n", sh->commands_count);
+  for (size_t i=0; i < sh->commands_count; ++i)
+    printf(" - %s\n", sh->commands[i].name);
+  putchar('\n');
+}
+
+static inline void _print_command_specific_help(const shell_command_t *cmd) {
+  if (cmd->help) puts(cmd->help);
+  else printf("No help for command %s\n", cmd->name);
+}
+
 // CMD: help
 // Usage: help [command]
 // Display the entire command set, or a description of a specific command
 int _builtin_help(int argc, char *argv[], void *env) {
   shell_t *sh = env;
 
-  // Generic use of 'help'
-  if (argc == 1) {
-    printf("\nBuilt-in commands: %zu\n", sh->builtins_count);
-    for (size_t i=0; i < sh->builtins_count; ++i)
-      printf(" - %s\n", sh->builtins[i].name);
-    printf("\nExternal commands: %zu\n", sh->commands_count);
-    for (size_t i=0; i < sh->commands_count; ++i)
-      printf(" - %s\n", sh->commands[i].name);
-    putchar('\n');
-  }
-
-  // 'help' takes a command name as its sole argument
+  if (argc == 1) _print_command_list();
   else if (argc == 2) {
     shell_command_t *cmd = sh->command_ops.get(sh, argv[1], CMD_TYPE_ALL);
-    if (cmd) {
-      if (cmd->help) puts(cmd->help);
-      else printf("No help for command %s\n", cmd->name);
-    }
+    if (cmd)
+      _print_command_specific_help(cmd);
     else {
       printf("Unknown command: %s\n", argv[1]);
       return 2;
     }
   }
-
   else return 1; // Unaccepted syntax
   return 0; // Success
 }
@@ -319,7 +321,8 @@ int _builtin_help(int argc, char *argv[], void *env) {
 // Exit from the shell
 int _builtin_exit(int argc, char *argv[], void *env) {
   shell_t *sh = env;
-  if (argc != 1) return 1;
+  if (argc != 1)
+    return 1;
   shell_flag_set(sh, SH_SIG_EXIT);
   return 0;
 }

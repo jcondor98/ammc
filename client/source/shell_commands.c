@@ -22,9 +22,9 @@
 
 // Handier function to send and receive packets
 #define AVR_FD (st->avr_fd) // Must be the context in EVERY function below
-#define psend(type,sel,data,data_size)\
-  communication_craft_and_send(AVR_FD,type,sel,data,data_size)
-#define precv(p) communication_recv(AVR_FD,p)
+#define psend(type, sel, data, data_size)\
+  communication_craft_and_send(AVR_FD, type, sel, data, data_size)
+#define precv(p) communication_recv(AVR_FD, p)
 
 
 // Limit mask for DC motor IDs
@@ -106,6 +106,21 @@ int disconnect(int argc, char *argv[], void *storage) {
 }
 
 
+// TODO: Improve
+static inline uint8_t _prepare_echo_string(char *dest, int argc, char *argv[]) {
+  size_t str_len = 0;
+  for (int i=1; i < argc; ++i) {
+    size_t tok_len = strlen(argv[i]);
+    if ((str_len ? str_len+1 : 0) + tok_len >= BODY_MAX_LEN - 1)
+      return 0xFF; // Maximum length for a byte, equals "too long"
+    if (str_len) dest[str_len++] = ' ';
+    strcpy(dest + str_len, argv[i]);
+    str_len += tok_len;
+  }
+  dest[str_len] = '\0';
+  return str_len;
+}
+
 // CMD: dev-echo
 // Usage: dev-echo <arg> [arg2 arg3 ...]
 // Send a (null terminated) string to the device, which should send it back
@@ -117,19 +132,10 @@ int dev_echo(int argc, char *argv[], void *storage) {
 
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
-  // Reassemble the separated argv[] token into one string
-  size_t str_len = 0;
-  for (int i=1; i < argc; ++i) {
-    size_t tok_len = strlen(argv[i]);
-    sh_error_on(
-        (str_len ? str_len+1 : 0) + tok_len >= BODY_MAX_LEN - 1, 2,
-        "Error: arguments must be at most %d characters long " "in total\n",
-        BODY_MAX_LEN - 1);
-    if (str_len) str[str_len++] = ' ';
-    strcpy(str + str_len, argv[i]);
-    str_len += tok_len;
-  }
-  str[str_len] = '\0';
+  uint8_t str_len = _prepare_echo_string(str, argc, argv);
+  sh_error_on(str_len > BODY_MAX_LEN, 2,
+    "Error: arguments must be at most %d characters long " "in total\n",
+    BODY_MAX_LEN - 1);
 
   // Send the string to the device
   sh_error_on(psend(COM_TYPE_ECHO, 0, (const void*) str, str_len) != 0, 3,

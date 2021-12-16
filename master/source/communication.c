@@ -12,29 +12,24 @@
 #include "serial.h"
 #include "crc.h"
 
-
 // Operation table
 // TODO: Make a function to set this instead of importing like this
 extern operation_f com_operation_table[];
 
-// Global ID for packets
-// In case of NAK, this variable is reset to 0
+// Count the number of set bits in a chunk of data
+static inline uint8_t _count_bits(const void *data, size_t size);
+
+
 static uint8_t packet_global_id = 0;
 
-// Compute the next packet global ID
-static uint8_t packet_next_id(uint8_t current) {
-  return (current + 1) % 0xFF;
+static inline void packet_global_id_increment(void) {
+  packet_global_id = (packet_global_id + 1) % 0xFF;
 }
 
-// Count the number of set bits in a chunk of data
-static inline uint8_t _count_bits(const void *data, size_t size) {
-  static uint8_t lookup[16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
-  const uint8_t *_data = data;
-  uint8_t count = 0;
-  for (size_t i=0; i < size; ++i)
-    count += lookup[_data[i] & 0x0F] + lookup[_data[i] >> 0x0F];
-  return count;
+static inline void packet_global_id_reset(void) {
+  packet_global_id = 0;
 }
+
 
 // Create in-place and send a packet
 void communication_send(uint8_t type, uint8_t selector,
@@ -44,15 +39,15 @@ void communication_send(uint8_t type, uint8_t selector,
   serial_tx((uint8_t*) p, packet_get_size(p));
 }
 
+
 // Check packet header sanity
 static inline com_error_t packet_header_sanity(const packet_t *p) {
   uint8_t id = packet_get_id(p);
   uint8_t type = packet_get_type(p);
   uint8_t size = packet_get_size(p);
-  // Check on packet ID
+
   if (id != packet_global_id && (type != COM_TYPE_HND || id != 0))
     return E_ID_MISMATCH;
-  // Check on packet size
   if (size > sizeof(header_t) + BODY_MAX_LEN + sizeof(crc_t))
     return E_TOO_BIG;
   return E_SUCCESS; // Sane packet header
@@ -94,22 +89,21 @@ typedef enum STATE_E {
   STATE_EXECUTE,   //!< Executing the command issued by the client
 } state_t;
 
-
 // Communication handler routine
 uint8_t communication_handler(void) {
   static state_t state = STATE_RECEIVING;
 
   packet_t rx[1];
   uint8_t error = E_SUCCESS;
-  uint8_t ret = 0;
+  uint8_t action_performed = 0;
 
   // Main handler loop
   while (1) {
     switch (state) {
       case STATE_RECEIVING: // Check for available data
-        if (!serial_rx_available()) return ret;
+        if (!serial_rx_available()) return action_performed;
 
-        ret = 1; // At least a packet is processed
+        action_performed = 1;
         error = communication_recv(rx);
 
         if (error != E_SUCCESS)
@@ -120,19 +114,19 @@ uint8_t communication_handler(void) {
         break;
 
       case STATE_HND: // Handshake
-        packet_global_id = 0;
+        packet_global_id_reset();
         state = STATE_ACK;
         break;
 
       case STATE_ACK: // Acknowledge
         communication_send(COM_TYPE_ACK, 0, 0, NULL);
-        packet_global_id = packet_next_id(packet_global_id);
+        packet_global_id_increment();
         state = STATE_EXECUTE;
         break;
 
       case STATE_NAK: // Raise an error to the client
         communication_send(COM_TYPE_NAK, error, 0, NULL);
-        packet_global_id = 0;
+        packet_global_id_reset();
         state = STATE_RECEIVING;
         break;
 
@@ -142,4 +136,15 @@ uint8_t communication_handler(void) {
         break;
     }
   }
+}
+
+
+// Count the number of set bits in a chunk of data
+static inline uint8_t _count_bits(const void *data, size_t size) {
+  static uint8_t lookup[16] = { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 };
+  const uint8_t *_data = data;
+  uint8_t count = 0;
+  for (size_t i=0; i < size; ++i)
+    count += lookup[_data[i] & 0x0F] + lookup[_data[i] >> 0x0F];
+  return count;
 }

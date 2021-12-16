@@ -20,7 +20,7 @@
 void master_send_command(
     uint8_t slave_id,
     uint8_t id,
-    void *arg,
+    const void *arg,
     uint8_t arg_size
 );
 
@@ -31,7 +31,7 @@ void master_send_command(
  * @param arg The command argument
  * @param arg_size The command argument size
  */
-void master_send_bcast_command(uint8_t id, void *arg, uint8_t arg_size);
+void master_send_bcast_command(uint8_t id, const void *arg, uint8_t arg_size);
 
 /*
  * Receive a command response from a slave

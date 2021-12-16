@@ -51,6 +51,10 @@ static unsigned char _recv_attempt(int avr_fd, packet_t *p) {
   return (packet_check_crc(p) != 0) ? E_CORRUPTED_CHECKSUM : E_SUCCESS;
 }
 
+static inline void _transmit_packet(int avr_fd, const packet_t* p) {
+  serial_rx_flush(avr_fd);
+  serial_tx(avr_fd, p, packet_get_size(p));
+}
 
 // Send a packet
 // Returns 0 on success, 1 on failure
@@ -65,11 +69,7 @@ int communication_send(int avr_fd, const packet_t *p) {
     packet_print(p);
   }
 
-  // Flush the serial RX buffers before beginning the communication
-  serial_rx_flush(avr_fd);
-
-  // Blindly send the packet on the serial port
-  serial_tx(avr_fd, p, size);
+  _transmit_packet(avr_fd, p);
 
   // Attempt to receive ACK/ERR
   // Assertion on ACK/ERR id is made inside the receive attempt function

@@ -19,53 +19,61 @@ static uint8_t perform_setup = 1;
 
 // Counter for actions performed by the handlers
 // Shall be changed to 'volatile' if interrupts will be involved in future
-static uint8_t act_perf;
+static uint8_t action_performed;
 
 
-// Salviamo gli alberi insieme
-static inline void power_setup(void) {
-  // Disable unneeded modules
-  power_spi_disable();
-  power_timer0_disable();
-  power_timer2_disable();
-  power_timer5_disable();
-  power_usart1_disable();
-  power_usart2_disable();
+static inline void builtin_led_off(void) {
+  DDRB |= 1 << 7;
+  PORTB &= ~(1 << 7);
+}
 
-  // Disable digital I/O for analog pins
+static inline void disable_analog_pins_io(void) {
   DIDR0 = 0xFF;
   DIDR1 = 0xFF;
   DIDR2 = 0xFF;
+  DIDR0 = 0xFF;
+}
 
-  // Power off the built-in LED on pin D13
-  DDRB |= 1 << 7;
-  PORTB &= ~(1 << 7);
-
-  // Disable On-Chip Debug module (i.e. JTAG, must be done in 4 cycles to work)
+static inline void jtag_disable(void) {
   uint8_t mcucr_bak = MCUCR | (1 << JTD);
   MCUCR = 1 << JTD;
   MCUCR = 1 << JTD;
   MCUCR = mcucr_bak;
 }
 
+// Salviamo gli alberi insieme
+static inline void power_setup(void) {
+  disable_analog_pins_io();
+  power_timer0_disable();
+  power_timer2_disable();
+  power_timer5_disable();
+  power_usart1_disable();
+  power_usart2_disable();
+  power_spi_disable();
+  builtin_led_off();
+  jtag_disable();
+}
+
+
+static inline void setup() {
+  serial_init();
+  twi_init();
+  sei();
+}
 
 int main(void) {
   power_setup();
 
   while (1) { // Main application loop
-    serial_init();
-    twi_init();
     perform_setup = 0;
-    sei();
+    setup();
 
-    // Main application loop
     while (!perform_setup) {
-      act_perf = 0;
-      act_perf |= communication_handler();
+      action_performed = 0;
+      action_performed |= communication_handler();
 
-      // Enter (interruptable) sleep mode if no action request was performed
-      // AVR automatically wakes up from idle mode on incoming data from serial
-      sleep_on(SLEEP_MODE_IDLE, !act_perf);
+      // Enter sleep mode if no action was or is to be performed
+      sleep_on(SLEEP_MODE_IDLE, !action_performed);
     }
   }
 }

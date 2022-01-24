@@ -100,20 +100,13 @@ void shell_delete(shell_t *shell) {
 
 // Execute a fully parsed input line
 static int _execute(shell_t *shell, int argc, char *argv[]) {
-  // Attempt to get the command
   shell_command_t *cmd;
   int ret;
 
-  if ((cmd = shell->command_ops.get(shell, argv[0], CMD_TYPE_BUILTIN)) != NULL) {
+  if ((cmd = shell->command_ops.get(shell, argv[0], CMD_TYPE_BUILTIN)) != NULL)
     ret = cmd->exec(argc, argv, shell);
-    if (ret == 1) puts(cmd->help);  // i.e. command syntax error
-  }
-
-  else if ((cmd = shell->command_ops.get(shell, argv[0], CMD_TYPE_EXTERNAL)) != NULL) {
+  else if ((cmd = shell->command_ops.get(shell, argv[0], CMD_TYPE_EXTERNAL)) != NULL)
     ret = cmd->exec(argc, argv, shell->storage);
-    if (ret == 1) puts(cmd->help);  // i.e. command syntax error
-  }
-
   else { // Command does not exist
     printf("Command not found: %s\n", argv[0]);
     return 127; // Behave like POSIX shell
@@ -124,27 +117,25 @@ static int _execute(shell_t *shell, int argc, char *argv[]) {
 }
 
 
-static inline void tokenize_line(const char *line, int *argc, char *argv[]) {
+static inline void tokenize_line(char *line, int *argc, char *argv[]) {
+  *argc = 0;
   argv[0] = strtok(line, " \t\n");
-  if (!argv[0]) {
-    argc = 0;
-    argv[0] = NULL;
+  if (!argv[0])
     return;
-  }
-  for (argc = 1; (argv[argc] = strtok(NULL, " \t\n")) != NULL; ++argc)
+  for (*argc = 1; (argv[*argc] = strtok(NULL, " \t\n")) != NULL; ++(*argc))
     ;
-  argv[argc] = NULL;
+  argv[*argc] = NULL;
 }
 
 // Process an input line
 // Returns the code returned by the executed command, or 127 if the command
 // does not exist
-static int _shell_exec(shell_t *shell, char *_line) {
+static int _shell_exec(shell_t *shell, char *line) {
   if (!shell->command_ops.get) return 0xFF;
 
   int argc;
   char *argv[SHELL_LINE_MAX_LEN / 2 + 1];
-  tokenize_line(line, argc, argv);
+  tokenize_line(line, &argc, argv);
 
   if (argc == 0)
     return 0;
@@ -155,10 +146,9 @@ static int _shell_exec(shell_t *shell, char *_line) {
 int shell_exec(shell_t *shell, const char *line) {
   if (!line) return 0;
 
-  // Duplicate the string to tokenize it
   char _line[SHELL_LINE_MAX_LEN];
   strncpy(_line, line, SHELL_LINE_MAX_LEN);
-  _line[SHELL_LINE_MAX_LEN-1] = '\0'; // Just to be sure
+  _line[SHELL_LINE_MAX_LEN-1] = '\0';
 
   return _shell_exec(shell, _line);
 }
@@ -281,7 +271,7 @@ void shell_print(const shell_t *shell) {
 
 // Built-in shell commands
 
-static inline void _print_command_list(void) {
+static inline void _print_command_list(const shell_t *sh) {
   printf("\nBuilt-in commands: %zu\n", sh->builtins_count);
   for (size_t i=0; i < sh->builtins_count; ++i)
     printf(" - %s\n", sh->builtins[i].name);
@@ -302,7 +292,7 @@ static inline void _print_command_specific_help(const shell_command_t *cmd) {
 int _builtin_help(int argc, char *argv[], void *env) {
   shell_t *sh = env;
 
-  if (argc == 1) _print_command_list();
+  if (argc == 1) _print_command_list(sh);
   else if (argc == 2) {
     shell_command_t *cmd = sh->command_ops.get(sh, argv[1], CMD_TYPE_ALL);
     if (cmd)

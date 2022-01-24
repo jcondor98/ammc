@@ -168,11 +168,12 @@ int dev_echo(int argc, char *argv[], void *storage) {
 int dev_echo_twi(int argc, char *argv[], void *storage) {
   _storage_cast(st, storage);
   if (argc != 2) return 1;
-
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
-  // Send the character to Master
-  sh_error_on(psend(COM_TYPE_TWI_ECHO, 0, (const void*) argv[1], 1) != 0, 3,
+  const char *arg = argv[1];
+  unsigned char arg_len = strlen(arg);
+  sh_error_on(arg > BODY_MAX_LEN, 2, "Argument is too long");
+  sh_error_on(psend(COM_TYPE_TWI_ECHO, 0, arg, arg_size) != 0, 3,
       "Could not send char to Master");
 
   // Get the character back from Master

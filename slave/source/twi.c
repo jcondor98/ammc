@@ -24,12 +24,34 @@ static volatile size_t rx_idx, tx_idx;
 static size_t rx_size, tx_size;
 
 
+// (Re-)Enable the twi activity
+static inline void twi_enable(void) {
+  TWCR = 1 << TWEN;
+}
+
 // Start or resume a data transfer
-static inline void twi_transfer(void) { TWCR = _TW_ALL_ENABLED; }
+static inline void twi_transfer(void) {
+  TWCR = _TW_ALL_ENABLED;
+}
+
+// Release the twi bus and re-enable twi activity
+static inline void twi_release_bus(void) {
+  TWCR = (1 << TWEN) | (1 << TWSTO);
+}
+
 // [Receiver] Resume a transfer and respond with an ACK
-static inline void twi_ack(void)      { TWCR = _TW_ALL_ENABLED | (1<<TWEA); }
+static inline void twi_ack(void) {
+  TWCR = _TW_ALL_ENABLED | (1<<TWEA);
+}
+
 // [Receiver] Resume a transfer and do NOT respond with an ACK
-static inline void twi_nak(void)      { TWCR = _TW_ALL_ENABLED; }
+static inline void twi_nak(void) {
+  TWCR = _TW_ALL_ENABLED;
+}
+
+// Manipulate the twi data register
+static inline uint8_t twi_read_byte(void) { return TWDR; }
+static inline void twi_write_byte(uint8_t data) { TWDR = data; }
 
 
 // Initialize the I2C TWI module
@@ -45,49 +67,44 @@ void twi_init(uint8_t slave_addr) {
 }
 
 
-// Send data
 uint8_t twi_send(const void *data, size_t size) {
   if (!data || size > TW_TX_MAX_LEN) return 1;
-
-  // Wait for the I2C channel to be ready and prepare the buffer
   sleep_while(SLEEP_MODE_IDLE, !twi_isready());
+
+  mode = TW_INITIALIZING;
   memcpy(tx_buffer, data, size);
   tx_size = size;
   tx_idx = 0;
 
-  // Actually start the transmission
-  mode = TW_INITIALIZING;
   twi_ack();
-
   return 0;
 }
 
 
-// Receive data
 uint8_t twi_recv(void *buf, size_t to_recv) {
   if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
-
-  // Wait for the I2C channel to be ready
   sleep_while(SLEEP_MODE_IDLE, !twi_isready());
-  mode = TW_INITIALIZING;
 
-  // Prepare buffers
+  mode = TW_INITIALIZING;
   rx_buffer = buf;
   rx_size = to_recv;
   rx_idx = 0;
 
-  // Get ready for the transfer and wait for it to be completed
   twi_ack();
-  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
+  sleep_while(SLEEP_MODE_IDLE, !twi_isready()); // Wait until transfer completed
   return rx_idx;
 }
 
 
 // Is the TWI module ready for transmitting?
-uint8_t twi_isready(void) { return (mode == TW_READY) ? 1 : 0; }
+uint8_t twi_isready(void) {
+  return (mode == TW_READY) ? 1 : 0;
+}
 
 // Was the last operation successful?
-uint8_t twi_successful(void) { return (error == TW_SUCCESS) ? 1 : 0; }
+uint8_t twi_successful(void) {
+  return (error == TW_SUCCESS) ? 1 : 0;
+}
 
 
 // Interrupt Service Routine
@@ -99,14 +116,13 @@ ISR(TWI_vect) {
       mode = TW_TRANSMITTING;
     case TW_ST_DATA_ACK: // Data byte transmitted, ACK received
       error = TW_SUCCESS;
-      TWDR = tx_buffer[tx_idx++];
+      twi_write_byte(tx_buffer[tx_idx++]);
       twi_ack();
       break;
     case TW_ST_DATA_NACK: // Data byte transmitted, NAK received
       error = (tx_idx >= tx_size) ? TW_SUCCESS : status;
       mode = TW_READY;
-      //twi_ack();
-      TWCR = 1 << TWEN;
+      twi_enable();
       break;
 
     // Slave receiver
@@ -118,14 +134,13 @@ ISR(TWI_vect) {
     case TW_SR_DATA_ACK:  // Data received, ACK returned
     case TW_SR_GCALL_DATA_ACK: // Data received (broadcast), ACK returned
       //! \todo Check out-of-bound index?
-      rx_buffer[rx_idx++] = TWDR;
+      rx_buffer[rx_idx++] = twi_read_byte();
       error = TW_NO_INFO;
       twi_ack();
       break;
     case TW_SR_STOP: // STOP/REPSTART condition received while still addressed as Slave
       mode = TW_READY;
-      //twi_ack();
-      TWCR = 1 << TWEN;
+      twi_enable();
       break;
 
     // Slave errors
@@ -135,7 +150,7 @@ ISR(TWI_vect) {
     case TW_BUS_ERROR: // Illegal START/STOP, raise an error
       error = status;
       mode = TW_READY;
-      TWCR = (1 << TWEN) | (1 << TWSTO); // Release bus
+      twi_release_bus();
       break;
 
     // Miscellaneous status codes
@@ -146,8 +161,7 @@ ISR(TWI_vect) {
     case TW_ST_ARB_LOST_SLA_ACK: // SLA+R received, Master lost arbitration
       error = status;
       mode = TW_READY;
-      //twi_ack();
-      TWCR = 1 << TWEN;
+      twi_enable();
       break;
   }
 }

@@ -60,6 +60,9 @@ $(OBJDIR)/%.o:	%.s
 	avr-objcopy -O ihex -R .eeprom $(patsubst %.hex, %.elf, $@) $@
 
 
+$(TGTDIR)/test-dcmotor.elf: $(OBJDIR)/dcmotor_phy.o
+	$(CC) $(CFLAGS) -o $@ $^ test/test-dcmotor.c
+
 $(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
@@ -69,6 +72,9 @@ flash: $(TGTDIR)/$(PROGNAME).hex;
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 
+test-dcmotor: $(TGTDIR)/test-dcmotor.hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
+	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 
 clean:	
 	rm -f $(OBJDIR)/*.o $(BINS) $(TGTDIR)/*

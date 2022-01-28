@@ -18,6 +18,8 @@ void dcmotor_phy_pwm_init(void);
 
 void dcmotor_phy_sampling_timer_init(void);
 
+void dcmotor_phy_load_speed(dc_rpm_t speed);
+
 void dcmotor_phy_load_speed_float(float speed);
 
 uint8_t dcmotor_phy_read_encoder_phase_a(void);

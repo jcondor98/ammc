@@ -14,21 +14,18 @@
 #define __DCMOTOR_HAL_PARAMETERS_H
 
 // Register used to set the speed in RPM
-#define SPEED_REGISTER OCR0A
+#define SPEED_REGISTER_FW OCR0A
+#define SPEED_REGISTER_BW OCR0B
 
 // PWM Parameters
-#define PWM_DDR         DDRD
-#define PWM_DDR_MASK    (1 << 7)
+#define PWM_FW_DDR      DDRB
+#define PWM_FW_DDR_MASK (1 << 7)
+#define PWM_BW_DDR      DDRG
+#define PWM_BW_DDR_MASK (1 << 5)
 #define PWM_TCCRA       TCCR0A
-#define PWM_TCCRA_VALUE ((1 << WGM00) | (1 << COM0A1) | (1 << COM0A0))
+#define PWM_TCCRA_VALUE ((1 << WGM01) | (1 << WGM00) | (1 << COM0A1) | (1 << COM0B1))
 #define PWM_TCCRB       TCCR0B
-#define PWM_TCCRB_VALUE ((1 << WGM01) | (1 << CS00))
-
-// Direction parameters
-#define DIRECTION_PORT      PORTG
-#define DIRECTION_DDR       DDRG
-#define DIRECTION_PORT_MASK (1 << 5)
-#define DIRECTION_DDR_MASK  DIRECTION_PORT_MASK
+#define PWM_TCCRB_VALUE ((1 << CS00))
 
 // Encoder parameters
 #define ENCODER_A_DDR       DDRB

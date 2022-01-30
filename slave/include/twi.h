@@ -1,11 +1,11 @@
 // AVR Multi Motor Control
 /*! \file slave/include/twi.h
- * I2C TWI Master Interface
+ * I2C TWI Slave Interface
  *
  * \author Paolo Lucchesi
  */
-#ifndef __I2C_MASTER_MODULE_H
-#define __I2C_MASTER_MODULE_H
+#ifndef __I2C_SLAVE_MODULE_H
+#define __I2C_SLAVE_MODULE_H
 #include <stdint.h>
 #include <stddef.h>
 #include <util/twi.h>
@@ -70,4 +70,4 @@ uint8_t twi_recv(void *buf, size_t to_recv);
  */
 uint8_t twi_successful(void);
 
-#endif  // __I2C_MASTER_MODULE_H
+#endif  // __I2C_SLAVE_MODULE_H

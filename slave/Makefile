@@ -60,6 +60,9 @@ $(OBJDIR)/%.o:	%.s
 	avr-objcopy -O ihex -R .eeprom $(patsubst %.hex, %.elf, $@) $@
 
 
+$(TGTDIR)/test-twi.elf: $(OBJDIR)/twi.o
+	$(CC) $(CFLAGS) -o $@ $^ test/test-twi.c
+
 $(TGTDIR)/test-dcmotor.elf: $(OBJDIR)/dcmotor_phy.o
 	$(CC) $(CFLAGS) -o $@ $^ test/test-dcmotor.c
 
@@ -73,6 +76,10 @@ flash: $(TGTDIR)/$(PROGNAME).hex;
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 
 test-dcmotor: $(TGTDIR)/test-dcmotor.hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
+	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
+
+test-twi: $(TGTDIR)/test-twi.hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 

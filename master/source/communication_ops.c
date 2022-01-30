@@ -11,22 +11,20 @@
 
 // Echo back data to the host
 static uint8_t _op_echo(const packet_t *p) {
-  communication_send(COM_TYPE_DAT, 0,
-      packet_get_size(p) - sizeof(header_t) - sizeof(crc_t), p->body);
+  communication_send(COM_TYPE_DAT, 0, packet_get_body_size(p), p->body);
   return 0;
 }
 
 // Test the TWI module via single-character echoing
 static uint8_t _op_twi_echo(const packet_t *p) {
   const uint8_t slave_id = 0x01; // TODO: Change to p->selector
-  uint8_t body_size = packet_get_size(p) - sizeof(header_t) - sizeof(crc_t);
+  uint8_t body_size = packet_get_body_size(p);
   master_send_command(slave_id, CMD_ECHO, p->body, body_size);
 
   uint8_t response[body_size];
   master_recv_response(slave_id, response, body_size);
 
-  communication_send(COM_TYPE_DAT, 0, sizeof(response), response);
-
+  communication_send(COM_TYPE_DAT, slave_id, sizeof(response), response);
   return 0;
 }
 

@@ -5,6 +5,7 @@
  * \author Paolo Lucchesi
  */
 #include <string.h>
+#include <util/delay.h>
 #include "master_commands.h"
 #include "twi.h"
 
@@ -28,5 +29,6 @@ void master_send_bcast_command(uint8_t id, const void *arg, uint8_t arg_size) {
 }
 
 uint8_t master_recv_response(uint8_t slave_id, void *buf, uint8_t size) {
+  _delay_ms(100); //! @todo This is bad, REALLY BAD. Temporary workaround
   return twi_recv_sm(slave_id, buf, size);
 }

@@ -11,6 +11,7 @@
 #define COMMAND_MAX_SIZE 16
 #define COMMAND_ARG_MAX_SIZE (COMMAND_MAX_SIZE-1)
 
+
 //! Data type for a master command
 typedef struct _master_command_s {
   uint8_t id;

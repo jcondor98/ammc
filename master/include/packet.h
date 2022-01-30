@@ -22,6 +22,11 @@ inline uint8_t packet_get_selector(const packet_t *p) { return p->header[2]; }
 //! Get the packet whole size
 inline uint8_t packet_get_size(const packet_t *p)     { return p->header[3]; }
 
+//! Get the packet body size
+inline uint8_t packet_get_body_size(const packet_t *p) {
+  return packet_get_size(p) - sizeof(p->header) - sizeof(crc_t);
+}
+
 /*!
  * Craft a preallocated packet
  *

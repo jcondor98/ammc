@@ -49,6 +49,9 @@ uint8_t twi_isready(void);
  */
 uint8_t twi_successful(void);
 
+//! @return The TWI internal status
+uint8_t twi_status(void);
+
 /*!
  * Send data
  *

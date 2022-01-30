@@ -25,7 +25,7 @@ void dcmotor_init(void) {
   dcmotor_phy_sampling_timer_init();
   dcmotor_phy_encoder_init();
   dcmotor_phy_pwm_init();
-  dcmotor_phy_load_speed_float(0);
+  dcmotor_phy_load_speed(0);
 }
 
 dc_rpm_t dcmotor_get(void) {
@@ -38,6 +38,7 @@ void dcmotor_set(dc_rpm_t next) {
 
 void dcmotor_apply(void) {
   speed_target = speed_next;
+  dcmotor_phy_load_speed(speed_target); // TODO: Keep or remove?
 }
 
 

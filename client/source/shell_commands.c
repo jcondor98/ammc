@@ -15,7 +15,10 @@
 #include "serial.h"
 #include "communication.h"
 #include "debug.h"
+#include "common/dcmotor.h"
 
+
+#define SLAVE_ID_LIMIT 127
 
 // Declare a shell_storage_t variable casted from an opaque pointer
 #define _storage_cast(st,opaque) shell_storage_t *st=(shell_storage_t*)(opaque)
@@ -27,21 +30,10 @@
 #define precv(p) communication_recv(AVR_FD, p)
 
 
-// Limit mask for DC motor IDs
-#define DC_MOTOR_ID_LIMIT 127
-
-// Type to properly handle RPM values
-typedef int16_t dc_rpm_t;
-
-
-// Type definition for the internal shell storage
 typedef struct _shell_storage_s {
   int avr_fd;
 } shell_storage_t;
 
-
-// Allocate and initialize a shell storage
-// Returns an opaque pointer to the allocated storage, or NULL on failure
 void *shell_storage_new(void) {
   shell_storage_t *st = malloc(sizeof(shell_storage_t));
   if (!st) return NULL;
@@ -51,20 +43,15 @@ void *shell_storage_new(void) {
   return (void*) st;
 }
 
-// Cleanup this shell environment (i.e. free memory, close descriptors...)
-// Also frees the shell storage data structure itself
 void shell_cleanup(shell_t *s) {
   if (!s) return;
   _storage_cast(st, s->storage);
 
-  // Close the connection with the device, if any
   if (AVR_FD > 0 && serial_close(AVR_FD) != 0)
     err_log("Could not close device file descriptor");
 
-  // Free the storage
   free(st);
 }
-
 
 
 // CMD: connect
@@ -163,8 +150,8 @@ int dev_echo(int argc, char *argv[], void *storage) {
 
 // CMD: dev-echo-twi
 // Usage: dev-echo-twi <char>
-// Send a character to the Master, which will forward it to Slave and expect
-// a response. Used to test the TWI interface
+// Send data to the Master, which will forward it to Slave and expect a
+// response. Used to test the TWI interface
 int dev_echo_twi(int argc, char *argv[], void *storage) {
   _storage_cast(st, storage);
   if (argc != 2) return 1;
@@ -172,13 +159,19 @@ int dev_echo_twi(int argc, char *argv[], void *storage) {
 
   const char *arg = argv[1];
   unsigned char arg_len = strlen(arg);
-  sh_error_on(arg > BODY_MAX_LEN, 2, "Argument is too long");
-  sh_error_on(psend(COM_TYPE_TWI_ECHO, 0, arg, arg_size) != 0, 3,
-      "Could not send char to Master");
+  debug printf("Echo message: %s\n", arg);
 
-  // Get the character back from Master
+  sh_error_on(arg_len > BODY_MAX_LEN, 2, "Argument is too long");
+  sh_error_on(
+      psend(COM_TYPE_TWI_ECHO, 0x01, (unsigned char *) arg, arg_len) != 0,
+      3, "Could not send char to Master");
+
   packet_t pack_rx;
-  sh_error_on(precv(&pack_rx), 3, "Could not receive char back from Master");
+  sh_error_on(precv(&pack_rx), 3, "Could not receive response from Master");
+  unsigned char pack_rx_body_len = packet_get_body_size(&pack_rx);
+  for (unsigned char i=0; i < pack_rx_body_len; ++i)
+    putchar((char) (pack_rx.body[i]));
+  putchar('\n');
 
   return 0;
 }
@@ -195,7 +188,7 @@ int get_speed(int argc, char *argv[], void *storage) {
 
   unsigned char motor_id;
   int ret = sscanf(argv[1], "%hhu", &motor_id);
-  sh_error_on(ret != 1 || ret >= DC_MOTOR_ID_LIMIT, 1,
+  sh_error_on(ret != 1 || ret >= SLAVE_ID_LIMIT, 1,
       "Bad argument: %s", argv[1]);
   sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");
 
@@ -230,7 +223,7 @@ int set_speed(int argc, char *argv[], void *storage) {
   unsigned char motor_id;
   dc_rpm_t speed;
   int ret = sscanf(argv[1], "%hhu=%hd", &motor_id, &speed);
-  sh_error_on(ret != 2 || ret >= DC_MOTOR_ID_LIMIT, 1,
+  sh_error_on(ret != 2 || ret >= SLAVE_ID_LIMIT, 1,
       "Bad argument: %s", argv[1]);
   sh_error_on(motor_id == 0, 1, "Motor ID cannot be 0");
 
@@ -274,8 +267,8 @@ int set_slave_addr(int argc, char *argv[], void *storage) {
 
   sh_error_on(ret != 2, 1, "Wrong address format. Use (hexa)decimal notation");
   sh_error_on(addr_actual == 0 || addr_new == 0 ||
-      addr_actual >= DC_MOTOR_ID_LIMIT || addr_new >= DC_MOTOR_ID_LIMIT,
-      1, "Addresses must be between 1 and %u\n", DC_MOTOR_ID_LIMIT-1);
+      addr_actual >= SLAVE_ID_LIMIT || addr_new >= SLAVE_ID_LIMIT,
+      1, "Addresses must be between 1 and %u\n", SLAVE_ID_LIMIT-1);
 
   if (addr_actual != addr_new)
     sh_error_on(psend(COM_TYPE_SET_SLAVE_ADDR, addr_actual, &addr_new, 1) != 0,

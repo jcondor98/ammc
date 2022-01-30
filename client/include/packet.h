@@ -42,6 +42,14 @@ inline uint8_t packet_get_selector(const packet_t *p) { return p->header[2]; }
 inline uint8_t packet_get_size(const packet_t *p) { return p->header[3]; }
 
 /*!
+ * @param p Pointer to the packet
+ * @returns The packet body size
+ */
+inline uint8_t packet_get_body_size(const packet_t *p) {
+  return packet_get_size(p) - sizeof(p->header) - sizeof(crc_t);
+}
+
+/*!
  * Craft a preallocated packet
  *
  * @param p Pointer to the buffer to store the crafted packet

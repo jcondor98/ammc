@@ -61,12 +61,19 @@ $(OBJDIR)/%.o:	%.s
 	avr-objcopy -O ihex -R .eeprom $(patsubst %.hex, %.elf, $@) $@
 
 
+$(TGTDIR)/test-twi.elf: $(OBJDIR)/twi.o $(OBJDIR)/serial.o $(OBJDIR)/ringbuffer.o
+	$(CC) $(CFLAGS) -o $@ $^ test/test-twi.c
+
 $(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
 all: $(TGTDIR)/$(PROGNAME).elf;
 
 flash: $(TGTDIR)/$(PROGNAME).hex;
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
+	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
+
+test-twi: $(TGTDIR)/test-twi.hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 

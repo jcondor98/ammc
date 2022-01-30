@@ -84,8 +84,9 @@ void packet_print(const packet_t *p) {
   const uint8_t sel  = packet_get_selector(p);
   const uint8_t size = packet_get_size(p);
 
-  static const char type_str[COM_TYPE_LIMIT][12] = {
-    "NULL", "HND", "ACK", "NAK", "ECHO", "GET_SPEED", "SET_SPEED", "DAT"
+  static const char type_str[COM_TYPE_LIMIT][24] = {
+    "NULL", "HND", "ACK", "NAK", "ECHO", "TWI_ECHO", "GET_SPEED", "SET_SPEED",
+    "APPLY", "DAT", "SET_SLAVE_ADDR"
   };
 
   printf("\nPrinting packet\n"

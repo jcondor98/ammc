@@ -54,8 +54,7 @@ static inline void power_setup(void) {
   jtag_disable();
 }
 
-
-static inline void setup() {
+static inline void setup(void) {
   serial_init();
   twi_init();
   sei();

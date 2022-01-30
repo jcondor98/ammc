@@ -59,6 +59,10 @@ void twi_init(void) {
   PORTD &= ~((1 << 0) | (1 << 1));
 }
 
+// Return the TWI internal status
+uint8_t twi_status(void) {
+  return error;
+}
 
 // [AUX] Send "raw" data, no automatic addressing
 // Do not use dedicated buffers, directly use 'tx_buffer' instead

@@ -53,15 +53,12 @@ static inline void execute_command(const master_command_t *cmd, uint8_t cmd_size
 
 static inline void power_saving_setup(void) {
   power_spi_disable();
-  //power_timer1_disable();
-  //power_usart0_enable();
-  //DDRB |= 1 << 5; // Power off the built-in LED on pin D13
-  //PORTB &= ~(1 << 5);
+  power_usart0_disable();
 }
 
 static inline void setup(void) {
   power_saving_setup();
-  //dcmotor_init();
+  dcmotor_init();
   sei();
 
   twi_own_address = eeprom_read_byte(&twi_own_address_eeprom);

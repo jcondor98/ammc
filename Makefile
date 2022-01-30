@@ -17,14 +17,14 @@ master:
 slave:
 	$(MAKE) --directory=slave/
 
-client-install:
-	$(MAKE) --directory=client/ install
-
 master-flash:
 	$(MAKE) --directory=master flash
 
 slave-flash:
 	$(MAKE) --directory=slave flash
+
+install:
+	$(MAKE) --directory=client/ install
 
 install-docs:
 	install -m 0644 resources/man/ammc.1.gz /usr/share/man/man1/

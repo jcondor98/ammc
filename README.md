@@ -1,30 +1,34 @@
 # AVR Multi Motor Control
 
-This repo contains the entire codebase and documentation for the bachelor degree
-apprenticeship, which is supervised by Prof. Giorgio Grisetti and
-Drs. Barbara Bazzana.
+This repo contains the entire codebase and documentation for the bachelor
+degree apprenticeship, which is supervised by Prof. Giorgio Grisetti and Drs.
+Barbara Bazzana.
 
 ## Overview
 
-The project consists in a multi-motor control system. Each DC motor is
-individually handled by a dedicated standalone AVR controller. An Atmel AT2560
-is used as master controller.
+The project consists in a multi-motor control system, structured in a
+master-slave fashion. Each DC motor is individually handled by a dedicated
+standalone AVR controller. The Atmel AT2560 is used for every (master or slave)
+microcontroller.
 
 The master controller must:
 
-* Communicate with the slaves (i.e. controllers handling individual motors) via the I2C protocol
+* Communicate with the slaves (i.e. controllers handling individual motors) via
+  the I2C protocol
 * Communicate with a PC via the serial (over USB) protocol
 
-The end user will interface just the master controller, using a TUI program which
-runs under POSIX-compliant OSes.
+The end user will interface just the master controller, using a TUI program
+which runs under POSIX-compliant OSes.
 
 ### Features
 
 * Text-based client application for POSIX environments
 * Master and Slave(s) controller firmware
-* Fully binary Client-Master communication protocol on top of the serial interface
+* Fully binary Client-Master communication protocol on top of the serial
+  interface
 * Fully binary Master-Slave communication protocol on top of the I2C interface
-* Up to 126 DC motors (limited by 7-bit I2C Slave addressing, `0x00` is reserved)
+* Up to 126 DC motors (limited by 7-bit I2C Slave addressing, `0x00` is
+  reserved)
 * Ability to get and set the DC motors speed, individually
 * Software defined PID controller embedded in each Slave controller
 
@@ -32,8 +36,8 @@ runs under POSIX-compliant OSes.
 
 An overview of the project is given in this Markdown document.
 
-Documentation generated with doxygen for the source code and the programming API
-can be found [here](https://jcondor98.github.io/ammc/).
+Documentation generated with doxygen for the source code and the programming
+API can be found [here](https://jcondor98.github.io/ammc/).
 
 The client is documented by the man page `ammc(1)`.
 
@@ -156,9 +160,9 @@ When a packet arrives, it is checked for integrity and sanity. If it is sane,
 then an ACK packet is sent; if not, then a NAK packet is sent.
 ACK and NAK packets are simply discarded if corrupted in some way.
 
-A NAK packet uses the 'selector' field to send to the other endpoint the error
-code describing what happened on its side. Error codes can be found in
-`communication.h`.
+A NAK packet uses the 'selector' field to send the error code describing what
+happened on its side to the other endpoint. Error codes can be found in
+`include/common/communication.h`.
 
 #### Controlling DC motors' speed
 
@@ -175,17 +179,18 @@ Further informations can be found in the man page or by issuing the `help`
 command to the client shell.
 
 **NOTE**: The `sample` command has been removed from the specification, since
-the effective speed is periodically sampled by each Slave, as needed by the PID
-embedded controller.
+the effective speed is periodically sampled by each Slave, as needed by the
+embedded PID controller.
 
 ### Master-Slave communication
 
-Master and slaves communicate to each other using the TWI/I2C protocol. The
+Master and slaves communicate to each other using the I2C/TWI protocol. The
 implementation had been realized from scratch and also offers broadcasting
 capabilities from master to slaves, based on the `0x00` built-in broadcasting
 address.
 
-The communication layer on top of the I2C protocol is completely binary.
+The communication layer on top of the I2C protocol is completely binary and
+interrupt-driven.
 
 #### Communication frame
 
@@ -198,11 +203,12 @@ Command | Code | Description
 `DC_MOTOR_CMD_GET`   | `0x00` | Get the sampled motor speed
 `DC_MOTOR_CMD_SET`   | `0x01` | Set a new target speed
 `DC_MOTOR_CMD_APPLY` | `0x02` | Apply the previously set speed
-`TWI_CMD_ECHO`        | `0x03` | Echo a byte back to master (debug)
+`TWI_CMD_ECHO`       | `0x03` | Echo a byte back to master (debug)
 `TWI_CMD_SET_ADDR`   | `0x04` | Change the current I2C address (i.e. motor id)
 
 
 ## Notes
 
-The doxygen custom CSS files is taken from _jothepro_, [here](https://github.com/jothepro/doxygen-awesome-css/blob/v1.6.0/LICENSE).
+The doxygen custom CSS files is taken from _jothepro_,
+[here](https://github.com/jothepro/doxygen-awesome-css/blob/v1.6.0/LICENSE).
 It is released under the MIT license.

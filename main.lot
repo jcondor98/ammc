@@ -1,4 +1,4 @@
-\babel@toc {english}{}
+\babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {2.1}{\ignorespaces Client application software modules\relax }}{9}{table.caption.4}%
@@ -7,7 +7,7 @@
 \contentsline {table}{\numberline {3.2}{\ignorespaces Master controller wiring\relax }}{14}{table.caption.15}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {4.1}{\ignorespaces Slave application software modules\relax }}{19}{table.caption.16}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Slave controller wiring\relax }}{19}{table.caption.19}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Slave controller wiring\relax }}{20}{table.caption.19}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {5.1}{\ignorespaces Packet header fields\relax }}{22}{table.caption.20}%
 \contentsline {table}{\numberline {5.2}{\ignorespaces Exhaustive list of packet types\relax }}{23}{table.caption.21}%

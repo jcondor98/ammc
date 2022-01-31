@@ -54,31 +54,46 @@ given in table \ref{tab:master-spec-modules}. File paths are relative to the
     \midrule
     communication &
       Contains all the top-level communication routines &
-      \texttt{include/communication.h}, \texttt{source/communication.c} \\
+      \texttt{include/communication.h},
+      \texttt{source/communication.c} \\
+    communication\_ops &
+      Contains the application-specific use cases &
+      \texttt{source/communication\_ops.c} \\
     crc &
       Contains the CRC generation and checking routines &
-      \texttt{include/crc.h}, \texttt{source/crc.c} \\
+      \texttt{include/crc.h},
+      \texttt{source/crc.c} \\
     dcmotor &
       Contains the top-level routines for interfacing slave controllers &
-      \texttt{include/dcmotor.h}, \texttt{source/dcmotor.c} \\
+      \texttt{include/dcmotor.h},
+      \texttt{source/dcmotor.c} \\
     main &
       Contains the main and power management routines &
       \texttt{source/main.c} \\
+    master\_commands &
+      Interface to issue commands to slaves as the master controller &
+      \texttt{source/master\_commands.c},
+      \texttt{include/master\_commands.h} \\
     packet &
       Contains packet generation and manipulation routines &
-      \texttt{include/packet.h}, \texttt{source/packet.c} \\
+      \texttt{include/packet.h},
+      \texttt{source/packet.c} \\
     ringbuffer &
       Circular buffer implementation for the serial module &
-      \texttt{include/ringbuffer.h}, \texttt{source/ringbuffer.c} \\
+      \texttt{include/ringbuffer.h},
+      \texttt{source/ringbuffer.c} \\
     serial &
       Contains all the routines for the underlying serial communication layer &
-      \texttt{include/serial.h}, \texttt{source/serial.c} \\
+      \texttt{include/serial.h},
+      \texttt{source/serial.c} \\
     sleep\_util &
       Handy wrapper for the avr-libc power management facilities &
       \texttt{include/sleep\_util.h} \\
     twi &
-      Contains the I2C/TWI layer which underlies the communication between master and slaves &
-      \texttt{include/twi.h}, \texttt{source/twi.c} \\
+      Contains the I2C/TWI layer which underlies the communication between
+      master and slaves &
+      \texttt{include/twi.h},
+      \texttt{source/twi.c} \\
     \bottomrule
   \end{tabularx}
   \caption{Master application software modules}
@@ -99,11 +114,11 @@ result of the software architecture policy used.
 \end{figure}
 
 \subsection{Circuit schematics}
-The complete circuit schematics for the master controller and all its components
-is shown in figure \ref{img:master-sch}.
+The complete circuit schematics for the master controller and all its
+components is shown in figure \ref{img:master-sch}.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{master-schematics}
+  \includegraphics[width=\maxwidth{\textwidth}]{master-schematics-grayscale}
   \caption{Master controller schematics}
   \label{img:master-sch}
 \end{centering}
@@ -117,9 +132,9 @@ The wiring correspondence for the master controller MCU is shown in table
     \toprule
     Board pin & MCU pin & Description \\
     \midrule
-    D20 & 44/PD1/INT1/SDA  & I2C data bus \\
-    D21 & 43/PD0/INT0/SCL  & I2C clock bus \\
-    RESET & RESET & On-board MCU reset pin \\
+    D20   & 44/PD1/INT1/SDA & I2C data bus \\
+    D21   & 43/PD0/INT0/SCL & I2C clock bus \\
+    RESET & RESET           & On-board MCU reset pin \\
     \bottomrule
   \end{tabularx}
   \caption{Master controller wiring}

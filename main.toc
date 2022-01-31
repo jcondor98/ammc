@@ -1,4 +1,4 @@
-\babel@toc {english}{}
+\babel@toc {english}{}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Contributions}{1}{section.1.2}%
@@ -36,7 +36,7 @@
 \contentsline {section}{\numberline {4.4}Power management}{17}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Specification}{17}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Software modules}{17}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{18}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.2}Modules dependency graph}{17}{subsection.4.5.2}%
 \contentsline {subsection}{\numberline {4.5.3}Circuit schematics}{18}{subsection.4.5.3}%
 \contentsline {subsection}{\numberline {4.5.4}Wiring}{18}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Client-Master communication}{21}{chapter.5}%
@@ -56,4 +56,3 @@
 \contentsline {section}{\numberline {7.2}Future work}{28}{section.7.2}%
 \contentsline {subsection}{\numberline {7.2.1}Extended connectivity}{28}{subsection.7.2.1}%
 \contentsline {subsection}{\numberline {7.2.2}Programming API}{28}{subsection.7.2.2}%
-\contentsline {chapter}{Bibliography}{29}{section*.24}%

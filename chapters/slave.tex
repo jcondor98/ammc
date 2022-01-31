@@ -12,19 +12,16 @@ Furthermore, it comes with a software Proportional-Integral-Derivative
 controller to correct the bias between target and actual motor speeds.
 
 \section{Hardware setup}
-The slave controller itself is an AVR \emph{ATMega328P} microcontroller
+The slave controller itself is an AVR \emph{ATMega2560} microcontroller
 unit\cite{at328p-ref}, which offers the following features of interest:
 
 \begin{itemize}
-  \item CH340 Serial-over-USB controller for convenient firmware flashing
-  \item Reduced size
-  \item Relatively high clock and resources
   \item Dedicated I2C hardware subsystem
   \item PWM-capable 8-bit and 16-bit timers
 \end{itemize}
 
-Apart from the motor itself (along with its power supply and eventually its
-dedicated control board) no additional hardware is used.
+Apart from the motor itself (along with its power supply and its dedicated
+H-bridge control board) no additional hardware is used.
 
 \section{I2C setup}
 A slave controller communicates with the master controller using the I2C
@@ -42,12 +39,12 @@ The first and most trivial one is to define the \texttt{TW\_DEFAULT\_ADDR}
 macro to the desired address when building the slave controller firmware. This
 solution is impractical for obvious reasons and should be avoided.
 
-The second (and suggested) method is to connect the master and slave
-controllers via I2C and the master controller with the client via serial. Then
-the \texttt{set-slave-addr} command can be used to change the I2C address to
-the desired one. The changes take place immediately, as the slave controller's
-I2C software module is reinitialized, and they will be saved in the EEPROM
-embedded into the AVR microcontroller for durability.
+The second method is to connect the master and slave controllers via I2C and
+the master controller with the client via serial. Then the
+\texttt{set-slave-addr} command can be used to change the I2C address to the
+desired one. The changes take place immediately, as the slave controller's I2C
+software module is reinitialized, and they will be saved in the EEPROM embedded
+into the AVR microcontroller for durability.
 
 \section{Proportional-Integral-Derivative controller}
 An own-written, software-defined Proportional-Integral-Derivative controller is
@@ -117,9 +114,24 @@ given in table \ref{tab:slave-spec-modules}. File paths are relative to the
     \toprule
     Module & Description & Files \\
     \midrule
+    command &
+      Interface to handle commands issued by the master controller &
+      \texttt{source/command.c},
+      \texttt{include/command.h} \\
     dcmotor &
-      Contains stuff to directly manipulate dc motors, including the PID controller, PWM waves generation and speed manipulation routines &
-      \texttt{include/dcmotor.h}, \texttt{source/dcmotor.c} \\
+      Contains stuff to directly manipulate dc motors, including the PID
+      controller, PWM waves generation and speed manipulation routines &
+      \texttt{source/dcmotor.c},
+      \texttt{include/dcmotor.h} \\
+    dcmotor\_phy &
+      HAL interface for direct (i.e.\ physical) dc motor handling &
+      \texttt{source/dcmotor\_phy.c},
+      \texttt{include/dcmotor\_phy.h},
+      \texttt{include/dcmotor\_phy\_params.h} \\
+    dcmotor\_pid &
+      Contains the software PID controller routines &
+      \texttt{source/dcmotor\_pid.c},
+      \texttt{include/dcmotor\_pid.h} \\
     main &
       Contains the main and power management routines &
       \texttt{source/main.c} \\
@@ -127,8 +139,10 @@ given in table \ref{tab:slave-spec-modules}. File paths are relative to the
       Handy wrapper for the avr-libc power management facilities &
       \texttt{include/sleep\_util.h} \\
     twi &
-      Contains the I2C/TWI layer which underlies the communication between master and slaves &
-      \texttt{include/twi.h}, \texttt{source/twi.c} \\
+      Contains the I2C/TWI layer which underlies the communication between
+      master and slaves &
+      \texttt{include/twi.h},
+      \texttt{source/twi.c} \\
     \bottomrule
   \end{tabularx}
   \caption{Slave application software modules}
@@ -153,7 +167,7 @@ is shown in figure \ref{img:slave-sch}. This circuit can be repeated multiple
 times (up to 126) in a single ammc ecosystem.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[scale=0.7]{slave-schematics}
+  \includegraphics[scale=0.6]{slave-schematics-grayscale}
   \caption{Slave controller schematics}
   \label{img:slave-sch}
 \end{centering}
@@ -167,11 +181,12 @@ The wiring correspondence for the slave controller MCU is shown in table
     \toprule
     Board pin & MCU pin & Description \\
     \midrule
-    A4 & 27/PC4/ADC4/SDA  & I2C data bus \\
-    A5 & 28/PC5/ADC5/SCL  & I2C clock bus \\
-    D6 & 10/PD6/AIN0/OC0A & PWM output to the dc motor \\
-    D7 & 11/PD7/AIN1/ICP1 & Encoder phase A, interrupt-enabled \\
-    D8 & 12/PB0/CLK0      & Encoder phase B \\
+    D20 & 44/PD1/INT1/SDA    & I2C data bus \\
+    D21 & 43/PD0/INT0/SCL    & I2C clock bus \\
+    D13 & 26/PB7/OC0A/PCINT7 & Forward PWM output to the dc motor \\
+    D13 & 1/PG5/OC0B         & Forward PWM output to the dc motor \\
+    D53 & 19/PB0/PCINT0      & Encoder phase A, interrupt-enabled \\
+    D52 & 20/PB1/PCINT1      & Encoder phase B \\
     \bottomrule
   \end{tabularx}
   \caption{Slave controller wiring}

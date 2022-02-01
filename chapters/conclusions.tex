@@ -11,20 +11,22 @@ developed further in the future.
 The hardware required for the example setup given here is the following:
 \begin{itemize}
   \item One \emph{ATMega2560} microcontroller unit for the master controller
-  \item One \emph{ATMega328P} microcontroller unit for the slave controller
+  \item One \emph{ATMega2560} microcontroller unit for the slave controller
   \item One dc motor with embedded two-phase encoder
   \item Two $4.7 k\Omega$ resistors for the I2C open-drain
   \item One capacitor of about $100 pF$ to inhibit the reset-over-serial
     capabilities of the ATMega2560 board
+  \item One h-bridge driver consistent with the dc motor voltage and power
+    requirements (e.g.\ $12 V,\ 2 A$)
+  \item A power supply compatible with the h-bridge and motor voltage and
+    power requirements (e.g.\ $12 V,\ 24 W$)
 \end{itemize}
-Optionally, a dedicated motor board may be used.
 
 The hardware setup must be performed as shown in figures \ref{img:master-sch}
 and \ref{img:slave-sch}.
-The motor must be powered consistently with its requirements (usually $12 V$).
-The AVR microcontrollers can be powered using their USB sockets. The I2C
-reference voltage can be set by using a $5 V$ output pin of the master
-controller board.
+The motor must be powered consistently with its requirements. The AVR
+microcontrollers can be powered using their USB sockets. The I2C reference
+voltage can be set by using a $5 V$ output pin of the master controller board.
 
 \subsection{Software}
 The software can be built and eventually flashed using GNU Make. the

@@ -11,5 +11,4 @@ docs
 *.aux
 *.log
 *.out
-*.bbl
 *.blg

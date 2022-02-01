@@ -1,17 +1,17 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Client application software modules\relax }}{9}{table.caption.4}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Client application software modules\relax }}{7}{table.caption.4}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Master application software modules\relax }}{14}{table.caption.12}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Master controller wiring\relax }}{14}{table.caption.15}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Master application software modules\relax }}{11}{table.caption.12}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Master controller wiring\relax }}{11}{table.caption.15}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Slave application software modules\relax }}{19}{table.caption.16}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Slave controller wiring\relax }}{20}{table.caption.19}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Slave application software modules\relax }}{16}{table.caption.16}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Slave controller wiring\relax }}{17}{table.caption.19}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.1}{\ignorespaces Packet header fields\relax }}{22}{table.caption.20}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Exhaustive list of packet types\relax }}{23}{table.caption.21}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Exhaustive list of packet types\relax }}{23}{table.caption.22}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Packet header fields\relax }}{20}{table.caption.20}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Exhaustive list of packet types\relax }}{21}{table.caption.21}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Exhaustive list of packet types\relax }}{21}{table.caption.22}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Master-to-slave commands\relax }}{26}{table.caption.23}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Master-to-slave commands\relax }}{24}{table.caption.23}%
 \addvspace {10\p@ }

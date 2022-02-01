@@ -1,0 +1,39 @@
+\begin{thebibliography}{1}
+
+\bibitem{at2560-ref}
+Atmel.
+\newblock {\em {Atmel ATmega640/V-1280/V-1281/V-2560/V-2561/V datasheet}},
+  2014.
+
+\bibitem{at328p-ref}
+Atmel.
+\newblock {\em {Atmel ATmega328P datasheet}}, 2015.
+
+\bibitem{fondamenti2-prog}
+Giuseppe~De Giacomo.
+\newblock {Corso di Fondamenti di Informatica 2 - Progettazione del Software}.
+\newblock
+  \url{https://sites.google.com/a/diag.uniroma1.it/fondamenti-di-informatica-ii-progettazione-del-software-2017-18/},
+  2018.
+
+\bibitem{levy-num-analysis}
+Doron Levy.
+\newblock {Introduction to Numerical Analysis}.
+\newblock \url{http://math.umd.edu/~dlevy/classes/amsc460/na-notes.pdf}, 2017.
+
+\bibitem{clean-architecture}
+Robert~C. Martin.
+\newblock {\em {Clean Architecture: A Craftsman's Guide to Software Structure
+  and Design}}.
+\newblock Addison-Wesley, 2017.
+
+\bibitem{i2c-ref}
+Philips Semiconductors.
+\newblock {\em {The I2C-bus Specification}}, 2000.
+
+\bibitem{cpp-ref}
+Bjarne Stroustrup.
+\newblock {\em {The C++ Programming Language}}.
+\newblock Addison-Wesley, 4th edition, 2013.
+
+\end{thebibliography}

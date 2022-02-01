@@ -67,35 +67,35 @@ An exhaustive list of software modules for the client application is given
 in table \ref{tab:client-spec-modules}. File paths are relative to the
 \texttt{client/} directory.
 
-\begin{table}[bh]
+\begin{table}[h!]
   \begin{tabularx}{\textwidth}{c X X}
     \toprule
     Module & Description & Files \\
     \midrule
     communication &
-      Contains all the top-level communication routines &
+      Top-level communication routines &
       \texttt{include/communication.h},
       \texttt{source/communication.c} \\
     crc &
-      Contains the CRC generation and checking routines &
+      CRC generation and checking routines &
       \texttt{include/crc.h},
       \texttt{source/crc.c} \\
     debug &
-      Contains convenient debug facilities &
+      Debug facilities &
       \texttt{include/debug.h} \\
     main &
-      Contains the main client application routine &
+      Main client application routine &
       \texttt{source/main.c} \\
     packet &
-      Contains packet generation and manipulation routines &
+      Packet generation and manipulation routines &
       \texttt{include/packet.h},
       \texttt{source/packet.c} \\
     ringbuffer &
-      Circular buffer implementation for the serial module &
+      Circular buffer data structure &
       \texttt{include/ringbuffer.h},
       \texttt{source/ringbuffer.c} \\
     serial &
-      Contains all the routines for the underlying serial communication layer &
+      Serial communication layer &
       \texttt{include/serial.h},
       \texttt{source/serial.c} \\
     shell &
@@ -103,8 +103,7 @@ in table \ref{tab:client-spec-modules}. File paths are relative to the
       \texttt{include/shell.h},
       \texttt{source/shell.c} \\
     shell\_commands &
-      Contains the custom external commands to interact with the master
-      controller &
+      External commands to interact with the master controller &
       \texttt{source/shell\_commands.c} \\
     \bottomrule
   \end{tabularx}
@@ -127,4 +126,7 @@ result of the software architecture policy used.
 
 \section{Man page}
 \label{sec:client-manpage}
-\import{./misc/}{manpage.tex}
+{
+  \ttfamily
+  \import{./misc/}{manpage.tex}
+}

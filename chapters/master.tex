@@ -47,51 +47,50 @@ An exhaustive list of software modules for the master controller firmware is
 given in table \ref{tab:master-spec-modules}. File paths are relative to the
 \texttt{master/} directory.
 
-\begin{table}[bh]
+\begin{table}[bth]
   \begin{tabularx}{\textwidth}{c X X}
     \toprule
     Module & Description & Files \\
     \midrule
     communication &
-      Contains all the top-level communication routines &
+      Top-level communication routines &
       \texttt{include/communication.h},
       \texttt{source/communication.c} \\
     communication\_ops &
-      Contains the application-specific use cases &
+      Application-specific use cases &
       \texttt{source/communication\_ops.c} \\
     crc &
-      Contains the CRC generation and checking routines &
+      CRC generation and checking routines &
       \texttt{include/crc.h},
       \texttt{source/crc.c} \\
     dcmotor &
-      Contains the top-level routines for interfacing slave controllers &
+      Top-level routines for interfacing slave controllers &
       \texttt{include/dcmotor.h},
       \texttt{source/dcmotor.c} \\
     main &
-      Contains the main and power management routines &
+      Main and power management routines &
       \texttt{source/main.c} \\
     master\_commands &
-      Interface to issue commands to slaves as the master controller &
+      Interface to issue commands to slave controllers &
       \texttt{source/master\_commands.c},
       \texttt{include/master\_commands.h} \\
     packet &
-      Contains packet generation and manipulation routines &
+      Packet generation and manipulation routines &
       \texttt{include/packet.h},
       \texttt{source/packet.c} \\
     ringbuffer &
-      Circular buffer implementation for the serial module &
+      Circular buffer data structure &
       \texttt{include/ringbuffer.h},
       \texttt{source/ringbuffer.c} \\
     serial &
-      Contains all the routines for the underlying serial communication layer &
+      Serial communication layer &
       \texttt{include/serial.h},
       \texttt{source/serial.c} \\
     sleep\_util &
-      Handy wrapper for the avr-libc power management facilities &
+      Wrapper for the avr-libc power management facilities &
       \texttt{include/sleep\_util.h} \\
     twi &
-      Contains the I2C/TWI layer which underlies the communication between
-      master and slaves &
+      I2C/TWI communication layer &
       \texttt{include/twi.h},
       \texttt{source/twi.c} \\
     \bottomrule
@@ -105,7 +104,7 @@ The dependency graph for the master controller's software modules is shown in
 figure \ref{img:master-deps-graph}. The \emph{debug} module is excluded. Notice
 how the dependency flow goes in one direction (from top to bottom); this is the
 result of the software architecture policy used.
-\begin{figure}[hbp]
+\begin{figure}[hbt]
 \begin{centering}
   \includegraphics[scale=0.5]{master-deps}
   \caption{Master controller modules dependency graph}

@@ -16,10 +16,6 @@
 
 typedef uint8_t duty_cycle_t;
 
-typedef enum _DIRECTION_E {
-  DIR_CLOCKWISE, DIR_COUNTER_CLOCKWISE
-} direction_t;
-
 
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
   static const double max_speed = DC_MOTOR_MAX_RPM_SPEED;
@@ -81,17 +77,21 @@ void dcmotor_phy_sampling_timer_init(void) {
   SAMPLING_TCCRB = SAMPLING_TCCRB_VALUE;
 }
 
-void dcmotor_pid_start(void) {
+void dcmotor_phy_pid_start(void) {
   PID_TCNT = 0;
   PID_TIMSK |= PID_TIMSK_MASK;
 }
 
-void dcmotor_pid_stop(void) {
+void dcmotor_phy_pid_stop(void) {
   PID_TIMSK &= PID_TIMSK_MASK;
 }
 
 
-/*
+/* TODO: Remove?
+typedef enum _DIRECTION_E {
+  DIR_CLOCKWISE, DIR_COUNTER_CLOCKWISE
+} direction_t;
+
 static inline void set_direction(direction_t dir) {
   if (dir == DIR_CLOCKWISE)
     DIRECTION_PORT &= ~DIRECTION_PORT_MASK;

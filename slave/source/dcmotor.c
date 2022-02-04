@@ -9,9 +9,9 @@
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
 
-#define DCMOTOR_PID_KP 0.80
-#define DCMOTOR_PID_KI 0.05
-#define DCMOTOR_PID_KD 0.15
+#define DCMOTOR_PID_KP 0.8
+#define DCMOTOR_PID_KI 0.0
+#define DCMOTOR_PID_KD 0.2
 
 
 static volatile int64_t motor_position;
@@ -38,7 +38,7 @@ void dcmotor_set(dc_rpm_t next) {
 
 void dcmotor_apply(void) {
   speed_target = speed_next;
-  dcmotor_phy_load_speed(speed_target); // TODO: Keep or remove?
+  dcmotor_phy_load_speed(speed_target);
 }
 
 
@@ -50,17 +50,19 @@ ISR(DCMOTOR_PHY_ENCODER_ISR) {
 }
 
 
-static inline float compute_speed_from_position(int64_t position) {
-  return position * 60000 /
-    DC_ENC_SIGNALS_PER_ROUND / DC_SAMPLING_INTERVAL;
+// TODO: Use float variables and constants?
+static inline float compute_speed_from_position(int64_t _position) {
+  double position = (double) _position;
+  return (float) (position * 60000 /
+    DC_ENC_SIGNALS_PER_ROUND / DC_SAMPLING_INTERVAL);
 }
 
 // PID sampling timer ISR
 ISR(DCMOTOR_PHY_PID_ISR) {
   float speed = compute_speed_from_position(motor_position);
-  float u = dcmotor_pid_iterate(speed, speed_target);
+  float corrected_speed = dcmotor_pid_iterate(speed, speed_target);
 
-  dcmotor_phy_load_speed_float(u);
+  dcmotor_phy_load_speed_float(corrected_speed);
   motor_position = 0;
   speed_actual = (dc_rpm_t) speed;
 }

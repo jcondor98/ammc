@@ -5,8 +5,9 @@
  * Used I/O pins are:
  * D53 (PORTB0/PCINT0) -> Encoder Phase A
  * D52 (PORTB1/PCINT1) -> Encoder Phase B
- * D13 (PORTD7/OCR0A)  -> PWM output
- * D4  (PORTG5/OCR0B)  -> Direction switch
+ * D13 (PORTB7/OCR0A)  -> PWM output
+ * D12 (PORTB6/OCR1A)  -> Direction switch 1
+ * D11 (PORTB5/OCR1B)  -> Direction switch 2
  *
  * \author Paolo Lucchesi
  */
@@ -14,20 +15,28 @@
 #define __DCMOTOR_HAL_PARAMETERS_H
 
 // Register used to set the speed in RPM
-#define SPEED_REGISTER_FW OCR0A
-#define SPEED_REGISTER_BW OCR0B
+#define SPEED_REGISTER OCR0A
 
 // PWM Parameters
-#define PWM_FW_DDR      DDRB
-#define PWM_FW_DDR_MASK (1 << 7)
-#define PWM_BW_DDR      DDRG
-#define PWM_BW_DDR_MASK (1 << 5)
+#define PWM_DDR         DDRB
+#define PWM_DDR_MASK    (1 << 7)
 #define PWM_TCCRA       TCCR0A
-#define PWM_TCCRA_VALUE ((1 << WGM01) | (1 << WGM00) | (1 << COM0A1) | (1 << COM0B1))
+#define PWM_TCCRA_VALUE ((1 << WGM01) | (1 << WGM00) | (1 << COM0A1))
 #define PWM_TCCRB       TCCR0B
-#define PWM_TCCRB_VALUE ((1 << CS00))
+#define PWM_TCCRB_VALUE ((1 << CS00) | (1 << CS01))
+
+// Direction parameters
+#define DIRECTION_IN1_DDR       DDRB
+#define DIRECTION_IN1_DDR_MASK  (1 << 6)
+#define DIRECTION_IN2_DDR       DDRB
+#define DIRECTION_IN2_DDR_MASK  (1 << 5)
+#define DIRECTION_IN1_PORT      PORTB
+#define DIRECTION_IN1_PORT_MASK DIRECTION_IN1_DDR_MASK
+#define DIRECTION_IN2_PORT      PORTB
+#define DIRECTION_IN2_PORT_MASK DIRECTION_IN2_DDR_MASK
 
 // Encoder parameters
+#define DCMOTOR_PHY_ENCODER_ISR PCINT0_vect
 #define ENCODER_A_DDR       DDRB
 #define ENCODER_A_DDR_MASK  (1 << 0)
 #define ENCODER_A_PORT      PORTB
@@ -38,12 +47,12 @@
 #define ENCODER_B_DDR_MASK  (1 << 1)
 #define ENCODER_B_PORT      PORTB
 #define ENCODER_B_PORT_MASK ENCODER_B_DDR_MASK
-#define ENCODER_B_PIN       DDRB
+#define ENCODER_B_PIN       PINB
 #define ENCODER_B_PIN_MASK  ENCODER_B_DDR_MASK
 #define ENCODER_PCICR       PCICR
 #define ENCODER_PCICR_MASK  (1 << PCIE0)
 #define ENCODER_PCMSK       PCMSK0
-#define ENCODER_PCMSK_MASK  (1 << 0)
+#define ENCODER_PCMSK_MASK  (1 << PCINT0)
 
 // Sampling timer parameters
 #define SAMPLING_TCCRA TCCR2A
@@ -52,8 +61,9 @@
 #define SAMPLING_TCCRB_VALUE ((1 << WGM22) | (1 << CS20) | (1 << CS22))
 
 // PID controller parameters
-#define PID_TCNT TCNT1
-#define PID_TIMSK TIMSK1
-#define PID_TIMSK_MASK (1 << OCIE1A)
+#define DCMOTOR_PHY_PID_ISR TIMER1_COMPA_vect
+#define PID_TIMSK           TIMSK1
+#define PID_TIMSK_MASK      (1 << OCIE1A)
+#define PID_TCNT            TCNT1
 
 #endif  // __DCMOTOR_HAL_PARAMETERS_H

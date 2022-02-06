@@ -11,7 +11,7 @@
 
 static uint8_t sampling_interval;
 static float k_prop, k_int, k_der;
-static float err_int, err_prev;
+float err_int, err_prev;
 
 
 void dcmotor_pid_init(float kp, float ki, float kd, uint8_t sample_int) {

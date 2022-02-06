@@ -21,7 +21,12 @@ static dc_rpm_t speed_next;
 
 
 void dcmotor_init(void) {
-  dcmotor_pid_init(DCMOTOR_PID_KP, DCMOTOR_PID_KI, DCMOTOR_PID_KD, DC_SAMPLING_INTERVAL);
+  dcmotor_pid_init(
+      DCMOTOR_PID_KP,
+      DCMOTOR_PID_KI,
+      DCMOTOR_PID_KD,
+      DC_SAMPLING_INTERVAL
+    );
   dcmotor_phy_sampling_timer_init();
   dcmotor_phy_encoder_init();
   dcmotor_phy_pwm_init();

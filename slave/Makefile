@@ -60,14 +60,18 @@ $(OBJDIR)/%.o:	%.s
 	avr-objcopy -O ihex -R .eeprom $(patsubst %.hex, %.elf, $@) $@
 
 
+$(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
+
 $(TGTDIR)/test-twi.elf: $(OBJDIR)/twi.o
 	$(CC) $(CFLAGS) -o $@ $^ test/test-twi.c
 
 $(TGTDIR)/test-dcmotor.elf: $(OBJDIR)/dcmotor_phy.o
 	$(CC) $(CFLAGS) -o $@ $^ test/test-dcmotor.c
 
-$(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+$(TGTDIR)/test-encoder.elf: $(OBJDIR)/dcmotor_phy.o
+	$(CC) $(CFLAGS) -Itest/include -o $@ $^ test/test-encoder.c \
+		test/source/serial.c test/source/ringbuffer.c
 
 all: $(TGTDIR)/$(PROGNAME).elf;
 
@@ -82,6 +86,11 @@ test-dcmotor: $(TGTDIR)/test-dcmotor.hex
 test-twi: $(TGTDIR)/test-twi.hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
+
+test-encoder: $(TGTDIR)/test-encoder.hex
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
+	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
+
 
 clean:	
 	rm -f $(OBJDIR)/*.o $(BINS) $(TGTDIR)/*

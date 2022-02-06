@@ -8,10 +8,6 @@
 #define __DCMOTOR_PHYSICAL_HAL_H
 #include <stdint.h>
 
-//! @todo Hide behind implementation
-#define DCMOTOR_PHY_ENCODER_ISR PCINT0_vect
-#define DCMOTOR_PHY_PID_ISR TIMER1_COMPA_vect
-
 void dcmotor_phy_encoder_init(void);
 
 void dcmotor_phy_pwm_init(void);

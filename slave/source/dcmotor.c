@@ -6,6 +6,9 @@
  * \author Paolo Lucchesi
  */
 #include <avr/interrupt.h>
+#include "common/dcmotor.h"
+#include "dcmotor_phy.h"
+#include "dcmotor_phy_params.h"
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
 
@@ -14,7 +17,7 @@
 #define DCMOTOR_PID_KD 0.2
 
 
-static volatile int64_t motor_position;
+static volatile int32_t motor_position;
 static volatile dc_rpm_t speed_actual;
 static dc_rpm_t speed_target;
 static dc_rpm_t speed_next;
@@ -27,7 +30,7 @@ void dcmotor_init(void) {
       DCMOTOR_PID_KD,
       DC_SAMPLING_INTERVAL
     );
-  dcmotor_phy_sampling_timer_init();
+  dcmotor_phy_pid_init(DC_SAMPLING_INTERVAL);
   dcmotor_phy_encoder_init();
   dcmotor_phy_pwm_init();
   dcmotor_phy_load_speed(0);
@@ -56,10 +59,10 @@ ISR(DCMOTOR_PHY_ENCODER_ISR) {
 
 
 // TODO: Use float variables and constants?
-static inline float compute_speed_from_position(int64_t _position) {
+static inline float compute_speed_from_position(int32_t _position) {
   double position = (double) _position;
-  return (float) (position * 60000 /
-    DC_ENC_SIGNALS_PER_ROUND / DC_SAMPLING_INTERVAL);
+  return (float) (position / DC_SAMPLING_INTERVAL
+      * 60000.0 / DC_ENC_SIGNALS_PER_ROUND);
 }
 
 // PID sampling timer ISR

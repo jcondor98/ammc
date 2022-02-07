@@ -54,16 +54,16 @@
 #define ENCODER_PCMSK       PCMSK0
 #define ENCODER_PCMSK_MASK  (1 << PCINT0)
 
-// Sampling timer parameters
-#define SAMPLING_TCCRA TCCR2A
-#define SAMPLING_TCCRA_VALUE 0
-#define SAMPLING_TCCRB TCCR2B
-#define SAMPLING_TCCRB_VALUE ((1 << WGM22) | (1 << CS20) | (1 << CS22))
-
 // PID controller parameters
 #define DCMOTOR_PHY_PID_ISR TIMER1_COMPA_vect
+#define PID_TCCRA           TCCR1A
+#define PID_TCCRA_VALUE     0
+#define PID_TCCRB           TCCR1B
+#define PID_TCCRB_VALUE     ((1 << CS10) | (1 << CS12)) // Prescaled by 1024
 #define PID_TIMSK           TIMSK1
 #define PID_TIMSK_MASK      (1 << OCIE1A)
 #define PID_TCNT            TCNT1
+#define PID_OCRH            OCR1AH
+#define PID_OCRL            OCR1AL
 
 #endif  // __DCMOTOR_HAL_PARAMETERS_H

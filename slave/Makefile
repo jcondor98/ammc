@@ -91,6 +91,11 @@ test-encoder: $(TGTDIR)/test-encoder.hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(call avrdude_write_flash, $<)\
 	  $(call avrdude_write_eeprom, $(patsubst %.hex, %.eep, $<))
 
+test-pid:
+	gcc -ggdb -Iinclude/ -I../include -Itest/framework -o test/test-dcmotor-pid \
+		source/dcmotor_pid.c test/framework/test-framework.c \
+		test/test-dcmotor-pid.c
+
 
 clean:	
 	rm -f $(OBJDIR)/*.o $(BINS) $(TGTDIR)/*

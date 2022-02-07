@@ -64,7 +64,7 @@ static inline void setup(void) {
   twi_own_address = eeprom_read_byte(&twi_own_address_eeprom);
   twi_init(twi_own_address);
 
-  dcmotor_phy_pid_start();
+  dcmotor_pid_start();
 }
 
 

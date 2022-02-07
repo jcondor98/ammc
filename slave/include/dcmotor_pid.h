@@ -16,7 +16,7 @@
  * @param kd The derivative weight constant
  * @param sample_int The dc motor sampling interval
  */
-void dcmotor_pid_init(float kp, float ki, float kd, uint8_t sample_int);
+void dcmotor_pid_init(float kp, float ki, float kd, uint16_t sample_int);
 
 /*!
  * Perform a PID controller iteration

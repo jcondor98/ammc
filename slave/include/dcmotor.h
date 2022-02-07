@@ -23,9 +23,9 @@ void dcmotor_set(dc_rpm_t);
 void dcmotor_apply(void);
 
 //! Start the PID controller activity
-#define dcmotor_start_pid() dcmotor_phy_start_pid()
+#define dcmotor_pid_start dcmotor_phy_pid_start
 
 //! Stop the PID controller activity
-#define dcmotor_stop_pid() dcmotor_phy_stop_pid()
+#define dcmotor_pid_stop dcmotor_phy_pid_stop
 
 #endif	// __DC_MOTOR_MODULE_H

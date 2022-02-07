@@ -9,7 +9,6 @@
 #include "dcmotor_phy.h"
 #include "dcmotor_phy_params.h"
 
-
 #define OCR_ONE_MSEC 15.625
 #define abs(x) ((x) > 0 ? (x) : -(x))
 #define min(x,y) ((x) < (y) ? (x) : (y))
@@ -80,7 +79,6 @@ void dcmotor_phy_encoder_init(void) {
   ENCODER_PCICR  |= ENCODER_PCICR_MASK;
 }
 
-
 //! @todo Do not use conditionals
 uint8_t dcmotor_phy_read_encoder_phase_a(void) {
   return (ENCODER_A_PIN & ENCODER_A_PIN_MASK) ? 1 : 0;
@@ -91,9 +89,12 @@ uint8_t dcmotor_phy_read_encoder_phase_b(void) {
   return (ENCODER_B_PIN & ENCODER_B_PIN_MASK) ? 1 : 0;
 }
 
-void dcmotor_phy_sampling_timer_init(void) {
-  SAMPLING_TCCRA = SAMPLING_TCCRA_VALUE;
-  SAMPLING_TCCRB = SAMPLING_TCCRB_VALUE;
+void dcmotor_phy_pid_init(uint16_t pid_interval_msec) {
+  uint16_t ocr_value = pid_interval_msec * OCR_ONE_MSEC;
+  PID_TCCRA = PID_TCCRA_VALUE;
+  PID_TCCRB = PID_TCCRB_VALUE;
+  PID_OCRH = ocr_value >> 8;
+  PID_OCRL = ocr_value & 0x00FF;
 }
 
 void dcmotor_phy_pid_start(void) {
@@ -102,5 +103,5 @@ void dcmotor_phy_pid_start(void) {
 }
 
 void dcmotor_phy_pid_stop(void) {
-  PID_TIMSK &= PID_TIMSK_MASK;
+  PID_TIMSK &= ~PID_TIMSK_MASK;
 }

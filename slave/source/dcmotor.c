@@ -54,7 +54,7 @@ void dcmotor_apply(void) {
 ISR(DCMOTOR_PHY_ENCODER_ISR) {
   uint8_t enc_a = dcmotor_phy_read_encoder_phase_a();
   uint8_t enc_b = dcmotor_phy_read_encoder_phase_b();
-  if (enc_a != 0) motor_position += (enc_b == 1) ? 1 : -1;
+  if (enc_a) motor_position += enc_b ? 1 : -1;
 }
 
 
@@ -71,6 +71,6 @@ ISR(DCMOTOR_PHY_PID_ISR) {
   float corrected_speed = dcmotor_pid_iterate(speed, speed_target);
 
   dcmotor_phy_load_speed_float(corrected_speed);
-  motor_position = 0;
   speed_actual = (dc_rpm_t) speed;
+  motor_position = 0;
 }

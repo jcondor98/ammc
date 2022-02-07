@@ -29,5 +29,5 @@ dc_rpm_t dcmotor_pid_iterate(dc_rpm_t speed_actual, dc_rpm_t speed_target) {
 
   err_prev = err_prop;
 
-  return speed_actual - (k_prop * err_prop + k_int * err_int + k_der * err_der);
+  return speed_actual + (k_prop * err_prop + k_int * err_int + k_der * err_der);
 }

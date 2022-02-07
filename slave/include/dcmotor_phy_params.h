@@ -59,7 +59,7 @@
 #define PID_TCCRA           TCCR1A
 #define PID_TCCRA_VALUE     0
 #define PID_TCCRB           TCCR1B
-#define PID_TCCRB_VALUE     ((1 << CS10) | (1 << CS12)) // Prescaled by 1024
+#define PID_TCCRB_VALUE     ((1 << WGM12) | (1 << CS10) | (1 << CS12)) // Prescaled by 1024
 #define PID_TIMSK           TIMSK1
 #define PID_TIMSK_MASK      (1 << OCIE1A)
 #define PID_TCNT            TCNT1

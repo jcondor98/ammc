@@ -15,20 +15,20 @@
 
 typedef uint8_t duty_cycle_t;
 
-typedef enum _DIRECTION_E {
-  DIR_CLOCKWISE, DIR_COUNTER_CLOCKWISE
-} direction_t;
 
+static inline void move_forward(void) {
+  DIRECTION_IN1_PORT |=  DIRECTION_IN1_PORT_MASK;
+  DIRECTION_IN2_PORT &= ~DIRECTION_IN2_PORT_MASK;
+}
 
-static inline void set_direction(direction_t dir) {
-  if (dir == DIR_CLOCKWISE) {
-    DIRECTION_IN1_PORT |=  DIRECTION_IN1_PORT_MASK;
-    DIRECTION_IN2_PORT &= ~DIRECTION_IN2_PORT_MASK;
-  }
-  else if (dir == DIR_COUNTER_CLOCKWISE) {
-    DIRECTION_IN1_PORT &= ~DIRECTION_IN1_PORT_MASK;
-    DIRECTION_IN2_PORT |=  DIRECTION_IN2_PORT_MASK;
-  }
+static inline void move_backward(void) {
+  DIRECTION_IN1_PORT &= ~DIRECTION_IN1_PORT_MASK;
+  DIRECTION_IN2_PORT |=  DIRECTION_IN2_PORT_MASK;
+}
+
+static inline void power_off_motor(void) {
+  DIRECTION_IN1_PORT &= ~DIRECTION_IN1_PORT_MASK;
+  DIRECTION_IN2_PORT &= ~DIRECTION_IN2_PORT_MASK;
 }
 
 static inline duty_cycle_t rpm2pwm(dc_rpm_t rpm) {
@@ -42,20 +42,14 @@ static inline dc_rpm_t bound_speed(dc_rpm_t rpm) {
   return min(rpm, DC_MOTOR_MAX_RPM_SPEED);
 }
 
-static inline void load_speed_clockwise(duty_cycle_t duty_cycle) {
-  set_direction(DIR_CLOCKWISE);
-  SPEED_REGISTER = duty_cycle;
-}
-
-static inline void load_speed_counter_clockwise(duty_cycle_t duty_cycle) {
-  set_direction(DIR_COUNTER_CLOCKWISE);
-  SPEED_REGISTER = duty_cycle;
-}
-
 void dcmotor_phy_load_speed(dc_rpm_t speed) {
   duty_cycle_t duty_cycle = rpm2pwm(bound_speed(abs(speed)));
-  if (speed >= 0) load_speed_clockwise(duty_cycle);
-  else load_speed_counter_clockwise(duty_cycle);
+  if (speed > 0)
+    move_forward();
+  else if (speed < 0)
+    move_backward();
+  else power_off_motor();
+  SPEED_REGISTER = duty_cycle;
 }
 
 void dcmotor_phy_load_speed_float(float speed) {

@@ -13,7 +13,8 @@ typedef enum _COM_ERROR_E {
   E_ID_MISMATCH,        // Packet ID mismatch
   E_CORRUPTED_CHECKSUM, // Checksum mismatch, packet is corrupted
   E_WRONG_TYPE,         // Packet type is not valid
-  E_TOO_BIG             // Packet is too big
+  E_TOO_BIG,            // Packet is too big
+  E_SLAVE_NOT_FOUND,    // Slave not found -- TODO: Move somewhere else?
 } com_error_t;
 
 

@@ -40,7 +40,7 @@ typedef enum COM_TYPE_E {
   COM_TYPE_ACK,       // Acknowledgement
   COM_TYPE_NAK,       // Communication error
   COM_TYPE_ECHO,      // [DEBUG] Echo between Client and Master
-  COM_TYPE_TWI_ECHO,  // [DEBUG] Echo a single char to the first Slave via TWI
+  COM_TYPE_PING,      // Ping a slave controller
   COM_TYPE_GET_SPEED, // Get the current speed for a DC motor
   COM_TYPE_SET_SPEED, // Set (and apply) the speed for a DC motor
   COM_TYPE_APPLY,     // Tell all the slaves to apply the previously set speeds

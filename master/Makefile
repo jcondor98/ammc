@@ -60,12 +60,11 @@ $(OBJDIR)/%.o:	%.s
 %.hex:	%.eep %.elf
 	avr-objcopy -O ihex -R .eeprom $(patsubst %.hex, %.elf, $@) $@
 
+$(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(TGTDIR)/test-twi.elf: $(OBJDIR)/twi.o $(OBJDIR)/serial.o $(OBJDIR)/ringbuffer.o
 	$(CC) $(CFLAGS) -o $@ $^ test/test-twi.c
-
-$(TGTDIR)/$(PROGNAME).elf:	$(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
 
 all: $(TGTDIR)/$(PROGNAME).elf;
 

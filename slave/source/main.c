@@ -40,8 +40,8 @@ static inline void execute_command(const master_command_t *cmd, uint8_t cmd_size
     case CMD_APPLY_SPEED:
       dcmotor_apply();
       break;
-    case CMD_ECHO: // Used for debug
-      command_respond(cmd->argument, cmd_size);
+    case CMD_PING:
+      command_respond(cmd->argument, cmd_size - sizeof(cmd->id));
       break;
     case CMD_SET_ADDR:
       uint8_t new_addr = *((uint8_t*)(cmd->argument));

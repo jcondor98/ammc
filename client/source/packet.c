@@ -85,7 +85,7 @@ void packet_print(const packet_t *p) {
   const uint8_t size = packet_get_size(p);
 
   static const char type_str[COM_TYPE_LIMIT][24] = {
-    "NULL", "HND", "ACK", "NAK", "ECHO", "TWI_ECHO", "GET_SPEED", "SET_SPEED",
+    "NULL", "HND", "ACK", "NAK", "ECHO", "PING", "GET_SPEED", "SET_SPEED",
     "APPLY", "DAT", "SET_SLAVE_ADDR"
   };
 

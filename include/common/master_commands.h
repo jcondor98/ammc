@@ -26,7 +26,7 @@ typedef enum _MASTER_COMMAND_ID_E {
   CMD_GET_SPEED,   // Get the dc motor speed
   CMD_SET_SPEED,   // Set a new speed for the dc motor
   CMD_APPLY_SPEED, // Apply the previously set speed
-  CMD_ECHO,        // [Debug] Echo a single character via I2C
+  CMD_PING,        // Ping a slave controller
   CMD_SET_ADDR     // Change the slave current address
 } master_command_id_t;
 

@@ -18,8 +18,8 @@ uint8_t command_isvalid(const master_command_t *cmd, uint8_t cmd_size) {
       return cmd_size == 1;
     case CMD_SET_SPEED:
       return cmd_size == 1 + sizeof(dc_rpm_t);
-    case CMD_ECHO:
-      return 1;
+    case CMD_PING:
+      return cmd_size == 2;
     case CMD_SET_ADDR:
       uint8_t new_addr = *((uint8_t*)(cmd->argument));
       return (cmd_size == 2 && new_addr != 0 && new_addr < 127);

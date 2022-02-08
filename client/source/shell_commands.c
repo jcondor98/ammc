@@ -148,32 +148,34 @@ int dev_echo(int argc, char *argv[], void *storage) {
 }
 
 
-// CMD: dev-echo-twi
-// Usage: dev-echo-twi <char>
-// Send data to the Master, which will forward it to Slave and expect a
-// response. Used to test the TWI interface
-int dev_echo_twi(int argc, char *argv[], void *storage) {
+// CMD: ping
+// Usage: ping
+// Ping a slave controller by address
+int ping(int argc, char *argv[], void *storage) {
   _storage_cast(st, storage);
   if (argc != 2) return 1;
   sh_error_on(AVR_FD < 0, 2, "Device is not connected");
 
-  const char *arg = argv[1];
-  unsigned char arg_len = strlen(arg);
-  debug printf("Echo message: %s\n", arg);
+  unsigned slave_id = atoi(argv[1]);
+  sh_error_on(slave_id <= 0 || slave_id > 127, 2, "Invalid Slave id");
 
-  sh_error_on(arg_len > BODY_MAX_LEN, 2, "Argument is too long");
-  sh_error_on(
-      psend(COM_TYPE_TWI_ECHO, 0x01, (unsigned char *) arg, arg_len) != 0,
-      3, "Could not send char to Master");
+  sh_error_on(psend(COM_TYPE_PING, slave_id, NULL, 0) != 0, 3,
+      "Could not send char to Master");
 
   packet_t pack_rx;
   sh_error_on(precv(&pack_rx), 3, "Could not receive response from Master");
-  unsigned char pack_rx_body_len = packet_get_body_size(&pack_rx);
-  for (unsigned char i=0; i < pack_rx_body_len; ++i)
-    putchar((char) (pack_rx.body[i]));
-  putchar('\n');
-
-  return 0;
+  unsigned char err_code = packet_get_selector(&pack_rx);
+  switch (err_code) {
+    case E_SUCCESS:
+      printf("Slave %hhu is available\n", slave_id);
+      return 0;
+    case E_SLAVE_NOT_FOUND:
+      printf("Could not reach Slave %hhu\n", slave_id);
+      return 0;
+    default:
+      printf("Unexpected error code received from Master: %hhu", err_code);
+      return 3;
+  }
 }
 
 
@@ -196,7 +198,7 @@ int get_speed(int argc, char *argv[], void *storage) {
   sh_error_on(psend(COM_TYPE_GET_SPEED, motor_id, NULL, 0) != 0, 3,
       "Could not send GET_SPEED packet to Master");
 
-  // Wait for the DAT response
+  // Wait for DAT response
   packet_t response[1];
   sh_error_on(precv(response), 3, "Could not receive Master response");
 
@@ -303,39 +305,41 @@ static shell_command_t _shell_commands[] = {
     .exec = dev_echo
   },
 
-  (shell_command_t) { // CMD: dev-echo-twi
-    .name = "dev-echo-twi",
-    .help = "Usage: dev-echo-twi <char>\n"
-      "Send a character to the Master, which will forward it to Slave and expect\n"
-      "a response. Used to test the TWI interface\n",
-    .exec = dev_echo_twi
+  // CMD: ping
+  // Usage: ping
+  // Ping a slave controller by address
+  (shell_command_t) { // CMD: ping
+    .name = "ping",
+    .help = "Usage: ping <slave_id>\n"
+      "Ping a slave controller by address",
+    .exec = ping
   },
 
   (shell_command_t) { // CMD: get-speed
     .name = "get-speed",
     .help = "Usage: get-speed [motor-id]\n"
-      "Get the speed of a DC motor in RPM\n",
+      "Get the speed of a DC motor in RPM",
     .exec = get_speed
   },
 
   (shell_command_t) { // CMD: set-speed
     .name = "set-speed",
     .help = "Usage: set-speed [<motor-id>=<value>]\n"
-      "Set the speed of a DC motor in RPM.\n",
+      "Set the speed of a DC motor in RPM",
     .exec = set_speed
   },
 
   (shell_command_t) { // CMD: apply
     .name = "apply",
     .help = "Usage: apply\n"
-      "Tell all the slaves to apply the previously set speed\n",
+      "Tell all the slaves to apply the previously set speed",
     .exec = apply
   },
 
   (shell_command_t) { // CMD: set-slave-addr
     .name = "set-slave-addr",
     .help = "Usage: set-slave-addr <actual-addr> <new-addr>\n"
-      "Set a new TWI address for a slave controller\n",
+      "Set a new TWI address for a slave controller",
     .exec = set_slave_addr
   },
 };

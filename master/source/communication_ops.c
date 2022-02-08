@@ -16,15 +16,21 @@ static uint8_t _op_echo(const packet_t *p) {
 }
 
 // Test the TWI module via single-character echoing
-static uint8_t _op_twi_echo(const packet_t *p) {
-  const uint8_t slave_id = 0x01; // TODO: Change to p->selector
-  uint8_t body_size = packet_get_body_size(p);
-  master_send_command(slave_id, CMD_ECHO, p->body, body_size);
+static uint8_t _op_ping(const packet_t *p) {
+  const uint8_t slave_id = packet_get_selector(p);
+  if (slave_id == 0 || slave_id > 127) {
+    communication_send(COM_TYPE_DAT, E_SLAVE_NOT_FOUND, 0, NULL);
+    return 0;
+  }
 
-  uint8_t response[body_size];
-  master_recv_response(slave_id, response, body_size);
+  master_send_command(slave_id, CMD_PING, &slave_id, sizeof(slave_id));
 
-  communication_send(COM_TYPE_DAT, slave_id, sizeof(response), response);
+  uint8_t response;
+  uint8_t recvd = master_recv_response(slave_id, &response, sizeof(slave_id));
+  uint8_t err_code = (recvd == sizeof(slave_id) && response == slave_id)
+    ? E_SUCCESS : E_SLAVE_NOT_FOUND;
+  communication_send(COM_TYPE_DAT, err_code, 0, NULL);
+
   return 0;
 }
 
@@ -66,7 +72,7 @@ operation_f com_operation_table[] = {
   NULL, // ACK
   NULL, // NAK
   _op_echo,
-  _op_twi_echo,
+  _op_ping,
   _op_get_speed,
   _op_set_speed,
   _op_apply,

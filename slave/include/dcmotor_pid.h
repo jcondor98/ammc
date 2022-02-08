@@ -25,6 +25,6 @@ void dcmotor_pid_init(float kp, float ki, float kd, uint16_t sample_int);
  * @param speed_target The target speed of the dc motor
  * @returns The PID-corrected dc motor target speed
  */
-dc_rpm_t dcmotor_pid_iterate(dc_rpm_t speed_actual, dc_rpm_t speed_target);
+float dcmotor_pid_iterate(float speed_actual, float speed_target);
 
 #endif	// __DCMOTOR_PID_MODULE_H

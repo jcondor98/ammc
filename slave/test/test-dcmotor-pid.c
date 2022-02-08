@@ -20,21 +20,18 @@
 static dc_rpm_t speed_actual, speed_target;
 extern float err_int, err_prev;
 
-static inline void initialize_test(dc_rpm_t actual, dc_rpm_t target) {
+static inline void initialize_test(
+    dc_rpm_t actual, dc_rpm_t target, float pid_der) {
   dcmotor_pid_init(PID_KP, PID_KI, PID_KD, PID_SAMPLE_INT);
   speed_actual = actual;
   speed_target = target;
 }
 
-
-static int test_normal_behaviour(void) {
-  initialize_test(10, 500);
-
+static int test_dynamic_behaviour(void) {
   for (unsigned i=0; i < PID_TEST_ITERATIONS; ++i) {
     speed_target = dcmotor_pid_iterate(speed_actual, speed_target);
     speed_actual = (speed_target + speed_actual) / 2;
   }
-
   test_expr(abs(speed_actual - speed_target) < PID_FINAL_SPEED_TOLERANCE,
     "On normal behaviour should correct the speed"
     "under a certain tolerance");
@@ -61,11 +58,11 @@ static void with_positive_derivative(void) {
 }
 
 static void with_negative_derivative(void) {
-  err_prev = PID_DERIVATIVE_ABS_CONSTANT;
+  err_prev = -PID_DERIVATIVE_ABS_CONSTANT;
 }
 
 static void with_null_derivative(void) {
-  err_prev = PID_DERIVATIVE_ABS_CONSTANT;
+  err_prev = 0;
 }
 
 static void when_sampled_lt_target(void) {

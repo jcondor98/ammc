@@ -11,7 +11,7 @@
 #define DELAY_INTERVAL_MS 2500
 
 typedef int32_t position_t;
-position_t position;
+volatile position_t position;
 
 volatile float measured_speed;
 volatile uint8_t pid_triggered;
@@ -40,10 +40,10 @@ static void dump_position(position_t position) {
   serial_tx(msg, msg_len);
 }
 
-static void dump_speed(float speed) {
+static void dump_speed(float _speed) {
   static char msg[0xFF];
-  uint8_t rpm = (uint8_t) measured_speed;
-  uint8_t msg_len = sprintf(msg, "Measured speed: %hhu\n", rpm);
+  int speed = (int) _speed;
+  uint8_t msg_len = sprintf(msg, "Measured speed: %d\n", speed);
   serial_tx(msg, msg_len);
 }
 
@@ -57,15 +57,15 @@ int main(void) {
   uint16_t ocr_value = (OCR1AH << 8) | OCR1AL;
   serial_tx(&ocr_value, sizeof(ocr_value));
   while (1) {
-    /*
     dump_position(position);
     dump_speed(measured_speed);
     _delay_ms(DELAY_INTERVAL_MS);
-    */
+    /*
     if (pid_triggered) {
       pid_triggered = 0;
       dump_speed(measured_speed);
     }
+    */
   }
 }
 

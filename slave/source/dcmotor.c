@@ -12,9 +12,9 @@
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
 
-#define DCMOTOR_PID_KP 0.8
-#define DCMOTOR_PID_KI 0.0
-#define DCMOTOR_PID_KD 0.2
+#define DCMOTOR_PID_KP 3.0
+#define DCMOTOR_PID_KI 1.0
+#define DCMOTOR_PID_KD 0.0
 
 
 static volatile int32_t motor_position;
@@ -61,8 +61,8 @@ ISR(DCMOTOR_PHY_ENCODER_ISR) {
 // TODO: Use float variables and constants?
 static inline float compute_speed_from_position(int32_t _position) {
   double position = (double) _position;
-  return (float) (position / DC_SAMPLING_INTERVAL
-      * 60000.0 / DC_ENC_SIGNALS_PER_ROUND);
+  return position / DC_ENC_SIGNALS_PER_ROUND
+    * 60000 / DC_SAMPLING_INTERVAL;
 }
 
 // PID sampling timer ISR

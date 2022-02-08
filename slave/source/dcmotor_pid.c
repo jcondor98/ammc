@@ -7,7 +7,7 @@
 #include "dcmotor_phy.h"
 #include "dcmotor_pid.h"
 
-#define ONE_SECOND 60000.0
+#define ONE_SECOND_IN_MILLIS 1000
 
 static uint16_t pid_interval;
 static float k_prop, k_int, k_der;
@@ -22,12 +22,13 @@ void dcmotor_pid_init(float kp, float ki, float kd, uint16_t pid_interval_ms) {
   err_prev = 0;
 }
 
-dc_rpm_t dcmotor_pid_iterate(dc_rpm_t speed_actual, dc_rpm_t speed_target) {
+float dcmotor_pid_iterate(float speed_actual, float speed_target) {
+  //err_int += err_prop * pid_interval / ONE_SECOND;
+  //float err_der = (err_prop - err_prev) * ONE_SECOND / pid_interval;
   float err_prop = speed_actual - speed_target;
-  err_int += err_prop * pid_interval / ONE_SECOND;
-  float err_der = (err_prop - err_prev) * ONE_SECOND / pid_interval;
-
+  float err_der = (err_prop - err_prev)
+    * pid_interval / ONE_SECOND_IN_MILLIS;
   err_prev = err_prop;
-
-  return speed_actual + (k_prop * err_prop + k_int * err_int + k_der * err_der);
+  err_int += err_prop * ONE_SECOND_IN_MILLIS / pid_interval; 
+  return k_prop * err_prop + k_int * err_int + k_der * err_der;
 }

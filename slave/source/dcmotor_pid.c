@@ -27,8 +27,8 @@ float dcmotor_pid_iterate(float speed_actual, float speed_target) {
   //float err_der = (err_prop - err_prev) * ONE_SECOND / pid_interval;
   float err_prop = speed_actual - speed_target;
   float err_der = (err_prop - err_prev)
-    * pid_interval / ONE_SECOND_IN_MILLIS;
+    * ONE_SECOND_IN_MILLIS / pid_interval;
   err_prev = err_prop;
-  err_int += err_prop * ONE_SECOND_IN_MILLIS / pid_interval; 
+  err_int += err_prop * pid_interval / ONE_SECOND_IN_MILLIS;
   return k_prop * err_prop + k_int * err_int + k_der * err_der;
 }

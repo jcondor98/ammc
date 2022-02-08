@@ -12,8 +12,8 @@
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
 
-#define DCMOTOR_PID_KP 3.0
-#define DCMOTOR_PID_KI 1.0
+#define DCMOTOR_PID_KP 1.5
+#define DCMOTOR_PID_KI 3.7
 #define DCMOTOR_PID_KD 0.0
 
 
@@ -46,7 +46,6 @@ void dcmotor_set(dc_rpm_t next) {
 
 void dcmotor_apply(void) {
   speed_target = speed_next;
-  dcmotor_phy_load_speed(speed_target);
 }
 
 

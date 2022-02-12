@@ -16,6 +16,9 @@
 #define DCMOTOR_PID_KI 3.7
 #define DCMOTOR_PID_KD 0.0
 
+#define max(x,y) ((x) > (y) ? (x) : (y))
+#define min(x,y) ((x) < (y) ? (x) : (y))
+
 
 static volatile int32_t motor_position;
 static volatile dc_rpm_t speed_actual;
@@ -40,8 +43,14 @@ dc_rpm_t dcmotor_get(void) {
   return speed_actual;
 }
 
+static inline dc_rpm_t compute_limited_speed(dc_rpm_t speed) {
+  return (speed >= 0)
+    ? min(speed, DC_MOTOR_MAX_RPM_SPEED)
+    : max(speed, DC_MOTOR_MAX_RPM_SPEED);
+}
+
 void dcmotor_set(dc_rpm_t next) {
-  speed_next = next;
+  speed_next = compute_limited_speed(next);
 }
 
 void dcmotor_apply(void) {

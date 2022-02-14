@@ -45,8 +45,8 @@ Commands
 **disconnect**
 :   Close an existing connection - Has no effect on the device
 
-**dev-echo** \<_arg_> \[_arg2_ _arg3_ _..._]
-:   Send a string to the device, which should send it back
+**ping** \<_slave\_id_>
+:   Ping a slave controller by TWI address
 
 **get-speed** \<_motor-id_>
 :   Get the speed of a DC motor in RPM

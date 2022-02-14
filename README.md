@@ -142,7 +142,7 @@ Type | Actual value | Description
 `COM_TYPE_ACK`       | `0x02` | Acknowledgement
 `COM_TYPE_NAK`       | `0x03` | Communication error
 `COM_TYPE_ECHO`      | `0x04` | [DEBUG] Echo between Client and Master
-`COM_TYPE_TWI_ECHO`  | `0x05` | [DEBUG] Echo a single char to the first Slave via TWI
+`COM_TYPE_PING`      | `0x05` | Ping a slave controller
 `COM_TYPE_GET_SPEED` | `0x06` | Get the current speed for a DC motor
 `COM_TYPE_SET_SPEED` | `0x07` | Set (and apply) the speed for a DC motor
 `COM_TYPE_APPLY`     | `0x08` | Tell all the slaves to apply the previously set speeds
@@ -171,6 +171,7 @@ motors:
 
 Client command | Description
 :-:|---
+`ping <motor-id>` | Ping a slave controller
 `get-speed <motor_id>` | Get the speed of a DC motor
 `set-speed <motor_id>=<speed>` | Set the speed of a DC motor
 `apply` | Apply the previously set speeds to all the DC motors

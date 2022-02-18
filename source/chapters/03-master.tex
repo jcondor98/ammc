@@ -117,7 +117,7 @@ The complete circuit schematics for the master controller and all its
 components is shown in figure \ref{img:master-sch}.
 \begin{figure}[hbp]
 \begin{centering}
-  \includegraphics[width=\maxwidth{\textwidth}]{master-schematics-grayscale}
+  \includegraphics[width=\maxwidth{\textwidth}]{master-schematics}
   \caption{Master controller schematics}
   \label{img:master-sch}
 \end{centering}
@@ -131,9 +131,9 @@ The wiring correspondence for the master controller MCU is shown in table
     \toprule
     Board pin & MCU pin & Description \\
     \midrule
-    D20   & 44/PD1/INT1/SDA & I2C data bus \\
-    D21   & 43/PD0/INT0/SCL & I2C clock bus \\
-    RESET & RESET           & On-board MCU reset pin \\
+    D20   & 44/PD1/SDA & I2C data bus \\
+    D21   & 43/PD0/SCL & I2C clock bus \\
+    RESET & RESET      & On-board MCU reset pin \\
     \bottomrule
   \end{tabularx}
   \caption{Master controller wiring}

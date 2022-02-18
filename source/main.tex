@@ -30,7 +30,7 @@
 \course{Ingegneria Informatica e Automatica}
 \courseorganizer{Facoltà di Ingegneria dell'Informazione, Informatica e Statistica}
 \AcademicYear{2021/2022}
-\copyyear{2021}
+\copyyear{2022}
 \advisor{Prof. Giorgio Grisetti}
 \advisor{Drs. Barbara Bazzana}
 \reviewerlabel{Reviewer}
@@ -57,18 +57,20 @@ dark period of my life and he is one of my dearest friends.
 \import{./misc}{abstract.tex}
 
 \tableofcontents
-\listoffigures
-\listoftables
+{
+  \listoftables
+  \let\cleardoublepage\clearpage
+  \listoffigures
+}
 
 \mainmatter
-
-\import{./chapters/}{introduction.tex}
-\import{./chapters/}{client.tex}
-\import{./chapters/}{master.tex}
-\import{./chapters/}{slave.tex}
-\import{./chapters/}{client-master-comm.tex}
-\import{./chapters/}{master-slave-comm.tex}
-\import{./chapters/}{conclusions.tex}
+\import{./chapters/}{01-introduction.tex}
+\import{./chapters/}{02-client.tex}
+\import{./chapters/}{03-master.tex}
+\import{./chapters/}{04-slave.tex}
+\import{./chapters/}{05-client-master-comm.tex}
+\import{./chapters/}{06-master-slave-comm.tex}
+\import{./chapters/}{07-conclusions.tex}
 
 \backmatter
 \cleardoublepage

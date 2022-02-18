@@ -12,21 +12,22 @@ The hardware required for the example setup given here is the following:
 \begin{itemize}
   \item One \emph{ATMega2560} microcontroller unit for the master controller
   \item One \emph{ATMega2560} microcontroller unit for the slave controller
-  \item One dc motor with embedded two-phase encoder
   \item Two $4.7 k\Omega$ resistors for the I2C open-drain
-  \item One capacitor of about $100 pF$ to inhibit the reset-over-serial
-    capabilities of the ATMega2560 board
-  \item One h-bridge driver consistent with the dc motor voltage and power
-    requirements (e.g.\ $12 V,\ 2 A$)
+  \item A $100 pF$ capacitor to inhibit the reset-over-serial capabilities of
+    the ATMega2560 board
+  \item A 150 rpm dc motor with embedded two-phase encoder
+  \item An L293 h-bridge motor driver
   \item A power supply compatible with the h-bridge and motor voltage and
     power requirements (e.g.\ $12 V,\ 24 W$)
 \end{itemize}
 
 The hardware setup must be performed as shown in figures \ref{img:master-sch}
 and \ref{img:slave-sch}.
-The motor must be powered consistently with its requirements. The AVR
-microcontrollers can be powered using their USB sockets. The I2C reference
-voltage can be set by using a $5 V$ output pin of the master controller board.
+The L293 driver must be powered with two independent power supplies, one at
+$12V$ (for the motor output amplifier) and one at $5V$ (for the driver logic
+circuit. The AVR microcontrollers can be powered using their USB sockets. The
+I2C reference voltage can be set by using a $5 V$ output pin of the master
+controller board.
 
 \subsection{Software}
 The software can be built and eventually flashed using GNU Make. the
@@ -36,10 +37,8 @@ build, while \emph{avrdude} is required for flashing.
 The \texttt{make} command will build all the ammc software, i.e.\ the master
 and slave controllers firmwares and the client application. The \texttt{make
 master-flash} and the \texttt{make slave-flash} commands will flash the master
-and slave firmwares into their respective microcontrollers.
-
-At last, the user may want to use the \texttt{set-slave-addr} command to assign
-an arbitrary address to the only slave controller.
+and slave firmwares into their respective microcontrollers. The compiled client
+application will be located under the \texttt{client/target} directory.
 
 \section{Future work}
 

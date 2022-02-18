@@ -55,11 +55,11 @@ controlling the error is:
 \end{equation}
 being:
 \begin{itemize}
+  \item $e(t)$ the measured speed error
   \item $u(t)$ the PID control variable
   \item $K_p$ the proportional gain
   \item $K_i$ the integral gain
   \item $K_d$ the derivative gain
-  \item $e(t)$ the measured speed error
 \end{itemize}
 
 \subsection{Measuring speed}
@@ -69,7 +69,7 @@ two-phase digital encoder.
 
 In fact, one phase is wired to an interrupt-enabled input pin, so the slave
 controller is notified immediately when an encoder signal (raising edge) is
-generated. Every sampling intervals, the PID routine takes the motor's actual
+generated. Every sampling interval, the PID routine takes the motor's actual
 position (measured by the cumulative number of encoder triggers) and computes
 its real speed.
 
@@ -90,6 +90,9 @@ definition\cite{levy-num-analysis}:
   \frac{d}{dt}\,e(t) \approx \frac{e(t + \Delta t) - e(t)}{\Delta t}
 \end{equation}
 being $\Delta t$ a time delta (again, the actual speed sampling interval).
+
+%\subsection{PID parameters}
+% TODO
 
 \section{Power management}
 The same avr-libc wrapper written for the master controller power management is
@@ -165,7 +168,7 @@ is shown in figure \ref{img:slave-sch}. This circuit can be repeated multiple
 times (up to 126) in a single ammc ecosystem.
 \begin{figure}[htb]
 \begin{centering}
-  \includegraphics[scale=0.6]{slave-schematics-grayscale}
+  \includegraphics[scale=0.6]{slave-schematics}
   \caption{Slave controller schematics}
   \label{img:slave-sch}
 \end{centering}
@@ -179,12 +182,13 @@ The wiring correspondence for the slave controller MCU is shown in table
     \toprule
     Board pin & MCU pin & Description \\
     \midrule
-    D20 & 44/PD1/INT1/SDA    & I2C data bus \\
-    D21 & 43/PD0/INT0/SCL    & I2C clock bus \\
-    D13 & 26/PB7/OC0A/PCINT7 & Forward PWM output to the dc motor \\
-    D13 & 1/PG5/OC0B         & Forward PWM output to the dc motor \\
-    D53 & 19/PB0/PCINT0      & Encoder phase A, interrupt-enabled \\
-    D52 & 20/PB1/PCINT1      & Encoder phase B \\
+    D20 & 44/PD1/SDA    & I2C data bus \\
+    D21 & 43/PD0/SCL    & I2C clock bus \\
+    D13 & 26/PB7        & PWM output to the motor driver \\
+    D12 & 25/PB6        & Motor driver direction logic 1 \\
+    D11 & 24/PB5        & Motor driver direction logic 2 \\
+    D52 & 20/PB1/PCINT1 & Encoder phase B \\
+    D53 & 19/PB0/PCINT0 & Encoder phase A, interrupt-enabled \\
     \bottomrule
   \end{tabularx}
   \caption{Slave controller wiring}

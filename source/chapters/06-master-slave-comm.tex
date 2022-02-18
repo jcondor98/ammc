@@ -14,7 +14,6 @@ representing data and bus clock respectively.
 
 Two $4.7 k\Omega$ resistors connects \texttt{SDA} and \texttt{SCL} to a $5V$
 voltage generator and act as \emph{open-drain} resistors.
-% TODO: Footnote?
 
 \subsection{Communication frames}
 The first byte of the I2C communication frame (excluding, of course, the slave
@@ -23,16 +22,16 @@ master to the slave. The trailing data represents an argument, with its size
 and shape depending on the type of command issued. Command codes, with their
 specific arguments, are shown in table \ref{tab:i2c-commands}.
 
-\begin{table}[bh]
+\begin{table}[ht]
   \begin{tabularx}{\textwidth}{c c c X}
     \toprule
     Command & Code & Arg.\ size (bytes) & Description \\
     \midrule
-      \texttt{CMD\_GET}       & \texttt{0x00} & - & Get the dc motor speed in rpm \\
-      \texttt{CMD\_SET}       & \texttt{0x01} & 1 & Set the dc motor target speed \\
-      \texttt{CMD\_APPLY}     & \texttt{0x02} & - & Apply the previously set target speed \\
-      \texttt{CMD\_ECHO}      & \texttt{0x03} & 1 & Send back the received character to the master (debug)\\
-      \texttt{CMD\_SET\_ADDR} & \texttt{0x04} & 1 & Set a different I2C slave address \\
+      \texttt{GET}       & \texttt{0x00} & - & Get the dc motor speed in rpm \\
+      \texttt{SET}       & \texttt{0x01} & 2 & Set the dc motor target speed \\
+      \texttt{APPLY}     & \texttt{0x02} & - & Apply the previously set target speed \\
+      \texttt{PING}      & \texttt{0x03} & 1 & Ping a slave controller \\
+      \texttt{SET\_ADDR} & \texttt{0x04} & 1 & Set a different I2C slave address \\
     \bottomrule
   \end{tabularx}
   \caption{Master-to-slave commands}

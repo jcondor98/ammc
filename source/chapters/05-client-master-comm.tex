@@ -68,7 +68,7 @@ types is given in table \ref{tab:packet-types}
     \texttt{ACK}        & \texttt{0x02} & Acknowledgement \\
     \texttt{NAK}        & \texttt{0x03} & Communication error \\
     \texttt{ECHO}       & \texttt{0x04} & Echo between client and master (debug only)\\
-    \texttt{TWI\_ECHO}  & \texttt{0x05} & Echo a single char to the first slave via TWI (debug only)\\
+    \texttt{PING}       & \texttt{0x05} & Ping a slave controller by address \\
     \texttt{GET\_SPEED} & \texttt{0x06} & Get the current speed for a dc motor \\
     \texttt{SET\_SPEED} & \texttt{0x07} & Set (and apply) the speed for a dc motor \\
     \texttt{APPLY}      & \texttt{0x08} & Tell all the slaves to apply the previously set speeds \\
@@ -116,6 +116,6 @@ table \ref{tab:packet-error-codes}.
     \texttt{TOO\_BIG}            & \texttt{0x04} & Received packet has invalid size (too big) \\
     \bottomrule
   \end{tabularx}
-  \caption{Exhaustive list of packet types}
+  \caption{Exhaustive list of packet error codes}
   \label{tab:packet-error-codes}
 \end{table}

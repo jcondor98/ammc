@@ -8,7 +8,7 @@ docs
 
 .ammc
 
-*.aux
-*.log
-*.out
-*.blg
+build/*
+!build/.gitkeep
+presentation/build/*
+!presentation/build/.gitkeep

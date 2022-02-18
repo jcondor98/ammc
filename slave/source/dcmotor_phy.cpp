@@ -16,6 +16,14 @@
 typedef uint8_t duty_cycle_t;
 
 
+void PhysicalMotor::initializePWM(void) {
+  PWM_DDR |= PWM_DDR_MASK;
+  PWM_TCCRA = PWM_TCCRA_VALUE;
+  PWM_TCCRB = PWM_TCCRB_VALUE;
+  DIRECTION_IN1_DDR |=  DIRECTION_IN1_DDR_MASK;
+  DIRECTION_IN2_DDR |=  DIRECTION_IN2_DDR_MASK;
+}
+
 static inline void move_forward(void) {
   DIRECTION_IN1_PORT |=  DIRECTION_IN1_PORT_MASK;
   DIRECTION_IN2_PORT &= ~DIRECTION_IN2_PORT_MASK;
@@ -42,7 +50,7 @@ static inline dc_rpm_t bound_speed(dc_rpm_t rpm) {
   return min(rpm, DC_MOTOR_MAX_RPM_SPEED);
 }
 
-void dcmotor_phy_load_speed(dc_rpm_t speed) {
+void PhysicalMotor::loadSpeed(dc_rpm_t speed) {
   duty_cycle_t duty_cycle = rpm2pwm(bound_speed(abs(speed)));
   if (speed > 0)
     move_forward();
@@ -52,19 +60,11 @@ void dcmotor_phy_load_speed(dc_rpm_t speed) {
   SPEED_REGISTER = duty_cycle;
 }
 
-void dcmotor_phy_load_speed_float(float speed) {
-  dcmotor_phy_load_speed((dc_rpm_t) speed);
+void PhysicalMotor::loadSpeed(float speed) {
+  loadSpeed((dc_rpm_t) speed);
 }
 
-void dcmotor_phy_pwm_init(void) {
-  PWM_DDR |= PWM_DDR_MASK;
-  PWM_TCCRA = PWM_TCCRA_VALUE;
-  PWM_TCCRB = PWM_TCCRB_VALUE;
-  DIRECTION_IN1_DDR |=  DIRECTION_IN1_DDR_MASK;
-  DIRECTION_IN2_DDR |=  DIRECTION_IN2_DDR_MASK;
-}
-
-void dcmotor_phy_encoder_init(void) {
+void PhysicalMotor::initializeEncoder(void) {
   ENCODER_A_DDR  &= ~ENCODER_A_DDR_MASK;
   ENCODER_B_DDR  &= ~ENCODER_B_DDR_MASK;
   ENCODER_A_PORT |= ENCODER_A_PORT_MASK;
@@ -74,28 +74,28 @@ void dcmotor_phy_encoder_init(void) {
 }
 
 //! @todo Do not use conditionals
-uint8_t dcmotor_phy_read_encoder_phase_a(void) {
+uint8_t PhysicalMotor::readEncoderPhaseA(void) {
   return (ENCODER_A_PIN & ENCODER_A_PIN_MASK) ? 1 : 0;
 }
 
 //! @todo Do not use conditionals
-uint8_t dcmotor_phy_read_encoder_phase_b(void) {
+uint8_t PhysicalMotor::readEncoderPhaseB(void) {
   return (ENCODER_B_PIN & ENCODER_B_PIN_MASK) ? 1 : 0;
 }
 
-void dcmotor_phy_pid_init(uint16_t pid_interval_msec) {
-  uint16_t ocr_value = pid_interval_msec * OCR_ONE_MSEC;
+void PhysicalMotor::initializePid(uint16_t intervalInMillis) {
+  uint16_t ocrValue = intervalInMillis * OCR_ONE_MSEC;
   PID_TCCRA = PID_TCCRA_VALUE;
   PID_TCCRB = PID_TCCRB_VALUE;
-  PID_OCRH = ocr_value >> 8;
-  PID_OCRL = ocr_value & 0x00FF;
+  PID_OCRH = ocrValue >> 8;
+  PID_OCRL = ocrValue & 0x00FF;
 }
 
-void dcmotor_phy_pid_start(void) {
+void PhysicalMotor::startPid(void) {
   PID_TCNT = 0;
   PID_TIMSK |= PID_TIMSK_MASK;
 }
 
-void dcmotor_phy_pid_stop(void) {
+void PhysicalMotor::stopPid(void) {
   PID_TIMSK &= ~PID_TIMSK_MASK;
 }

@@ -12,6 +12,8 @@
 #include "dcmotor.h"
 #include "dcmotor_pid.h"
 
+namespace Phy = PhysicalMotor;
+
 // TODO: Make these dynamic and configurable
 #define DCMOTOR_PID_KP 1.5
 #define DCMOTOR_PID_KI 3.7
@@ -45,10 +47,10 @@ DCMotor::DCMotor(void)
     actualSpeed(0),
     targetSpeed(0),
     nextSpeed(0) {
-  dcmotor_phy_pid_init(DC_SAMPLING_INTERVAL);
-  dcmotor_phy_encoder_init();
-  dcmotor_phy_pwm_init();
-  dcmotor_phy_load_speed(0);
+  Phy::initializePid(DC_SAMPLING_INTERVAL);
+  Phy::initializeEncoder();
+  Phy::initializePWM();
+  Phy::loadSpeed(0);
 }
 
 void DCMotor::setTargetSpeed(dc_rpm_t next) {
@@ -78,21 +80,21 @@ void DCMotor::adjustActualSpeed(void) {
   float speed = sampleActualSpeed();
   float corrected_speed = pid.correct(speed, targetSpeed);
 
-  dcmotor_phy_load_speed_float(corrected_speed);
+  Phy::loadSpeed(corrected_speed);
   actualSpeed = (dc_rpm_t) speed;
   position = 0;
 }
 
 void DCMotor::startPid(void) {
-  dcmotor_phy_pid_start();
+  Phy::startPid();
 }
 
 void DCMotor::stopPid(void) {
-  dcmotor_phy_pid_stop();
+  Phy::stopPid();
 }
 
 void DCMotor::updatePosition(void) {
-  uint8_t enc_a = dcmotor_phy_read_encoder_phase_a();
-  uint8_t enc_b = dcmotor_phy_read_encoder_phase_b();
+  uint8_t enc_a = Phy::readEncoderPhaseA();
+  uint8_t enc_b = Phy::readEncoderPhaseB();
   if (enc_a) enc_b ? ++position : --position;
 }

@@ -11,8 +11,7 @@
  *
  * \author Paolo Lucchesi
  */
-#ifndef __DCMOTOR_HAL_PARAMETERS_H
-#define __DCMOTOR_HAL_PARAMETERS_H
+#pragma once
 
 // Register used to set the speed in RPM
 #define SPEED_REGISTER OCR0A
@@ -65,5 +64,3 @@
 #define PID_TCNT            TCNT1
 #define PID_OCRH            OCR1AH
 #define PID_OCRL            OCR1AL
-
-#endif  // __DCMOTOR_HAL_PARAMETERS_H

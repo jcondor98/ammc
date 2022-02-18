@@ -14,17 +14,17 @@ TGTDIR := target
 INCDIR_COMMON := ../include
 
 # Search paths
-vpath %.c $(SRCDIR)
+vpath %.cpp $(SRCDIR)
 vpath %.s $(SRCDIR)
 
-OBJECTS = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(wildcard $(SRCDIR)/*.c))
+OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(wildcard $(SRCDIR)/*.c))
 
 # AVR Compiler and Programmer setup
-# Atmel ATMega328P @16MHz, gnu99
-CC := avr-gcc
-AS := avr-gcc
-CFLAGS := -Wall --std=gnu99 -DF_CPU=16000000UL -O3 -funsigned-char\
- -funsigned-bitfields  -fshort-enums -Wstrict-prototypes\
+# Atmel ATMega2560 @16MHz C++11
+CC := avr-g++
+AS := avr-g++
+CFLAGS := -Wall --std=c++11 -DF_CPU=16000000UL -O3 -funsigned-char\
+ -funsigned-bitfields  -fshort-enums\
  -mmcu=atmega2560 -I$(INCDIR) -I$(INCDIR_COMMON) -DAVR -D__AVR_3_BYTE_PC__
 ASFLAGS := -x assembler-with-cpp $(CFLAGS)
 
@@ -45,7 +45,7 @@ avrdude_write_flash = -U flash:w:$(strip $(1)):i
 avrdude_write_eeprom = -U eeprom:w:$(strip $(1)):i
 
 
-$(OBJDIR)/%.o:	%.c
+$(OBJDIR)/%.o:	%.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(OBJDIR)/%.o:	%.s
@@ -98,7 +98,7 @@ test-pid:
 
 
 clean:	
-	rm -f $(OBJDIR)/*.o $(BINS) $(TGTDIR)/*
+	-rm -f $(OBJDIR)/*.o $(BINS) $(TGTDIR)/*
 
 
 .PHONY:	clean all flash

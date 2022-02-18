@@ -25,37 +25,37 @@ static size_t rx_size, tx_size;
 
 
 // (Re-)Enable the twi activity
-static inline void twi_enable(void) {
+static inline void enableTwi(void) {
   TWCR = 1 << TWEN;
 }
 
 // Start or resume a data transfer
-static inline void twi_transfer(void) {
+static inline void enableTransfer(void) {
   TWCR = _TW_ALL_ENABLED;
 }
 
 // Release the twi bus and re-enable twi activity
-static inline void twi_release_bus(void) {
+static inline void releaseBus(void) {
   TWCR = (1 << TWEN) | (1 << TWSTO);
 }
 
 // [Receiver] Resume a transfer and respond with an ACK
-static inline void twi_ack(void) {
+static inline void ack(void) {
   TWCR = _TW_ALL_ENABLED | (1<<TWEA);
 }
 
 // [Receiver] Resume a transfer and do NOT respond with an ACK
-static inline void twi_nak(void) {
+static inline void nak(void) {
   TWCR = _TW_ALL_ENABLED;
 }
 
 // Manipulate the twi data register
-static inline uint8_t twi_read_byte(void) { return TWDR; }
-static inline void twi_write_byte(uint8_t data) { TWDR = data; }
+static inline uint8_t readByte(void) { return TWDR; }
+static inline void writeByte(uint8_t data) { TWDR = data; }
 
 
 // Initialize the I2C TWI module
-void twi_init(uint8_t slave_addr) {
+void TWI::initialize(uint8_t slave_addr) {
   TWSR = 0; // No prescaling
   TWBR = ((F_CPU / TW_FREQ) - 16) / 2; // TWI bit rate
   TWAR = (slave_addr << 1) | 1; // Own slave address (accept broadcast)
@@ -67,42 +67,42 @@ void twi_init(uint8_t slave_addr) {
 }
 
 
-uint8_t twi_send(const void *data, size_t size) {
+uint8_t TWI::send(const void *data, size_t size) {
   if (!data || size > TW_TX_MAX_LEN) return 1;
-  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
+  sleep_while(SLEEP_MODE_IDLE, !TWI::isReady());
 
   mode = TW_INITIALIZING;
   memcpy(tx_buffer, data, size);
   tx_size = size;
   tx_idx = 0;
 
-  twi_ack();
+  ack();
   return 0;
 }
 
 
-uint8_t twi_recv(void *buf, size_t to_recv) {
+uint8_t TWI::recv(void *buf, size_t to_recv) {
   if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
-  sleep_while(SLEEP_MODE_IDLE, !twi_isready());
+  sleep_while(SLEEP_MODE_IDLE, !TWI::isReady());
 
   mode = TW_INITIALIZING;
-  rx_buffer = buf;
+  rx_buffer = static_cast<uint8_t*>(buf);
   rx_size = to_recv;
   rx_idx = 0;
 
-  twi_ack();
-  sleep_while(SLEEP_MODE_IDLE, !twi_isready()); // Wait until transfer completed
+  ack();
+  sleep_while(SLEEP_MODE_IDLE, !TWI::isReady()); // Wait until transfer completed
   return rx_idx;
 }
 
 
 // Is the TWI module ready for transmitting?
-uint8_t twi_isready(void) {
+uint8_t TWI::isReady(void) {
   return (mode == TW_READY) ? 1 : 0;
 }
 
 // Was the last operation successful?
-uint8_t twi_successful(void) {
+uint8_t TWI::wasSuccessfulOperation(void) {
   return (error == TW_SUCCESS) ? 1 : 0;
 }
 
@@ -116,31 +116,31 @@ ISR(TWI_vect) {
       mode = TW_TRANSMITTING;
     case TW_ST_DATA_ACK: // Data byte transmitted, ACK received
       error = TW_SUCCESS;
-      twi_write_byte(tx_buffer[tx_idx++]);
-      twi_ack();
+      writeByte(tx_buffer[tx_idx++]);
+      ack();
       break;
     case TW_ST_DATA_NACK: // Data byte transmitted, NAK received
       error = (tx_idx >= tx_size) ? TW_SUCCESS : status;
       mode = TW_READY;
-      twi_enable();
+      enableTwi();
       break;
 
     // Slave receiver
     case TW_SR_SLA_ACK:  // SLA+W received, ACK returned
     case TW_SR_GCALL_ACK: // Broadcast address received, ACK returned
       mode = TW_RECEIVING;
-      twi_ack();
+      ack();
       break;
     case TW_SR_DATA_ACK:  // Data received, ACK returned
     case TW_SR_GCALL_DATA_ACK: // Data received (broadcast), ACK returned
       //! \todo Check out-of-bound index?
-      rx_buffer[rx_idx++] = twi_read_byte();
+      rx_buffer[rx_idx++] = readByte();
       error = TW_NO_INFO;
-      twi_ack();
+      ack();
       break;
     case TW_SR_STOP: // STOP/REPSTART condition received while still addressed as Slave
       mode = TW_READY;
-      twi_enable();
+      enableTwi();
       break;
 
     // Slave errors
@@ -150,7 +150,7 @@ ISR(TWI_vect) {
     case TW_BUS_ERROR: // Illegal START/STOP, raise an error
       error = status;
       mode = TW_READY;
-      twi_release_bus();
+      releaseBus();
       break;
 
     // Miscellaneous status codes
@@ -161,7 +161,7 @@ ISR(TWI_vect) {
     case TW_ST_ARB_LOST_SLA_ACK: // SLA+R received, Master lost arbitration
       error = status;
       mode = TW_READY;
-      twi_enable();
+      enableTwi();
       break;
   }
 }

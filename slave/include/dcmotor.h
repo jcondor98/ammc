@@ -4,28 +4,46 @@
  *
  * \author Paolo Lucchesi
  */
-#ifndef __DC_MOTOR_MODULE_H
-#define __DC_MOTOR_MODULE_H
+#pragma once
 #include <stdint.h>
 #include "common/dcmotor.h"
 #include "dcmotor_phy.h"
+#include "dcmotor_pid.h"
 
-//! Initialize DC motor handling
-void dcmotor_init(void);
+class DCMotor {
+ public:
+  DCMotor(void);
 
-//! @return The last sampled speed (internally stored)
-dc_rpm_t dcmotor_get(void);
+  //! @return The last sampled speed (internally stored)
+  dc_rpm_t getActualSpeed(void);
 
-//! Set a new speed (without applying it)
-void dcmotor_set(dc_rpm_t);
+  //! Set a new speed (without applying it)
+  void setTargetSpeed(dc_rpm_t);
 
-//! Apply the previously given RPM value
-void dcmotor_apply(void);
+  //! Apply the previously given RPM value
+  void applyTargetSpeed(void);
 
-//! Start the PID controller activity
-#define dcmotor_pid_start dcmotor_phy_pid_start
+  //! Sample the actual speed
+  dc_rpm_t sampleActualSpeed(void);
 
-//! Stop the PID controller activity
-#define dcmotor_pid_stop dcmotor_phy_pid_stop
+  //! Adjust the actual speed using the PID controller
+  void adjustActualSpeed(void);
 
-#endif	// __DC_MOTOR_MODULE_H
+  //! Start the PID controller activity
+  void startPid(void);
+
+  //! Stop the PID controller activity
+  void stopPid(void);
+
+  //! Read the encoder value(s) and update the current motor position
+  void updatePosition(void);
+
+ private:
+  PidController pid;
+  volatile int32_t position;
+  volatile dc_rpm_t actualSpeed;
+  dc_rpm_t targetSpeed;
+  dc_rpm_t nextSpeed;
+
+  dc_rpm_t computeLimitedSpeed(dc_rpm_t speed);
+};

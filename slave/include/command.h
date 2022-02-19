@@ -4,29 +4,41 @@
  *
  * \author Paolo Lucchesi
  */
-#ifndef __MASTER_TO_SLAVE_COMMANDS_H
-#define __MASTER_TO_SLAVE_COMMANDS_H
+#pragma once
 #include "common/master_commands.h"
 #include "twi.h"
 
-/*!
- * Receive a command
- *
- * @param buf The buffer for receiving the command
- * @returns The size of the received command
- */
-uint8_t command_recv(master_command_t *buf);
+class MasterCommand {
+ public:
+  MasterCommand();
+  MasterCommand(MasterCommandId id);
+  MasterCommand(MasterCommandId id, const void *arg, uint8_t arg_size);
 
-/*!
- * Respond to a previously sent command
- *
- * @param response The response to the command
- * @param size The response size
- * @returns E_SUCCESS on success, another error value otherwise
- */
-uint8_t command_respond(const void *response, uint8_t size);
+  //! Get the master command id
+  MasterCommandId getId(void);
 
-//! @returns !0 if the command is valid and sane, 0 otherwise
-uint8_t command_isvalid(const master_command_t *cmd, uint8_t cmd_size);
+  //! Get the master command argument size
+  uint8_t getArgumentSize(void);
 
-#endif  // __MASTER_TO_SLAVE_COMMANDS_H
+  //! Get the argument as an opaque pointer
+  void *getArgument(void);
+
+  //! Receive a command, storing it in 'this' object
+  void receive(void);
+
+  /*!
+   * Respond to any received command
+   *
+   * @param response The response to the command
+   * @param size The response size
+   * @returns E_SUCCESS on success, another error value otherwise
+   */
+  static uint8_t respond(const void *response, uint8_t size);
+
+  //! @returns true if the command is valid, false otherwise
+  bool isValid(void);
+
+ private:
+  RawMasterCommand data;
+  uint8_t argumentSize;
+};

@@ -5,6 +5,7 @@
  * \author Paolo Lucchesi
  */
 #pragma once
+#include <stddef.h>
 #include <stdint.h>
 #include <util/twi.h>
 

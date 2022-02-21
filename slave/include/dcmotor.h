@@ -14,6 +14,9 @@ class DCMotor {
  public:
   DCMotor(void);
 
+  //! Initialize the physical layer for all motors
+  static void initializePhysicalLayer(void);
+
   //! @return The last sampled speed (internally stored)
   dc_rpm_t getActualSpeed(void);
 
@@ -39,11 +42,10 @@ class DCMotor {
   void updatePosition(void);
 
  private:
+  PhysicalLayer::MotorPort &phy;
   PidController pid;
-  volatile int32_t position;
+  TwoPhaseEncoder encoder;
   volatile dc_rpm_t actualSpeed;
   dc_rpm_t targetSpeed;
   dc_rpm_t nextSpeed;
-
-  dc_rpm_t computeLimitedSpeed(dc_rpm_t speed);
 };

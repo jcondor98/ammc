@@ -14,21 +14,26 @@ class PidController {
    * @param kp The proportional weight constant
    * @param ki The integral weight constant
    * @param kd The derivative weight constant
-   * @param sample_int The dc motor sampling interval
+   * @param samplingInterval The dc motor sampling interval (milliseconds)
    */
-  PidController(float kp, float ki, float kd, uint16_t sample_int);
+  constexpr PidController(
+      float kp,
+      float ki,
+      float kd,
+      uint16_t samplingInterval
+  );
 
   /*!
    * Perform a PID controller iteration
    *
-   * @param speed_actual The actual speed of the dc motor
-   * @param speed_target The target speed of the dc motor
+   * @param actualSpeed The actual speed of the dc motor
+   * @param targetSpeed The target speed of the dc motor
    * @returns The PID-corrected dc motor target speed
    */
-  float correct(float speed_actual, float speed_target);
+  float correct(float actualSpeed, float targetSpeed);
 
  private:
   float kp, ki, kd;
-  float err_int, err_prev;
+  float intError, prevError;
   uint16_t interval;
 };

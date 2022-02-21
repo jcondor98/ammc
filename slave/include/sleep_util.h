@@ -3,10 +3,10 @@
  * Sleep utility
  *
  * \author Paolo Lucchesi
+ * \note This interface permanently alters the global interrupt flag
+ * \todo Convert function name to camelCase
  */
-// NOTE: This interface permanently alters the global interrupt flag
-#ifndef __SLEEP_UTIL_INTERFACE_H
-#define __SLEEP_UTIL_INTERFACE_H
+#pragma once
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
@@ -65,5 +65,3 @@
   }\
   SREG = __sreg_bak;\
 } while (0)
-
-#endif  // __SLEEP_UTIL_INTERFACE_H

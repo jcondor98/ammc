@@ -18,10 +18,10 @@ static volatile uint8_t mode = TW_READY; // TWI status
 static volatile uint8_t error = TW_SUCCESS; // Current error code
 
 // RX and TX buffers and indexes
-static uint8_t *rx_buffer;
-static uint8_t tx_buffer[TW_TX_MAX_LEN];
-static volatile size_t rx_idx, tx_idx;
-static size_t rx_size, tx_size;
+static uint8_t *rxBuffer;
+static uint8_t txBuffer[TW_TX_MAX_LEN];
+static volatile size_t rxIdx, txIdx;
+static size_t rxSize, txSize;
 
 
 // (Re-)Enable the twi activity
@@ -55,10 +55,10 @@ static inline void writeByte(uint8_t data) { TWDR = data; }
 
 
 // Initialize the I2C TWI module
-void TWI::initialize(uint8_t slave_addr) {
+void TWI::initialize(uint8_t slaveAddress) {
   TWSR = 0; // No prescaling
   TWBR = ((F_CPU / TW_FREQ) - 16) / 2; // TWI bit rate
-  TWAR = (slave_addr << 1) | 1; // Own slave address (accept broadcast)
+  TWAR = (slaveAddress << 1) | 1; // Own slave address (accept broadcast)
   TWCR = 1 << TWEN;
 
   // Disable internal pull-up resistors
@@ -72,27 +72,27 @@ uint8_t TWI::send(const void *data, size_t size) {
   sleep_while(SLEEP_MODE_IDLE, !TWI::isReady());
 
   mode = TW_INITIALIZING;
-  memcpy(tx_buffer, data, size);
-  tx_size = size;
-  tx_idx = 0;
+  memcpy(txBuffer, data, size);
+  txSize = size;
+  txIdx = 0;
 
   ack();
   return 0;
 }
 
 
-uint8_t TWI::recv(void *buf, size_t to_recv) {
-  if (!buf || to_recv > TW_RX_MAX_LEN) return 1;
+uint8_t TWI::recv(void *buf, size_t toRecv) {
+  if (!buf || toRecv > TW_RX_MAX_LEN) return 1;
   sleep_while(SLEEP_MODE_IDLE, !TWI::isReady());
 
   mode = TW_INITIALIZING;
-  rx_buffer = static_cast<uint8_t*>(buf);
-  rx_size = to_recv;
-  rx_idx = 0;
+  rxBuffer = static_cast<uint8_t*>(buf);
+  rxSize = toRecv;
+  rxIdx = 0;
 
   ack();
   sleep_while(SLEEP_MODE_IDLE, !TWI::isReady()); // Wait until transfer completed
-  return rx_idx;
+  return rxIdx;
 }
 
 
@@ -116,11 +116,11 @@ ISR(TWI_vect) {
       mode = TW_TRANSMITTING;
     case TW_ST_DATA_ACK: // Data byte transmitted, ACK received
       error = TW_SUCCESS;
-      writeByte(tx_buffer[tx_idx++]);
+      writeByte(txBuffer[txIdx++]);
       ack();
       break;
     case TW_ST_DATA_NACK: // Data byte transmitted, NAK received
-      error = (tx_idx >= tx_size) ? TW_SUCCESS : status;
+      error = (txIdx >= txSize) ? TW_SUCCESS : status;
       mode = TW_READY;
       enableTwi();
       break;
@@ -134,7 +134,7 @@ ISR(TWI_vect) {
     case TW_SR_DATA_ACK:  // Data received, ACK returned
     case TW_SR_GCALL_DATA_ACK: // Data received (broadcast), ACK returned
       //! \todo Check out-of-bound index?
-      rx_buffer[rx_idx++] = readByte();
+      rxBuffer[rxIdx++] = readByte();
       error = TW_NO_INFO;
       ack();
       break;

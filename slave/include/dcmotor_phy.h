@@ -8,16 +8,19 @@
 #include <stdint.h>
 #include "common/dcmotor.h"
 
-namespace PhysicalMotor {
-  void initializePWM(void);
-  void loadSpeed(dc_rpm_t speed);
-  void loadSpeed(float speed);
+namespace PhysicalLayer {
+  class MotorPort {
+   public:
+    constexpr MotorPort(
+        void (* const initialize)(void),
+        void (* const loadSpeed)(dc_rpm_t speed),
+        void (* const loadSpeedFloat)(float speed)
+    );
 
-  void initializeEncoder(void);
-  uint8_t readEncoderPhaseA(void);
-  uint8_t readEncoderPhaseB(void);
+    void (* const initialize)(void);
+    void (* const loadSpeed)(dc_rpm_t speed);
+    void (* const loadSpeedFloat)(float speed);
+  };
 
-  void initializePid(uint16_t pid_interval_msec);
-  void startPid(void);
-  void stopPid(void);
+  extern const MotorPort defaultPort;
 };

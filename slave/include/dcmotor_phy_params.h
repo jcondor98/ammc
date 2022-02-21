@@ -12,6 +12,7 @@
  * \author Paolo Lucchesi
  */
 #pragma once
+#include <avr/io.h>
 
 // Register used to set the speed in RPM
 #define SPEED_REGISTER OCR0A

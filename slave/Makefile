@@ -23,8 +23,7 @@ OBJECTS = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(wildcard $(SRCDIR)/*.c))
 # Atmel ATMega2560 @16MHz C++11
 CC := avr-g++
 AS := avr-g++
-CFLAGS := -Wall --std=c++11 -DF_CPU=16000000UL -O3 -funsigned-char\
- -funsigned-bitfields  -fshort-enums\
+CFLAGS := -Wall --std=c++14 -DF_CPU=16000000UL -O3 -funsigned-char\
  -mmcu=atmega2560 -I$(INCDIR) -I$(INCDIR_COMMON) -DAVR -D__AVR_3_BYTE_PC__
 ASFLAGS := -x assembler-with-cpp $(CFLAGS)
 

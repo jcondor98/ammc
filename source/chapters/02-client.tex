@@ -1,9 +1,9 @@
 \chapter{Client-side user interaction}
 \label{ch:client}
 A client program has been realized to manipulate the dc motors directly from
-the PC. It can get and set the speed of individual motors, and to apply all the
-previously set speeds for all of them at once.\\ A brief list of the client's
-features is given below:
+the PC. It can ping slave controllers, get and set the speed of individual
+motors, and to apply all the previously set speeds for all of them at once.\\
+A brief list of the client's features is given below:
 \begin{itemize}
   \item Granular handling for getting and setting motors' speed
   \item Modular and extensible software architecture
@@ -32,15 +32,15 @@ The commands that can be used to interface with the ammc ecosystem are the
 following:
 \begin{description}
   \item[connect <device-path>] Connect to a master controller, given the path
-    to the block device representing it.
-  \item[ping <motor-id>] Ping a slave controller by address
+    to the block device representing it
+  \item[ping <slave-id>] Ping a slave controller by address
   \item[get-speed <motor-id>] Get the speed of a dc motor given its id.
-    The motor id must be specified as a decimal number.
-  \item[set-speed <motor-id>=<speed>] Set the speed of a dc motor given its id.
+    The motor id must be specified as a decimal number
+  \item[set-speed <motor-id>=<speed>] Set the speed of a dc motor given its id
     The motor id must be specified as a decimal number and the speed must be
-    specified in rpm.
-  \item[apply] Apply the previously set speed for all the dc motors.
-  \item[set-slave-addr] Set a new TWI address for a slave controller.
+    specified in rpm
+  \item[apply] Apply the previously set speed for all the dc motors
+  \item[set-slave-addr] Set a new TWI address for a slave controller
 \end{description}
 
 \subsection{Non-interactive mode}
